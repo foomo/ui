@@ -1,0 +1,1 @@
+export const Prose = (props: React.PropsWithChildren<{ className?: string }>) => <div className={`prose ${props.className}`}>{props.children}</div>;
