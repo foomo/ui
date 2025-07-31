@@ -4,5 +4,6 @@ node_modules
 
 *storybook.log
 storybook-static
+!.storybook
 
 dist
