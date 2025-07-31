@@ -70,6 +70,10 @@ export default defineConfig({
 				"tailwind-merge",
 				"class-variance-authority",
 				"@radix-ui/react-slot",
+				"lodash",
+				"lucide-react",
+				"date-fns",
+				"react-day-picker",
 			],
 			output: {
 				preserveModules: true,
