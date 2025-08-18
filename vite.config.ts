@@ -6,11 +6,13 @@ import tailwindcss from "@tailwindcss/vite";
 import { glob } from "glob";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import pkg from "./package.json";
 // https://vite.dev/config/
 const dirname =
 	typeof __dirname !== "undefined"
 		? __dirname
 		: path.dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
 	plugins: [react(), tailwindcss()],
 	resolve: {
@@ -63,17 +65,8 @@ export default defineConfig({
 		cssCodeSplit: false,
 		rollupOptions: {
 			external: [
-				"react",
-				"react-dom",
-				"react/jsx-runtime",
-				"clsx",
-				"tailwind-merge",
-				"class-variance-authority",
-				/@radix-ui\/.*/,
-				"lodash",
-				"lucide-react",
-				"date-fns",
-				"react-day-picker",
+				...Object.keys(pkg.dependencies || {}),
+				...Object.keys(pkg.peerDependencies || {}),
 			],
 			output: {
 				preserveModules: true,
