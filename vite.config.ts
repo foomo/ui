@@ -69,7 +69,7 @@ export default defineConfig({
 				"clsx",
 				"tailwind-merge",
 				"class-variance-authority",
-				"@radix-ui/react-slot",
+				/@radix-ui\/.*/,
 				"lodash",
 				"lucide-react",
 				"date-fns",
