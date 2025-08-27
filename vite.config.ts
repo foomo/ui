@@ -65,6 +65,7 @@ export default defineConfig({
 		cssCodeSplit: false,
 		rollupOptions: {
 			external: [
+				"react/jsx-runtime",
 				...Object.keys(pkg.dependencies || {}),
 				...Object.keys(pkg.peerDependencies || {}),
 			],
