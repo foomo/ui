@@ -42,12 +42,3 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 }
-
-@layer base {
-	* {
-		@apply lib:border-border;
-	}
-	body {
-		@apply lib:bg-background lib:text-foreground;
-	}
-}

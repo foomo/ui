@@ -1,6 +1,6 @@
 {
 	"name": "@foomo/ui",
-	"version": "0.0.6",
+	"version": "0.0.8",
 	"type": "module",
 	"files": [
 		"dist",
@@ -38,7 +38,8 @@
 		"preview": "vite preview",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
-		"regenerate-components": "rm -rf ./src/components && npx shadcn@latest add --all --overwrite --yes && bun run format"
+		"regenerate-components": "rm -rf ./src/components && bunx shadcn@latest add --all --overwrite --yes && bun run format",
+		"prepublishOnly": "bun run build"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
@@ -84,13 +85,14 @@
 		"zod": "^4.1.12"
 	},
 	"peerDependencies": {
-		"tailwind-merge": ">=3.3.1",
-		"tailwindcss": ">=4",
-		"react": ">=19",
-		"react-dom": ">=19"
+		"tailwind-merge": "^3",
+		"tailwindcss": "^4.0.0",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
 	},
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
