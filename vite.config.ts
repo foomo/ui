@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { glob } from "glob";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import pkg from "./package.json";
 // https://vite.dev/config/
 const dirname =
@@ -14,7 +15,18 @@ const dirname =
 		: path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-	plugins: [react(), tailwindcss()],
+	plugins: [
+		react(),
+		tailwindcss(),
+		viteStaticCopy({
+			targets: [
+				{
+					src: "src/themes/*.css",
+					dest: "themes",
+				},
+			],
+		}),
+	],
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),

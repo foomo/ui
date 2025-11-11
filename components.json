@@ -4,11 +4,11 @@
 	"rsc": false,
 	"tsx": true,
 	"tailwind": {
-		"config": "",
+		"config": "tailwind.config.js",
 		"css": "src/index.css",
 		"baseColor": "neutral",
 		"cssVariables": true,
-		"prefix": ""
+		"prefix": "lib"
 	},
 	"aliases": {
 		"components": "@/components",
@@ -19,4 +19,3 @@
 	},
 	"iconLibrary": "lucide"
 }
-

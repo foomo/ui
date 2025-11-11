@@ -1,31 +1,27 @@
-"use client"
+import * as SwitchPrimitives from "@radix-ui/react-switch";
+import * as React from "react";
 
-import type * as React from "react"
-import * as SwitchPrimitive from "@radix-ui/react-switch"
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
+const Switch = React.forwardRef<
+	React.ElementRef<typeof SwitchPrimitives.Root>,
+	React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+	<SwitchPrimitives.Root
+		className={cn(
+			"lib:peer lib:inline-flex lib:h-5 lib:w-9 lib:shrink-0 lib:cursor-pointer lib:items-center lib:rounded-full lib:border-2 lib:border-transparent lib:shadow-sm lib:transition-colors lib:focus-visible:outline-none lib:focus-visible:ring-2 lib:focus-visible:ring-ring lib:focus-visible:ring-offset-2 lib:focus-visible:ring-offset-background lib:disabled:cursor-not-allowed lib:disabled:opacity-50 lib:data-[state=checked]:bg-primary lib:data-[state=unchecked]:bg-input",
+			className,
+		)}
+		{...props}
+		ref={ref}
+	>
+		<SwitchPrimitives.Thumb
+			className={cn(
+				"lib:pointer-events-none lib:block lib:h-4 lib:w-4 lib:rounded-full lib:bg-background lib:shadow-lg lib:ring-0 lib:transition-transform lib:data-[state=checked]:translate-x-4 lib:data-[state=unchecked]:translate-x-0",
+			)}
+		/>
+	</SwitchPrimitives.Root>
+));
+Switch.displayName = SwitchPrimitives.Root.displayName;
 
-function Switch({
-  className,
-  ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root>) {
-  return (
-    <SwitchPrimitive.Root
-      data-slot="switch"
-      className={cn(
-        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
-      {...props}
-    >
-      <SwitchPrimitive.Thumb
-        data-slot="switch-thumb"
-        className={cn(
-          "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"
-        )}
-      />
-    </SwitchPrimitive.Root>
-  )
-}
-
-export { Switch }
+export { Switch };
