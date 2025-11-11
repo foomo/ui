@@ -12,13 +12,19 @@ const Prose = React.forwardRef<
 	ProseProps & React.ComponentPropsWithoutRef<"div">
 >(({ asChild = false, as, className, ...props }, ref) => {
 	if (asChild) {
-		return <Slot ref={ref} className={`prose ${className || ""}`} {...props} />;
+		return (
+			<Slot ref={ref} className={`lib:prose ${className || ""}`} {...props} />
+		);
 	}
 
 	const Component = as || "div";
 
 	return (
-		<Component ref={ref} className={`prose ${className || ""}`} {...props} />
+		<Component
+			ref={ref}
+			className={`lib:prose ${className || ""}`}
+			{...props}
+		/>
 	);
 });
 

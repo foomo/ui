@@ -76,8 +76,25 @@ const CardFooter = React.forwardRef<
 ));
 CardFooter.displayName = "CardFooter";
 
+const CardAction = React.forwardRef<
+	HTMLDivElement,
+	React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+	<div
+		ref={ref}
+		data-slot="card-action"
+		className={cn(
+			"lib:col-start-2 lib:row-span-2 lib:row-start-1 lib:self-start lib:justify-self-end",
+			className,
+		)}
+		{...props}
+	/>
+));
+CardAction.displayName = "CardAction";
+
 export {
 	Card,
+	CardAction,
 	CardHeader,
 	CardFooter,
 	CardTitle,
