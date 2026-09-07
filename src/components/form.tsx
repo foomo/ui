@@ -1,5 +1,7 @@
-import type * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
+"use client";
+
+import { cn } from "cn";
+import { Slot } from "radix-ui";
 import * as React from "react";
 import {
 	Controller,
@@ -9,8 +11,18 @@ import {
 	FormProvider,
 	useFormContext,
 } from "react-hook-form";
-import { Label } from "@/components/label";
-import { cn } from "@/lib/utils";
+import {
+	Field,
+	FieldDescription,
+	FieldError,
+	FieldLabel,
+} from "@/components/field";
+
+/**
+ * `form` was removed from the shadcn registry in favour of `field`. These
+ * bindings keep the react-hook-form API this package already exported, but
+ * render through the `Field` primitives so they match the rest of the library.
+ */
 
 const Form = FormProvider;
 
@@ -25,20 +37,26 @@ const FormFieldContext = React.createContext<FormFieldContextValue | null>(
 	null,
 );
 
-const FormField = <
+function FormField<
 	TFieldValues extends FieldValues = FieldValues,
 	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-	...props
-}: ControllerProps<TFieldValues, TName>) => {
+>({ ...props }: ControllerProps<TFieldValues, TName>) {
+	const value = React.useMemo(() => ({ name: props.name }), [props.name]);
+
 	return (
-		<FormFieldContext.Provider value={{ name: props.name }}>
+		<FormFieldContext.Provider value={value}>
 			<Controller {...props} />
 		</FormFieldContext.Provider>
 	);
+}
+
+type FormItemContextValue = {
+	id: string;
 };
 
-const useFormField = () => {
+const FormItemContext = React.createContext<FormItemContextValue | null>(null);
+
+function useFormField() {
 	const fieldContext = React.useContext(FormFieldContext);
 	const itemContext = React.useContext(FormItemContext);
 	const { getFieldState, formState } = useFormContext();
@@ -52,7 +70,6 @@ const useFormField = () => {
 	}
 
 	const fieldState = getFieldState(fieldContext.name, formState);
-
 	const { id } = itemContext;
 
 	return {
@@ -63,89 +80,74 @@ const useFormField = () => {
 		formMessageId: `${id}-form-item-message`,
 		...fieldState,
 	};
-};
+}
 
-type FormItemContextValue = {
-	id: string;
-};
-
-const FormItemContext = React.createContext<FormItemContextValue | null>(null);
-
-const FormItem = React.forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+function FormItem({ className, ...props }: React.ComponentProps<typeof Field>) {
 	const id = React.useId();
+	const value = React.useMemo(() => ({ id }), [id]);
 
 	return (
-		<FormItemContext.Provider value={{ id }}>
-			<div ref={ref} className={cn("lib:space-y-2", className)} {...props} />
+		<FormItemContext.Provider value={value}>
+			<Field data-slot="form-item" className={className} {...props} />
 		</FormItemContext.Provider>
 	);
-});
-FormItem.displayName = "FormItem";
+}
 
-const FormLabel = React.forwardRef<
-	React.ElementRef<typeof LabelPrimitive.Root>,
-	React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+function FormLabel({
+	className,
+	...props
+}: React.ComponentProps<typeof FieldLabel>) {
 	const { error, formItemId } = useFormField();
 
 	return (
-		<Label
-			ref={ref}
-			className={cn(error && "lib:text-destructive", className)}
+		<FieldLabel
+			data-slot="form-label"
+			data-error={!!error}
+			className={cn("lib:data-[error=true]:text-destructive", className)}
 			htmlFor={formItemId}
 			{...props}
 		/>
 	);
-});
-FormLabel.displayName = "FormLabel";
+}
 
-const FormControl = React.forwardRef<
-	React.ElementRef<typeof Slot>,
-	React.ComponentPropsWithoutRef<typeof Slot>
->(({ ...props }, ref) => {
+function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
 	const { error, formItemId, formDescriptionId, formMessageId } =
 		useFormField();
 
 	return (
-		<Slot
-			ref={ref}
+		<Slot.Root
+			data-slot="form-control"
 			id={formItemId}
 			aria-describedby={
-				!error
-					? `${formDescriptionId}`
-					: `${formDescriptionId} ${formMessageId}`
+				error ? `${formDescriptionId} ${formMessageId}` : formDescriptionId
 			}
 			aria-invalid={!!error}
 			{...props}
 		/>
 	);
-});
-FormControl.displayName = "FormControl";
+}
 
-const FormDescription = React.forwardRef<
-	HTMLParagraphElement,
-	React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+function FormDescription({
+	className,
+	...props
+}: React.ComponentProps<typeof FieldDescription>) {
 	const { formDescriptionId } = useFormField();
 
 	return (
-		<p
-			ref={ref}
+		<FieldDescription
+			data-slot="form-description"
 			id={formDescriptionId}
-			className={cn("lib:text-[0.8rem] lib:text-muted-foreground", className)}
+			className={className}
 			{...props}
 		/>
 	);
-});
-FormDescription.displayName = "FormDescription";
+}
 
-const FormMessage = React.forwardRef<
-	HTMLParagraphElement,
-	React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+function FormMessage({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof FieldError>) {
 	const { error, formMessageId } = useFormField();
 	const body = error ? String(error?.message ?? "") : children;
 
@@ -154,20 +156,16 @@ const FormMessage = React.forwardRef<
 	}
 
 	return (
-		<p
-			ref={ref}
+		<FieldError
+			data-slot="form-message"
 			id={formMessageId}
-			className={cn(
-				"lib:text-[0.8rem] lib:font-medium lib:text-destructive",
-				className,
-			)}
+			className={className}
 			{...props}
 		>
 			{body}
-		</p>
+		</FieldError>
 	);
-});
-FormMessage.displayName = "FormMessage";
+}
 
 export {
 	useFormField,

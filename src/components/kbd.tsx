@@ -1,13 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
 	return (
 		<kbd
 			data-slot="kbd"
 			className={cn(
-				"lib:bg-muted lib:text-muted-foreground lib:pointer-events-none lib:inline-flex lib:h-5 lib:w-fit lib:min-w-5 lib:select-none lib:items-center lib:justify-center lib:gap-1 lib:rounded-sm lib:px-1 lib:font-sans lib:text-xs lib:font-medium",
-				"lib:[&_svg:not([class*=size-])]:size-3",
-				"lib:[[data-slot=tooltip-content]_&]:bg-background/20 lib:[[data-slot=tooltip-content]_&]:text-background lib:dark:[[data-slot=tooltip-content]_&]:bg-background/10",
+				"lib:pointer-events-none lib:inline-flex lib:h-5 lib:w-fit lib:min-w-5 lib:items-center lib:justify-center lib:gap-1 lib:rounded-sm lib:bg-muted lib:px-1 lib:font-sans lib:text-xs lib:font-medium lib:text-muted-foreground lib:select-none lib:in-data-[slot=tooltip-content]:bg-background/20 lib:in-data-[slot=tooltip-content]:text-background lib:dark:in-data-[slot=tooltip-content]:bg-background/10 lib:[&_svg:not([class*=size-])]:size-3",
 				className,
 			)}
 			{...props}

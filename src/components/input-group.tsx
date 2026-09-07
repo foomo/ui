@@ -1,9 +1,12 @@
+"use client";
+
 import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "cn";
 import type * as React from "react";
+
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { Textarea } from "@/components/textarea";
-import { cn } from "@/lib/utils";
 
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 	return (
@@ -11,21 +14,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 			data-slot="input-group"
 			role="group"
 			className={cn(
-				"lib:group/input-group lib:border-input lib:dark:bg-input/30 lib:shadow-xs lib:relative lib:flex lib:w-full lib:items-center lib:rounded-md lib:border lib:outline-none lib:transition-[color,box-shadow]",
-				"lib:h-9 lib:has-[>textarea]:h-auto",
-
-				// Variants based on alignment.
-				"lib:has-[>[data-align=inline-start]]:[&>input]:pl-2",
-				"lib:has-[>[data-align=inline-end]]:[&>input]:pr-2",
-				"lib:has-[>[data-align=block-start]]:h-auto lib:has-[>[data-align=block-start]]:flex-col lib:has-[>[data-align=block-start]]:[&>input]:pb-3",
-				"lib:has-[>[data-align=block-end]]:h-auto lib:has-[>[data-align=block-end]]:flex-col lib:has-[>[data-align=block-end]]:[&>input]:pt-3",
-
-				// Focus state.
-				"lib:has-[[data-slot=input-group-control]:focus-visible]:ring-ring lib:has-[[data-slot=input-group-control]:focus-visible]:ring-1",
-
-				// Error state.
-				"lib:has-[[data-slot][aria-invalid=true]]:ring-destructive/20 lib:has-[[data-slot][aria-invalid=true]]:border-destructive lib:dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40",
-
+				"lib:group/input-group lib:relative lib:flex lib:h-9 lib:w-full lib:min-w-0 lib:items-center lib:rounded-4xl lib:border lib:border-input lib:bg-input/30 lib:transition-colors lib:outline-none lib:in-data-[slot=combobox-content]:focus-within:border-inherit lib:in-data-[slot=combobox-content]:focus-within:ring-0 lib:has-data-[align=block-end]:rounded-2xl lib:has-data-[align=block-start]:rounded-2xl lib:has-[[data-slot=input-group-control]:focus-visible]:border-ring lib:has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] lib:has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 lib:has-[[data-slot][aria-invalid=true]]:border-destructive lib:has-[[data-slot][aria-invalid=true]]:ring-[3px] lib:has-[[data-slot][aria-invalid=true]]:ring-destructive/20 lib:has-[textarea]:rounded-xl lib:has-[>[data-align=block-end]]:h-auto lib:has-[>[data-align=block-end]]:flex-col lib:has-[>[data-align=block-start]]:h-auto lib:has-[>[data-align=block-start]]:flex-col lib:has-[>textarea]:h-auto lib:dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 lib:has-[>[data-align=block-end]]:[&>input]:pt-3 lib:has-[>[data-align=block-start]]:[&>input]:pb-3 lib:has-[>[data-align=inline-end]]:[&>input]:pr-1.5 lib:has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
 				className,
 			)}
 			{...props}
@@ -34,18 +23,18 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const inputGroupAddonVariants = cva(
-	"lib:text-muted-foreground lib:flex lib:h-auto lib:cursor-text lib:select-none lib:items-center lib:justify-center lib:gap-2 lib:py-1.5 lib:text-sm lib:font-medium lib:group-data-[disabled=true]/input-group:opacity-50 lib:[&>kbd]:rounded-[calc(var(--radius)-5px)] lib:[&>svg:not([class*=size-])]:size-4",
+	"lib:flex lib:h-auto lib:cursor-text lib:items-center lib:justify-center lib:gap-2 lib:py-2 lib:text-sm lib:font-medium lib:text-muted-foreground lib:select-none lib:group-data-[disabled=true]/input-group:opacity-50 lib:**:data-[slot=kbd]:rounded-4xl lib:**:data-[slot=kbd]:bg-muted-foreground/10 lib:**:data-[slot=kbd]:px-1.5 lib:[&>svg:not([class*=size-])]:size-4",
 	{
 		variants: {
 			align: {
 				"inline-start":
-					"lib:order-first lib:pl-3 lib:has-[>button]:ml-[-0.45rem] lib:has-[>kbd]:ml-[-0.35rem]",
+					"lib:order-first lib:pl-3 lib:has-[>button]:-ml-1 lib:has-[>kbd]:ml-[-0.15rem]",
 				"inline-end":
-					"lib:order-last lib:pr-3 lib:has-[>button]:mr-[-0.4rem] lib:has-[>kbd]:mr-[-0.35rem]",
+					"lib:order-last lib:pr-3 lib:has-[>button]:-mr-1 lib:has-[>kbd]:mr-[-0.15rem]",
 				"block-start":
-					"lib:[.border-b]:pb-3 lib:order-first lib:w-full lib:justify-start lib:px-3 lib:pt-3 lib:group-has-[>input]/input-group:pt-2.5",
+					"lib:order-first lib:w-full lib:justify-start lib:px-3 lib:pt-3 lib:group-has-[>input]/input-group:pt-3 lib:[.border-b]:pb-3",
 				"block-end":
-					"lib:[.border-t]:pt-3 lib:order-last lib:w-full lib:justify-start lib:px-3 lib:pb-3 lib:group-has-[>input]/input-group:pb-2.5",
+					"lib:order-last lib:w-full lib:justify-start lib:px-3 lib:pb-3 lib:group-has-[>input]/input-group:pb-3 lib:[.border-t]:pt-3",
 			},
 		},
 		defaultVariants: {
@@ -77,14 +66,13 @@ function InputGroupAddon({
 }
 
 const inputGroupButtonVariants = cva(
-	"lib:flex lib:items-center lib:gap-2 lib:text-sm lib:shadow-none",
+	"lib:flex lib:items-center lib:gap-2 lib:rounded-4xl lib:text-sm lib:shadow-none",
 	{
 		variants: {
 			size: {
-				xs: "lib:h-6 lib:gap-1 lib:rounded-[calc(var(--radius)-5px)] lib:px-2 lib:has-[>svg]:px-2 lib:[&>svg:not([class*=size-])]:size-3.5",
-				sm: "lib:h-8 lib:gap-1.5 lib:rounded-md lib:px-2.5 lib:has-[>svg]:px-2.5",
-				"icon-xs":
-					"lib:size-6 lib:rounded-[calc(var(--radius)-5px)] lib:p-0 lib:has-[>svg]:p-0",
+				xs: "lib:h-6 lib:gap-1 lib:px-1.5 lib:[&>svg:not([class*=size-])]:size-3.5",
+				sm: "lib:",
+				"icon-xs": "lib:size-6 lib:p-0 lib:has-[>svg]:p-0",
 				"icon-sm": "lib:size-8 lib:p-0 lib:has-[>svg]:p-0",
 			},
 		},
@@ -117,7 +105,7 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			className={cn(
-				"lib:text-muted-foreground lib:flex lib:items-center lib:gap-2 lib:text-sm lib:[&_svg:not([class*=size-])]:size-4 lib:[&_svg]:pointer-events-none",
+				"lib:flex lib:items-center lib:gap-2 lib:text-sm lib:text-muted-foreground lib:[&_svg]:pointer-events-none lib:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
@@ -133,7 +121,7 @@ function InputGroupInput({
 		<Input
 			data-slot="input-group-control"
 			className={cn(
-				"lib:flex-1 lib:rounded-none lib:border-0 lib:bg-transparent lib:shadow-none lib:focus-visible:ring-0 lib:dark:bg-transparent",
+				"lib:flex-1 lib:rounded-none lib:border-0 lib:bg-transparent lib:shadow-none lib:ring-0 lib:focus-visible:ring-0 lib:aria-invalid:ring-0 lib:dark:bg-transparent",
 				className,
 			)}
 			{...props}
@@ -149,7 +137,7 @@ function InputGroupTextarea({
 		<Textarea
 			data-slot="input-group-control"
 			className={cn(
-				"lib:flex-1 lib:resize-none lib:rounded-none lib:border-0 lib:bg-transparent lib:py-3 lib:shadow-none lib:focus-visible:ring-0 lib:dark:bg-transparent",
+				"lib:flex-1 lib:resize-none lib:rounded-none lib:border-0 lib:bg-transparent lib:py-2 lib:shadow-none lib:ring-0 lib:focus-visible:ring-0 lib:aria-invalid:ring-0 lib:dark:bg-transparent",
 				className,
 			)}
 			{...props}

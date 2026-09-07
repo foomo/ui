@@ -65,7 +65,14 @@ export default defineConfig({
 			entry: Object.fromEntries(
 				glob
 					.sync("src/**/*.{ts,tsx}", {
-						ignore: ["**/*.d.ts", "**/*.stories.*", "**/*.test.*"],
+						ignore: [
+							"**/*.d.ts",
+							"**/*.stories.*",
+							"**/*.test.*",
+							// Vite playground entry (index.html). Not part of the package,
+							// and it drags react-dom/client into the published bundle.
+							"src/main.tsx",
+						],
 					})
 					.map((file) => [
 						file.slice(4, file.length - path.extname(file).length),
@@ -76,11 +83,17 @@ export default defineConfig({
 		},
 		cssCodeSplit: false,
 		rollupOptions: {
-			external: [
-				"react/jsx-runtime",
-				...Object.keys(pkg.dependencies || {}),
-				...Object.keys(pkg.peerDependencies || {}),
-			],
+			// Match subpaths too (react-dom/client, radix-ui/…, @tanstack/react-table/…),
+			// otherwise those get inlined into dist/node_modules/.
+			external: (() => {
+				const packages = [
+					"react",
+					...Object.keys(pkg.dependencies || {}),
+					...Object.keys(pkg.peerDependencies || {}),
+				];
+				return (id: string) =>
+					packages.some((name) => id === name || id.startsWith(`${name}/`));
+			})(),
 			output: {
 				preserveModules: true,
 				preserveModulesRoot: "src",

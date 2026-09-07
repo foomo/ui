@@ -1,15 +1,29 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 @config "../tailwind.config.js";
+
+/*
+ * `--font-sans` below expects "Inter Variable". The font itself is deliberately
+ * NOT imported here: bundling it inlines ~400kB of base64 woff2 into ui.css and
+ * forces the typeface on every consumer. Load it in the host app instead, e.g.
+ * `import "@fontsource-variable/inter"`.
+ */
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+	/**
+	 * The scale is clamped at `lg`: the maia components reach for `rounded-2xl`
+	 * (cards, menus) and `rounded-4xl` (buttons, tabs, command dialog), which
+	 * renders far rounder than this design system wants. Everything above `lg`
+	 * therefore resolves to `--radius`.
+	 */
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+	--radius-xl: var(--radius);
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);
@@ -41,10 +55,21 @@
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+	--font-heading: var(--font-sans);
+	--font-sans: "Inter Variable", sans-serif;
+	--radius-2xl: var(--radius);
+	--radius-3xl: var(--radius);
+	--radius-4xl: var(--radius);
 }
 
 @layer base {
 	* {
-		@apply lib:border-border;
+		@apply lib:border-border lib:outline-ring/50;
+	}
+	body {
+		@apply lib:bg-background lib:text-foreground;
+	}
+	html {
+		@apply lib:font-sans;
 	}
 }

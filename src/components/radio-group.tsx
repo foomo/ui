@@ -1,42 +1,43 @@
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { Circle } from "lucide-react";
-import * as React from "react";
+"use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
+import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
+import type * as React from "react";
 
-const RadioGroup = React.forwardRef<
-	React.ElementRef<typeof RadioGroupPrimitive.Root>,
-	React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
+function RadioGroup({
+	className,
+	...props
+}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
 	return (
 		<RadioGroupPrimitive.Root
-			className={cn("lib:grid lib:gap-2", className)}
+			data-slot="radio-group"
+			className={cn("lib:grid lib:w-full lib:gap-3", className)}
 			{...props}
-			ref={ref}
 		/>
 	);
-});
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
+}
 
-const RadioGroupItem = React.forwardRef<
-	React.ElementRef<typeof RadioGroupPrimitive.Item>,
-	React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+function RadioGroupItem({
+	className,
+	...props
+}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
 	return (
 		<RadioGroupPrimitive.Item
-			ref={ref}
+			data-slot="radio-group-item"
 			className={cn(
-				"lib:aspect-square lib:h-4 lib:w-4 lib:rounded-full lib:border lib:border-primary lib:text-primary lib:shadow lib:focus:outline-none lib:focus-visible:ring-1 lib:focus-visible:ring-ring lib:disabled:cursor-not-allowed lib:disabled:opacity-50",
+				"lib:group/radio-group-item lib:peer lib:relative lib:flex lib:aspect-square lib:size-4 lib:shrink-0 lib:rounded-full lib:border lib:border-input lib:outline-none lib:group-has-[:focus-visible]/field-label:ring-0 lib:group-has-[:focus-visible]/field-label:not-data-checked:border-input lib:after:absolute lib:after:-inset-x-3 lib:after:-inset-y-2 lib:focus-visible:border-ring lib:focus-visible:ring-3 lib:focus-visible:ring-ring/50 lib:disabled:cursor-not-allowed lib:disabled:opacity-50 lib:aria-invalid:border-destructive lib:aria-invalid:ring-3 lib:aria-invalid:ring-destructive/20 lib:aria-invalid:aria-checked:border-primary lib:dark:bg-input/30 lib:dark:aria-invalid:border-destructive/50 lib:dark:aria-invalid:ring-destructive/40 lib:data-checked:border-primary lib:data-checked:bg-primary lib:data-checked:text-primary-foreground lib:group-has-[:focus-visible]/field-label:data-checked:border-primary lib:dark:data-checked:bg-primary",
 				className,
 			)}
 			{...props}
 		>
-			<RadioGroupPrimitive.Indicator className="lib:flex lib:items-center lib:justify-center">
-				<Circle className="lib:h-3.5 lib:w-3.5 lib:fill-primary" />
+			<RadioGroupPrimitive.Indicator
+				data-slot="radio-group-indicator"
+				className="lib:flex lib:size-4 lib:items-center lib:justify-center"
+			>
+				<span className="lib:absolute lib:top-1/2 lib:left-1/2 lib:size-2 lib:-translate-x-1/2 lib:-translate-y-1/2 lib:rounded-full lib:bg-primary-foreground" />
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
 	);
-});
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+}
 
 export { RadioGroup, RadioGroupItem };

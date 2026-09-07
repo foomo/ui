@@ -1,5 +1,6 @@
-import { Slot } from "@radix-ui/react-slot";
-import * as React from "react";
+import { cn } from "cn";
+import { Slot } from "radix-ui";
+import type * as React from "react";
 
 interface ProseProps<T extends React.ElementType = "div"> {
 	asChild?: boolean;
@@ -7,27 +8,17 @@ interface ProseProps<T extends React.ElementType = "div"> {
 	className?: string;
 }
 
-const Prose = React.forwardRef<
-	HTMLDivElement,
-	ProseProps & React.ComponentPropsWithoutRef<"div">
->(({ asChild = false, as, className, ...props }, ref) => {
-	if (asChild) {
-		return (
-			<Slot ref={ref} className={`lib:prose ${className || ""}`} {...props} />
-		);
-	}
-
-	const Component = as || "div";
+function Prose({
+	asChild = false,
+	as,
+	className,
+	...props
+}: ProseProps & React.ComponentProps<"div">) {
+	const Comp = asChild ? Slot.Root : (as ?? "div");
 
 	return (
-		<Component
-			ref={ref}
-			className={`lib:prose ${className || ""}`}
-			{...props}
-		/>
+		<Comp data-slot="prose" className={cn("lib:prose", className)} {...props} />
 	);
-});
-
-Prose.displayName = "Prose";
+}
 
 export { Prose, type ProseProps };

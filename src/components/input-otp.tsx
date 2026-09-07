@@ -1,50 +1,58 @@
+import { cn } from "cn";
 import { OTPInput, OTPInputContext } from "input-otp";
-import { Minus } from "lucide-react";
+import { MinusIcon } from "lucide-react";
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+function InputOTP({
+	className,
+	containerClassName,
+	...props
+}: React.ComponentProps<typeof OTPInput> & {
+	containerClassName?: string;
+}) {
+	return (
+		<OTPInput
+			data-slot="input-otp"
+			containerClassName={cn(
+				"cn-input-otp flex items-center has-disabled:opacity-50",
+				containerClassName,
+			)}
+			spellCheck={false}
+			className={cn("lib:disabled:cursor-not-allowed", className)}
+			{...props}
+		/>
+	);
+}
 
-const InputOTP = React.forwardRef<
-	React.ElementRef<typeof OTPInput>,
-	React.ComponentPropsWithoutRef<typeof OTPInput>
->(({ className, containerClassName, ...props }, ref) => (
-	<OTPInput
-		ref={ref}
-		containerClassName={cn(
-			"flex items-center gap-2 has-[:disabled]:opacity-50",
-			containerClassName,
-		)}
-		className={cn("lib:disabled:cursor-not-allowed", className)}
-		{...props}
-	/>
-));
-InputOTP.displayName = "InputOTP";
+function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
+	return (
+		<div
+			data-slot="input-otp-group"
+			className={cn(
+				"lib:flex lib:items-center lib:rounded-4xl lib:has-aria-invalid:border-destructive lib:has-aria-invalid:ring-[3px] lib:has-aria-invalid:ring-destructive/20 lib:dark:has-aria-invalid:ring-destructive/40",
+				className,
+			)}
+			{...props}
+		/>
+	);
+}
 
-const InputOTPGroup = React.forwardRef<
-	React.ElementRef<"div">,
-	React.ComponentPropsWithoutRef<"div">
->(({ className, ...props }, ref) => (
-	<div
-		ref={ref}
-		className={cn("lib:flex lib:items-center", className)}
-		{...props}
-	/>
-));
-InputOTPGroup.displayName = "InputOTPGroup";
-
-const InputOTPSlot = React.forwardRef<
-	React.ElementRef<"div">,
-	React.ComponentPropsWithoutRef<"div"> & { index: number }
->(({ index, className, ...props }, ref) => {
+function InputOTPSlot({
+	index,
+	className,
+	...props
+}: React.ComponentProps<"div"> & {
+	index: number;
+}) {
 	const inputOTPContext = React.useContext(OTPInputContext);
-	const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
+	const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
 
 	return (
 		<div
-			ref={ref}
+			data-slot="input-otp-slot"
+			data-active={isActive}
 			className={cn(
-				"lib:relative lib:flex lib:h-9 lib:w-9 lib:items-center lib:justify-center lib:border-y lib:border-r lib:border-input lib:text-sm lib:shadow-sm lib:transition-all lib:first:rounded-l-md lib:first:border-l lib:last:rounded-r-md",
-				isActive && "lib:z-10 lib:ring-1 lib:ring-ring",
+				"lib:relative lib:flex lib:size-9 lib:items-center lib:justify-center lib:border-y lib:border-r lib:border-input lib:bg-input/30 lib:text-sm lib:transition-all lib:outline-none lib:first:rounded-l-4xl lib:first:border-l lib:last:rounded-r-4xl lib:aria-invalid:border-destructive lib:data-[active=true]:z-10 lib:data-[active=true]:border-ring lib:data-[active=true]:ring-[3px] lib:data-[active=true]:ring-ring/50 lib:data-[active=true]:aria-invalid:border-destructive lib:data-[active=true]:aria-invalid:ring-destructive/20 lib:dark:data-[active=true]:aria-invalid:ring-destructive/40",
 				className,
 			)}
 			{...props}
@@ -57,17 +65,19 @@ const InputOTPSlot = React.forwardRef<
 			)}
 		</div>
 	);
-});
-InputOTPSlot.displayName = "InputOTPSlot";
+}
 
-const InputOTPSeparator = React.forwardRef<
-	React.ElementRef<"div">,
-	React.ComponentPropsWithoutRef<"div">
->(({ ...props }, ref) => (
-	<div ref={ref} role="separator" {...props}>
-		<Minus />
-	</div>
-));
-InputOTPSeparator.displayName = "InputOTPSeparator";
+function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
+	return (
+		<div
+			data-slot="input-otp-separator"
+			className="lib:flex lib:items-center lib:[&_svg:not([class*=size-])]:size-4"
+			role="separator"
+			{...props}
+		>
+			<MinusIcon />
+		</div>
+	);
+}
 
 export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };

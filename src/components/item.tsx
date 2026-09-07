@@ -1,15 +1,19 @@
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "cn";
+import { Slot } from "radix-ui";
 import type * as React from "react";
+
 import { Separator } from "@/components/separator";
-import { cn } from "@/lib/utils";
 
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			role="list"
 			data-slot="item-group"
-			className={cn("lib:group/item-group lib:flex lib:flex-col", className)}
+			className={cn(
+				"lib:group/item-group lib:flex lib:w-full lib:flex-col lib:gap-4 lib:has-data-[size=sm]:gap-2.5 lib:has-data-[size=xs]:gap-2",
+				className,
+			)}
 			{...props}
 		/>
 	);
@@ -23,24 +27,25 @@ function ItemSeparator({
 		<Separator
 			data-slot="item-separator"
 			orientation="horizontal"
-			className={cn("lib:my-0", className)}
+			className={cn("lib:my-2", className)}
 			{...props}
 		/>
 	);
 }
 
 const itemVariants = cva(
-	"lib:group/item lib:[a]:hover:bg-accent/50 lib:focus-visible:border-ring lib:focus-visible:ring-ring/50 lib:[a]:transition-colors lib:flex lib:flex-wrap lib:items-center lib:rounded-md lib:border lib:border-transparent lib:text-sm lib:outline-none lib:transition-colors lib:duration-100 lib:focus-visible:ring-[3px]",
+	"lib:group/item lib:flex lib:w-full lib:flex-wrap lib:items-center lib:rounded-2xl lib:border lib:text-sm lib:transition-colors lib:duration-100 lib:outline-none lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:[a]:transition-colors lib:[a]:hover:bg-muted",
 	{
 		variants: {
 			variant: {
-				default: "lib:bg-transparent",
+				default: "lib:border-transparent",
 				outline: "lib:border-border",
-				muted: "lib:bg-muted/50",
+				muted: "lib:border-transparent lib:bg-muted/50",
 			},
 			size: {
-				default: "lib:gap-4 lib:p-4 lib:",
-				sm: "lib:gap-2.5 lib:px-4 lib:py-3",
+				default: "lib:gap-3.5 lib:px-4 lib:py-3.5",
+				sm: "lib:gap-3.5 lib:px-3.5 lib:py-3",
+				xs: "lib:gap-2.5 lib:px-3 lib:py-2.5 lib:in-data-[slot=dropdown-menu-content]:p-0",
 			},
 		},
 		defaultVariants: {
@@ -58,7 +63,7 @@ function Item({
 	...props
 }: React.ComponentProps<"div"> &
 	VariantProps<typeof itemVariants> & { asChild?: boolean }) {
-	const Comp = asChild ? Slot : "div";
+	const Comp = asChild ? Slot.Root : "div";
 	return (
 		<Comp
 			data-slot="item"
@@ -71,14 +76,14 @@ function Item({
 }
 
 const itemMediaVariants = cva(
-	"lib:flex lib:shrink-0 lib:items-center lib:justify-center lib:gap-2 lib:group-has-[[data-slot=item-description]]/item:translate-y-0.5 lib:group-has-[[data-slot=item-description]]/item:self-start lib:[&_svg]:pointer-events-none",
+	"lib:flex lib:shrink-0 lib:items-center lib:justify-center lib:gap-2 lib:group-has-data-[slot=item-description]/item:translate-y-0.5 lib:group-has-data-[slot=item-description]/item:self-start lib:[&_svg]:pointer-events-none",
 	{
 		variants: {
 			variant: {
 				default: "lib:bg-transparent",
-				icon: "lib:bg-muted lib:size-8 lib:rounded-sm lib:border lib:[&_svg:not([class*=size-])]:size-4",
+				icon: "lib:[&_svg:not([class*=size-])]:size-4",
 				image:
-					"lib:size-10 lib:overflow-hidden lib:rounded-sm lib:[&_img]:size-full lib:[&_img]:object-cover",
+					"lib:size-10 lib:overflow-hidden lib:rounded-lg lib:group-data-[size=sm]/item:size-8 lib:group-data-[size=xs]/item:size-6 lib:group-data-[size=xs]/item:rounded-md lib:[&_img]:size-full lib:[&_img]:object-cover",
 			},
 		},
 		defaultVariants: {
@@ -107,7 +112,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-content"
 			className={cn(
-				"lib:flex lib:flex-1 lib:flex-col lib:gap-1 lib:[&+[data-slot=item-content]]:flex-none",
+				"lib:flex lib:flex-1 lib:flex-col lib:gap-1 lib:group-data-[size=xs]/item:gap-0.5 lib:[&+[data-slot=item-content]]:flex-none",
 				className,
 			)}
 			{...props}
@@ -120,7 +125,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-title"
 			className={cn(
-				"lib:flex lib:w-fit lib:items-center lib:gap-2 lib:text-sm lib:font-medium lib:leading-snug",
+				"lib:line-clamp-1 lib:flex lib:w-fit lib:items-center lib:gap-2 lib:text-sm lib:leading-snug lib:font-medium lib:underline-offset-4",
 				className,
 			)}
 			{...props}
@@ -133,8 +138,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
 		<p
 			data-slot="item-description"
 			className={cn(
-				"lib:text-muted-foreground lib:line-clamp-2 lib:text-balance lib:text-sm lib:font-normal lib:leading-normal",
-				"lib:[&>a:hover]:text-primary lib:[&>a]:underline lib:[&>a]:underline-offset-4",
+				"lib:line-clamp-2 lib:text-left lib:text-sm lib:font-normal lib:text-muted-foreground lib:[&>a]:underline lib:[&>a]:underline-offset-4 lib:[&>a:hover]:text-primary",
 				className,
 			)}
 			{...props}

@@ -1,22 +1,24 @@
-import * as TogglePrimitive from "@radix-ui/react-toggle";
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
+"use client";
 
-import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "cn";
+import { Toggle as TogglePrimitive } from "radix-ui";
+import type * as React from "react";
 
 const toggleVariants = cva(
-	"lib:inline-flex lib:items-center lib:justify-center lib:gap-2 lib:rounded-md lib:text-sm lib:font-medium lib:transition-colors lib:hover:bg-muted lib:hover:text-muted-foreground lib:focus-visible:outline-none lib:focus-visible:ring-1 lib:focus-visible:ring-ring lib:disabled:pointer-events-none lib:disabled:opacity-50 lib:data-[state=on]:bg-accent lib:data-[state=on]:text-accent-foreground lib:[&_svg]:pointer-events-none lib:[&_svg]:size-4 lib:[&_svg]:shrink-0",
+	"lib:group/toggle lib:inline-flex lib:items-center lib:justify-center lib:gap-1 lib:rounded-4xl lib:text-sm lib:font-medium lib:whitespace-nowrap lib:transition-colors lib:outline-none lib:hover:bg-muted lib:hover:text-foreground lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:disabled:pointer-events-none lib:disabled:opacity-50 lib:aria-invalid:border-destructive lib:aria-invalid:ring-destructive/20 lib:aria-pressed:bg-muted lib:dark:aria-invalid:ring-destructive/40 lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4",
 	{
 		variants: {
 			variant: {
 				default: "lib:bg-transparent",
 				outline:
-					"lib:border lib:border-input lib:bg-transparent lib:shadow-sm lib:hover:bg-accent lib:hover:text-accent-foreground",
+					"lib:border lib:border-input lib:bg-transparent lib:hover:bg-muted",
 			},
 			size: {
-				default: "lib:h-9 lib:px-2 lib:min-w-9",
-				sm: "lib:h-8 lib:px-1.5 lib:min-w-8",
-				lg: "lib:h-10 lib:px-2.5 lib:min-w-10",
+				default:
+					"lib:h-9 lib:min-w-9 lib:px-3 lib:has-data-[icon=inline-end]:pr-2.5 lib:has-data-[icon=inline-start]:pl-2.5",
+				sm: "lib:h-8 lib:min-w-8 lib:px-3 lib:has-data-[icon=inline-end]:pr-2 lib:has-data-[icon=inline-start]:pl-2",
+				lg: "lib:h-10 lib:min-w-10 lib:px-4 lib:has-data-[icon=inline-end]:pr-3 lib:has-data-[icon=inline-start]:pl-3",
 			},
 		},
 		defaultVariants: {
@@ -26,18 +28,20 @@ const toggleVariants = cva(
 	},
 );
 
-const Toggle = React.forwardRef<
-	React.ElementRef<typeof TogglePrimitive.Root>,
-	React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> &
-		VariantProps<typeof toggleVariants>
->(({ className, variant, size, ...props }, ref) => (
-	<TogglePrimitive.Root
-		ref={ref}
-		className={cn(toggleVariants({ variant, size, className }))}
-		{...props}
-	/>
-));
-
-Toggle.displayName = TogglePrimitive.Root.displayName;
+function Toggle({
+	className,
+	variant = "default",
+	size = "default",
+	...props
+}: React.ComponentProps<typeof TogglePrimitive.Root> &
+	VariantProps<typeof toggleVariants>) {
+	return (
+		<TogglePrimitive.Root
+			data-slot="toggle"
+			className={cn(toggleVariants({ variant, size, className }))}
+			{...props}
+		/>
+	);
+}
 
 export { Toggle, toggleVariants };
