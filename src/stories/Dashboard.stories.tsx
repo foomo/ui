@@ -487,8 +487,8 @@ function AppSidebar() {
 								}
 							/>
 							<DropdownMenuContent align="start" className="lib:w-56">
-								<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
 								<DropdownMenuGroup>
+									<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
 									<DropdownMenuItem>
 										<Building2 />
 										Foomo Inc.
@@ -642,7 +642,9 @@ function AppSidebar() {
 								align="start"
 								className="lib:w-56"
 							>
-								<DropdownMenuLabel>My account</DropdownMenuLabel>
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>My account</DropdownMenuLabel>
+								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem>
@@ -750,7 +752,9 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 						}
 					/>
 					<DropdownMenuContent align="end" className="lib:w-56">
-						<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
+						<DropdownMenuGroup>
+							<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
+						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>

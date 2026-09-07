@@ -385,7 +385,9 @@ function DataTable<
 								}
 							/>
 							<DropdownMenuContent align="end" className="lib:w-44">
-								<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									{table
