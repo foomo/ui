@@ -376,12 +376,14 @@ function DataTable<
 					{toolbar}
 					{hideableColumns && (
 						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button variant="outline" size="sm" className="lib:ml-auto">
-									<Settings2Icon data-icon="inline-start" />
-									Columns
-								</Button>
-							</DropdownMenuTrigger>
+							<DropdownMenuTrigger
+								render={
+									<Button variant="outline" size="sm" className="lib:ml-auto">
+										<Settings2Icon data-icon="inline-start" />
+										Columns
+									</Button>
+								}
+							/>
 							<DropdownMenuContent align="end" className="lib:w-44">
 								<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
 								<DropdownMenuSeparator />

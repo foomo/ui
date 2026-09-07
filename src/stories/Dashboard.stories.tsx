@@ -468,22 +468,24 @@ function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton size="lg" tooltip="Switch workspace">
-									<div className="lib:flex lib:aspect-square lib:size-8 lib:items-center lib:justify-center lib:rounded-lg lib:bg-sidebar-primary lib:text-sidebar-primary-foreground">
-										<Building2 className="lib:size-4" />
-									</div>
-									<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
-										<span className="lib:truncate lib:font-medium">
-											Foomo Inc.
-										</span>
-										<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
-											Enterprise
-										</span>
-									</div>
-									<ChevronsUpDown className="lib:ml-auto lib:size-4" />
-								</SidebarMenuButton>
-							</DropdownMenuTrigger>
+							<DropdownMenuTrigger
+								render={
+									<SidebarMenuButton size="lg" tooltip="Switch workspace">
+										<div className="lib:flex lib:aspect-square lib:size-8 lib:items-center lib:justify-center lib:rounded-lg lib:bg-sidebar-primary lib:text-sidebar-primary-foreground">
+											<Building2 className="lib:size-4" />
+										</div>
+										<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
+											<span className="lib:truncate lib:font-medium">
+												Foomo Inc.
+											</span>
+											<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
+												Enterprise
+											</span>
+										</div>
+										<ChevronsUpDown className="lib:ml-auto lib:size-4" />
+									</SidebarMenuButton>
+								}
+							/>
 							<DropdownMenuContent align="start" className="lib:w-56">
 								<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
 								<DropdownMenuGroup>
@@ -615,24 +617,26 @@ function AppSidebar() {
 					</SidebarMenuItem>
 					<SidebarMenuItem>
 						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton size="lg" tooltip="Account">
-									<Avatar className="lib:size-8 lib:rounded-lg">
-										<AvatarFallback className="lib:rounded-lg">
-											LB
-										</AvatarFallback>
-									</Avatar>
-									<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
-										<span className="lib:truncate lib:font-medium">
-											Lena Brandt
-										</span>
-										<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
-											lena@foomo.org
-										</span>
-									</div>
-									<ChevronsUpDown className="lib:ml-auto lib:size-4" />
-								</SidebarMenuButton>
-							</DropdownMenuTrigger>
+							<DropdownMenuTrigger
+								render={
+									<SidebarMenuButton size="lg" tooltip="Account">
+										<Avatar className="lib:size-8 lib:rounded-lg">
+											<AvatarFallback className="lib:rounded-lg">
+												LB
+											</AvatarFallback>
+										</Avatar>
+										<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
+											<span className="lib:truncate lib:font-medium">
+												Lena Brandt
+											</span>
+											<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
+												lena@foomo.org
+											</span>
+										</div>
+										<ChevronsUpDown className="lib:ml-auto lib:size-4" />
+									</SidebarMenuButton>
+								}
+							/>
 							<DropdownMenuContent
 								side="top"
 								align="start"
@@ -712,17 +716,19 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 				</Button>
 
 				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button
-							variant="ghost"
-							size="icon"
-							onClick={onOpenCommand}
-							className="lib:lg:hidden"
-						>
-							<CommandIcon />
-							<span className="lib:sr-only">Open command palette</span>
-						</Button>
-					</TooltipTrigger>
+					<TooltipTrigger
+						render={
+							<Button
+								variant="ghost"
+								size="icon"
+								onClick={onOpenCommand}
+								className="lib:lg:hidden"
+							>
+								<CommandIcon />
+								<span className="lib:sr-only">Open command palette</span>
+							</Button>
+						}
+					/>
 					<TooltipContent>Command palette</TooltipContent>
 				</Tooltip>
 
@@ -734,13 +740,15 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 				/>
 
 				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="icon" className="lib:rounded-full">
-							<Avatar className="lib:size-7">
-								<AvatarFallback>LB</AvatarFallback>
-							</Avatar>
-						</Button>
-					</DropdownMenuTrigger>
+					<DropdownMenuTrigger
+						render={
+							<Button variant="ghost" size="icon" className="lib:rounded-full">
+								<Avatar className="lib:size-7">
+									<AvatarFallback>LB</AvatarFallback>
+								</Avatar>
+							</Button>
+						}
+					/>
 					<DropdownMenuContent align="end" className="lib:w-56">
 						<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
 						<DropdownMenuSeparator />
@@ -793,13 +801,15 @@ const notifications = [
 function NotificationsMenu() {
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" size="icon" className="lib:relative">
-					<Bell />
-					<span className="lib:absolute lib:top-1.5 lib:right-1.5 lib:size-2 lib:rounded-full lib:bg-destructive" />
-					<span className="lib:sr-only">Notifications</span>
-				</Button>
-			</DropdownMenuTrigger>
+			<DropdownMenuTrigger
+				render={
+					<Button variant="ghost" size="icon" className="lib:relative">
+						<Bell />
+						<span className="lib:absolute lib:top-1.5 lib:right-1.5 lib:size-2 lib:rounded-full lib:bg-destructive" />
+						<span className="lib:sr-only">Notifications</span>
+					</Button>
+				}
+			/>
 			<DropdownMenuContent align="end" className="lib:w-80 lib:p-0">
 				<div className="lib:flex lib:items-center lib:justify-between lib:px-3 lib:py-2">
 					<span className="lib:text-sm lib:font-medium">Notifications</span>
@@ -1087,12 +1097,14 @@ const orderColumns = [
 		enableHiding: false,
 		cell: ({ row }) => (
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="icon-sm">
-						<Ellipsis />
-						<span className="lib:sr-only">Actions for {row.original.id}</span>
-					</Button>
-				</DropdownMenuTrigger>
+				<DropdownMenuTrigger
+					render={
+						<Button variant="ghost" size="icon-sm">
+							<Ellipsis />
+							<span className="lib:sr-only">Actions for {row.original.id}</span>
+						</Button>
+					}
+				/>
 				<DropdownMenuContent align="end" className="lib:w-44">
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
@@ -1161,15 +1173,17 @@ function OrdersTableCard() {
 function DeleteOrderDialog({ invoice }: { invoice: string }) {
 	return (
 		<AlertDialog>
-			<AlertDialogTrigger asChild>
-				<DropdownMenuItem
-					variant="destructive"
-					onSelect={(event) => event.preventDefault()}
-				>
-					<Trash2 />
-					Delete
-				</DropdownMenuItem>
-			</AlertDialogTrigger>
+			<AlertDialogTrigger
+				render={
+					<DropdownMenuItem
+						variant="destructive"
+						onSelect={(event) => event.preventDefault()}
+					>
+						<Trash2 />
+						Delete
+					</DropdownMenuItem>
+				}
+			/>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Delete {invoice}?</AlertDialogTitle>
@@ -1194,12 +1208,14 @@ function DeleteOrderDialog({ invoice }: { invoice: string }) {
 function NewProjectDialog() {
 	return (
 		<Dialog>
-			<DialogTrigger asChild>
-				<Button size="sm">
-					<Plus data-icon="inline-start" />
-					New project
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button size="sm">
+						<Plus data-icon="inline-start" />
+						New project
+					</Button>
+				}
+			/>
 			<DialogContent className="lib:sm:max-w-lg">
 				<DialogHeader>
 					<DialogTitle>Create project</DialogTitle>
@@ -1467,12 +1483,14 @@ function CommandPalette({
 function InviteDialog() {
 	return (
 		<Dialog>
-			<DialogTrigger asChild>
-				<Button size="sm">
-					<Plus data-icon="inline-start" />
-					Invite
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button size="sm">
+						<Plus data-icon="inline-start" />
+						Invite
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Invite teammates</DialogTitle>

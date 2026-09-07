@@ -1,24 +1,31 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cn } from "cn";
-import { Slot } from "radix-ui";
 import type * as React from "react";
 
-interface ProseProps<T extends React.ElementType = "div"> {
-	asChild?: boolean;
-	as?: T;
-	className?: string;
+interface ProseProps {
+	as?: keyof React.JSX.IntrinsicElements;
 }
 
 function Prose({
-	asChild = false,
-	as,
+	as = "div",
 	className,
+	render,
 	...props
-}: ProseProps & React.ComponentProps<"div">) {
-	const Comp = asChild ? Slot.Root : (as ?? "div");
-
-	return (
-		<Comp data-slot="prose" className={cn("lib:prose", className)} {...props} />
-	);
+}: ProseProps & useRender.ComponentProps<"div">) {
+	return useRender({
+		defaultTagName: as,
+		render,
+		props: mergeProps<"div">(
+			{
+				className: cn("lib:prose", className),
+			} as React.ComponentProps<"div">,
+			props,
+		),
+		state: {
+			slot: "prose",
+		},
+	});
 }
 
 export { Prose, type ProseProps };

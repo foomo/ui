@@ -1,28 +1,80 @@
+import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 import { cn } from "cn";
-import { Progress as ProgressPrimitive } from "radix-ui";
-import type * as React from "react";
 
 function Progress({
 	className,
+	children,
 	value,
 	...props
-}: React.ComponentProps<typeof ProgressPrimitive.Root>) {
+}: ProgressPrimitive.Root.Props) {
 	return (
 		<ProgressPrimitive.Root
+			value={value}
 			data-slot="progress"
-			className={cn(
-				"lib:relative lib:flex lib:h-3 lib:w-full lib:items-center lib:overflow-x-hidden lib:rounded-4xl lib:bg-muted",
-				className,
-			)}
+			className={cn("lib:flex lib:flex-wrap lib:gap-3", className)}
 			{...props}
 		>
-			<ProgressPrimitive.Indicator
-				data-slot="progress-indicator"
-				className="lib:size-full lib:flex-1 lib:bg-primary lib:transition-all"
-				style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-			/>
+			{children}
+			<ProgressTrack>
+				<ProgressIndicator />
+			</ProgressTrack>
 		</ProgressPrimitive.Root>
 	);
 }
 
-export { Progress };
+function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
+	return (
+		<ProgressPrimitive.Track
+			className={cn(
+				"lib:relative lib:flex lib:h-3 lib:w-full lib:items-center lib:overflow-x-hidden lib:rounded-4xl lib:bg-muted",
+				className,
+			)}
+			data-slot="progress-track"
+			{...props}
+		/>
+	);
+}
+
+function ProgressIndicator({
+	className,
+	...props
+}: ProgressPrimitive.Indicator.Props) {
+	return (
+		<ProgressPrimitive.Indicator
+			data-slot="progress-indicator"
+			className={cn("lib:h-full lib:bg-primary lib:transition-all", className)}
+			{...props}
+		/>
+	);
+}
+
+function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
+	return (
+		<ProgressPrimitive.Label
+			className={cn("lib:text-sm lib:font-medium", className)}
+			data-slot="progress-label"
+			{...props}
+		/>
+	);
+}
+
+function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
+	return (
+		<ProgressPrimitive.Value
+			className={cn(
+				"lib:ml-auto lib:text-sm lib:text-muted-foreground lib:tabular-nums",
+				className,
+			)}
+			data-slot="progress-value"
+			{...props}
+		/>
+	);
+}
+
+export {
+	Progress,
+	ProgressTrack,
+	ProgressIndicator,
+	ProgressLabel,
+	ProgressValue,
+};

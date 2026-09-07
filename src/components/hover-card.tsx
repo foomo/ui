@@ -1,40 +1,47 @@
+import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 import { cn } from "cn";
-import { HoverCard as HoverCardPrimitive } from "radix-ui";
-import type * as React from "react";
 
-function HoverCard({
-	...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Root>) {
-	return <HoverCardPrimitive.Root data-slot="hover-card" {...props} />;
+function HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {
+	return <PreviewCardPrimitive.Root data-slot="hover-card" {...props} />;
 }
 
-function HoverCardTrigger({
-	...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {
+function HoverCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {
 	return (
-		<HoverCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
+		<PreviewCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
 	);
 }
 
 function HoverCardContent({
 	className,
-	align = "center",
+	side = "bottom",
 	sideOffset = 4,
+	align = "center",
+	alignOffset = 4,
 	...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
+}: PreviewCardPrimitive.Popup.Props &
+	Pick<
+		PreviewCardPrimitive.Positioner.Props,
+		"align" | "alignOffset" | "side" | "sideOffset"
+	>) {
 	return (
-		<HoverCardPrimitive.Portal data-slot="hover-card-portal">
-			<HoverCardPrimitive.Content
-				data-slot="hover-card-content"
+		<PreviewCardPrimitive.Portal data-slot="hover-card-portal">
+			<PreviewCardPrimitive.Positioner
 				align={align}
+				alignOffset={alignOffset}
+				side={side}
 				sideOffset={sideOffset}
-				className={cn(
-					"lib:z-50 lib:w-72 lib:origin-(--radix-hover-card-content-transform-origin) lib:rounded-2xl lib:bg-popover lib:p-4 lib:text-sm lib:text-popover-foreground lib:shadow-2xl lib:ring-1 lib:ring-foreground/5 lib:outline-hidden lib:duration-100 lib:data-[side=bottom]:slide-in-from-top-2 lib:data-[side=left]:slide-in-from-right-2 lib:data-[side=right]:slide-in-from-left-2 lib:data-[side=top]:slide-in-from-bottom-2 lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95",
-					className,
-				)}
-				{...props}
-			/>
-		</HoverCardPrimitive.Portal>
+				className="lib:isolate lib:z-50"
+			>
+				<PreviewCardPrimitive.Popup
+					data-slot="hover-card-content"
+					className={cn(
+						"lib:z-50 lib:w-72 lib:origin-(--transform-origin) lib:rounded-2xl lib:bg-popover lib:p-4 lib:text-sm lib:text-popover-foreground lib:shadow-2xl lib:ring-1 lib:ring-foreground/5 lib:outline-hidden lib:duration-100 lib:data-[side=bottom]:slide-in-from-top-2 lib:data-[side=inline-end]:slide-in-from-left-2 lib:data-[side=inline-start]:slide-in-from-right-2 lib:data-[side=left]:slide-in-from-right-2 lib:data-[side=right]:slide-in-from-left-2 lib:data-[side=top]:slide-in-from-bottom-2 lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95",
+						className,
+					)}
+					{...props}
+				/>
+			</PreviewCardPrimitive.Positioner>
+		</PreviewCardPrimitive.Portal>
 	);
 }
 
