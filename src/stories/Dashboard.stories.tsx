@@ -530,13 +530,15 @@ function AppSidebar() {
 
 						<Collapsible defaultOpen className="lib:group/collapsible">
 							<SidebarMenuItem>
-								<CollapsibleTrigger asChild>
-									<SidebarMenuButton tooltip="Projects">
-										<Package />
-										<span>Projects</span>
-										<ChevronRight className="lib:ml-auto lib:size-4 lib:transition-transform lib:duration-200 lib:group-data-[state=open]/collapsible:rotate-90" />
-									</SidebarMenuButton>
-								</CollapsibleTrigger>
+								<CollapsibleTrigger
+									render={
+										<SidebarMenuButton tooltip="Projects">
+											<Package />
+											<span>Projects</span>
+											<ChevronRight className="lib:ml-auto lib:size-4 lib:transition-transform lib:duration-200 lib:group-data-open/collapsible:rotate-90" />
+										</SidebarMenuButton>
+									}
+								/>
 								<CollapsibleContent>
 									<SidebarMenuSub>
 										<SidebarMenuSubItem>

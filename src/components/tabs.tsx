@@ -1,13 +1,12 @@
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
-import { Tabs as TabsPrimitive } from "radix-ui";
-import type * as React from "react";
 
 function Tabs({
 	className,
 	orientation = "horizontal",
 	...props
-}: React.ComponentProps<typeof TabsPrimitive.Root>) {
+}: TabsPrimitive.Root.Props) {
 	return (
 		<TabsPrimitive.Root
 			data-slot="tabs"
@@ -40,8 +39,7 @@ function TabsList({
 	className,
 	variant = "default",
 	...props
-}: React.ComponentProps<typeof TabsPrimitive.List> &
-	VariantProps<typeof tabsListVariants>) {
+}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
 	return (
 		<TabsPrimitive.List
 			data-slot="tabs-list"
@@ -52,15 +50,12 @@ function TabsList({
 	);
 }
 
-function TabsTrigger({
-	className,
-	...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
 	return (
-		<TabsPrimitive.Trigger
+		<TabsPrimitive.Tab
 			data-slot="tabs-trigger"
 			className={cn(
-				"lib:relative lib:inline-flex lib:h-[calc(100%-1px)] lib:flex-1 lib:items-center lib:justify-center lib:gap-1.5 lib:rounded-xl lib:border lib:border-transparent lib:px-2 lib:py-1 lib:text-sm lib:font-medium lib:whitespace-nowrap lib:text-foreground/60 lib:transition-all lib:group-data-vertical/tabs:w-full lib:group-data-vertical/tabs:justify-start lib:group-data-vertical/tabs:px-2.5 lib:group-data-vertical/tabs:py-1.5 lib:hover:text-foreground lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:focus-visible:outline-1 lib:focus-visible:outline-ring lib:disabled:pointer-events-none lib:disabled:opacity-50 lib:has-data-[icon=inline-end]:pr-1.5 lib:has-data-[icon=inline-start]:pl-1.5 lib:dark:text-muted-foreground lib:dark:hover:text-foreground lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4",
+				"lib:relative lib:inline-flex lib:h-[calc(100%-1px)] lib:flex-1 lib:items-center lib:justify-center lib:gap-1.5 lib:rounded-xl lib:border lib:border-transparent lib:px-2 lib:py-1 lib:text-sm lib:font-medium lib:whitespace-nowrap lib:text-foreground/60 lib:transition-all lib:group-data-vertical/tabs:w-full lib:group-data-vertical/tabs:justify-start lib:group-data-vertical/tabs:px-2.5 lib:group-data-vertical/tabs:py-1.5 lib:hover:text-foreground lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:focus-visible:outline-1 lib:focus-visible:outline-ring lib:disabled:pointer-events-none lib:disabled:opacity-50 lib:has-data-[icon=inline-end]:pr-1.5 lib:has-data-[icon=inline-start]:pl-1.5 lib:aria-disabled:pointer-events-none lib:aria-disabled:opacity-50 lib:dark:text-muted-foreground lib:dark:hover:text-foreground lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4",
 				"lib:group-data-[variant=line]/tabs-list:bg-transparent lib:group-data-[variant=line]/tabs-list:data-active:bg-transparent lib:dark:group-data-[variant=line]/tabs-list:data-active:border-transparent lib:dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
 				"lib:data-active:bg-background lib:data-active:text-foreground lib:dark:data-active:border-input lib:dark:data-active:bg-input/30 lib:dark:data-active:text-foreground",
 				"lib:after:absolute lib:after:bg-foreground lib:after:opacity-0 lib:after:transition-opacity lib:group-data-horizontal/tabs:after:inset-x-0 lib:group-data-horizontal/tabs:after:bottom-[-5px] lib:group-data-horizontal/tabs:after:h-0.5 lib:group-data-vertical/tabs:after:inset-y-0 lib:group-data-vertical/tabs:after:-right-1 lib:group-data-vertical/tabs:after:w-0.5 lib:group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
@@ -71,12 +66,9 @@ function TabsTrigger({
 	);
 }
 
-function TabsContent({
-	className,
-	...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
 	return (
-		<TabsPrimitive.Content
+		<TabsPrimitive.Panel
 			data-slot="tabs-content"
 			className={cn("lib:flex-1 lib:text-sm lib:outline-none", className)}
 			{...props}
