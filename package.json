@@ -55,6 +55,7 @@
 		"prepublishOnly": "bun run build"
 	},
 	"dependencies": {
+		"@base-ui/react": "^1.8.0",
 		"@hookform/resolvers": "^5.2.2",
 		"@tanstack/react-table": "^9.2.4",
 		"class-variance-authority": "^0.7.1",
