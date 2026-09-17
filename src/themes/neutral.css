@@ -39,6 +39,17 @@
 	--popover-foreground: oklch(0.148 0.004 228.8);
 	--primary: oklch(0.488 0.243 264.376);
 	--primary-foreground: oklch(0.97 0.014 254.604);
+
+	/**
+	 * Link text.
+	 *
+	 * Not `--primary`: that token is mostly a *background* carrying near-white
+	 * `--primary-foreground`, so it is tuned dark. As text on `--background`
+	 * the two requirements pull in opposite directions — in dark mode a
+	 * readable link has to be lighter, while a readable button fill has to stay
+	 * dark. On white, primary's own lightness already reads well.
+	 */
+	--link: oklch(0.488 0.243 264.376);
 	--secondary: oklch(0.967 0.001 286.375);
 	--secondary-foreground: oklch(0.21 0.006 285.885);
 	--muted: oklch(0.963 0.002 197.1);
@@ -73,6 +84,13 @@
 	--popover-foreground: oklch(0.987 0.002 197.1);
 	--primary: oklch(0.424 0.199 265.638);
 	--primary-foreground: oklch(0.97 0.014 254.604);
+	/*
+	 * Lifted clear of the 0.148 background — primary at 0.424 is too close to
+	 * it to read as text — while holding primary's hue and chroma so it still
+	 * reads as the brand blue rather than a washed-out tint. Same treatment the
+	 * theme already gives `--sidebar-primary` in dark mode.
+	 */
+	--link: oklch(0.68 0.21 264.376);
 	--secondary: oklch(0.274 0.006 286.033);
 	--secondary-foreground: oklch(0.985 0 0);
 	--muted: oklch(0.275 0.011 216.9);
@@ -83,11 +101,11 @@
 	--border: oklch(1 0 0 / 10%);
 	--input: oklch(1 0 0 / 15%);
 	--ring: oklch(0.56 0.021 213.5);
-	--chart-1: oklch(0.872 0.007 219.6);
-	--chart-2: oklch(0.56 0.021 213.5);
-	--chart-3: oklch(0.45 0.017 213.2);
-	--chart-4: oklch(0.378 0.015 216);
-	--chart-5: oklch(0.275 0.011 216.9);
+	--chart-1: oklch(0.52 0.015 216.9);
+	--chart-2: oklch(0.63 0.021 213.5);
+	--chart-3: oklch(0.73 0.022 213.2);
+	--chart-4: oklch(0.82 0.016 216);
+	--chart-5: oklch(0.92 0.008 219.6);
 	--sidebar: oklch(0.218 0.008 223.9);
 	--sidebar-foreground: oklch(0.987 0.002 197.1);
 	--sidebar-primary: oklch(0.623 0.214 259.815);
