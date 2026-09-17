@@ -19,7 +19,7 @@ const withTheme: Decorator = (Story, context) => {
 	document.documentElement.style.backgroundColor = "var(--background)";
 	document.body.style.backgroundColor = "var(--background)";
 	document.body.style.color = "var(--foreground)";
-	document.body.classList.add("lib:bg-background", "lib:text-foreground");
+	document.body.classList.add("fui:bg-background", "fui:text-foreground");
 
 	return Story();
 };

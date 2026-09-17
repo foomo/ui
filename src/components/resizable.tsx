@@ -9,7 +9,7 @@ function ResizablePanelGroup({
 		<ResizablePrimitive.Group
 			data-slot="resizable-panel-group"
 			className={cn(
-				"lib:flex lib:h-full lib:w-full lib:aria-[orientation=vertical]:flex-col",
+				"fui:flex fui:h-full fui:w-full fui:aria-[orientation=vertical]:flex-col",
 				className,
 			)}
 			{...props}
@@ -32,13 +32,13 @@ function ResizableHandle({
 		<ResizablePrimitive.Separator
 			data-slot="resizable-handle"
 			className={cn(
-				"lib:relative lib:flex lib:w-px lib:items-center lib:justify-center lib:bg-border lib:ring-offset-background lib:after:absolute lib:after:inset-y-0 lib:after:left-1/2 lib:after:w-1 lib:after:-translate-x-1/2 lib:focus-visible:ring-1 lib:focus-visible:ring-ring lib:focus-visible:outline-hidden lib:aria-[orientation=horizontal]:h-px lib:aria-[orientation=horizontal]:w-full lib:aria-[orientation=horizontal]:after:left-0 lib:aria-[orientation=horizontal]:after:h-1 lib:aria-[orientation=horizontal]:after:w-full lib:aria-[orientation=horizontal]:after:translate-x-0 lib:aria-[orientation=horizontal]:after:-translate-y-1/2 lib:[&[aria-orientation=horizontal]>div]:rotate-90",
+				"fui:relative fui:flex fui:w-px fui:items-center fui:justify-center fui:bg-border fui:ring-offset-background fui:after:absolute fui:after:inset-y-0 fui:after:left-1/2 fui:after:w-1 fui:after:-translate-x-1/2 fui:focus-visible:ring-1 fui:focus-visible:ring-ring fui:focus-visible:outline-hidden fui:aria-[orientation=horizontal]:h-px fui:aria-[orientation=horizontal]:w-full fui:aria-[orientation=horizontal]:after:left-0 fui:aria-[orientation=horizontal]:after:h-1 fui:aria-[orientation=horizontal]:after:w-full fui:aria-[orientation=horizontal]:after:translate-x-0 fui:aria-[orientation=horizontal]:after:-translate-y-1/2 fui:[&[aria-orientation=horizontal]>div]:rotate-90",
 				className,
 			)}
 			{...props}
 		>
 			{withHandle && (
-				<div className="lib:z-10 lib:flex lib:h-6 lib:w-1 lib:shrink-0 lib:rounded-lg lib:bg-border" />
+				<div className="fui:z-10 fui:flex fui:h-6 fui:w-1 fui:shrink-0 fui:rounded-lg fui:bg-border" />
 			)}
 		</ResizablePrimitive.Separator>
 	);

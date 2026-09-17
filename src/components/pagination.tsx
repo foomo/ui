@@ -13,7 +13,7 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 			aria-label="pagination"
 			data-slot="pagination"
 			className={cn(
-				"lib:mx-auto lib:flex lib:w-full lib:justify-center",
+				"fui:mx-auto fui:flex fui:w-full fui:justify-center",
 				className,
 			)}
 			{...props}
@@ -28,7 +28,7 @@ function PaginationContent({
 	return (
 		<ul
 			data-slot="pagination-content"
-			className={cn("lib:flex lib:items-center lib:gap-1", className)}
+			className={cn("fui:flex fui:items-center fui:gap-1", className)}
 			{...props}
 		/>
 	);
@@ -75,11 +75,11 @@ function PaginationPrevious({
 		<PaginationLink
 			aria-label="Go to previous page"
 			size="default"
-			className={cn("lib:pl-2!", className)}
+			className={cn("fui:pl-2!", className)}
 			{...props}
 		>
 			<ChevronLeftIcon data-icon="inline-start" />
-			<span className="lib:hidden lib:sm:block">{text}</span>
+			<span className="fui:hidden fui:sm:block">{text}</span>
 		</PaginationLink>
 	);
 }
@@ -93,10 +93,10 @@ function PaginationNext({
 		<PaginationLink
 			aria-label="Go to next page"
 			size="default"
-			className={cn("lib:pr-2!", className)}
+			className={cn("fui:pr-2!", className)}
 			{...props}
 		>
-			<span className="lib:hidden lib:sm:block">{text}</span>
+			<span className="fui:hidden fui:sm:block">{text}</span>
 			<ChevronRightIcon data-icon="inline-end" />
 		</PaginationLink>
 	);
@@ -111,13 +111,13 @@ function PaginationEllipsis({
 			aria-hidden
 			data-slot="pagination-ellipsis"
 			className={cn(
-				"lib:flex lib:size-9 lib:items-center lib:justify-center lib:[&_svg:not([class*=size-])]:size-4",
+				"fui:flex fui:size-9 fui:items-center fui:justify-center fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
 		>
 			<MoreHorizontalIcon />
-			<span className="lib:sr-only">More pages</span>
+			<span className="fui:sr-only">More pages</span>
 		</span>
 	);
 }

@@ -11,7 +11,7 @@ function Progress({
 		<ProgressPrimitive.Root
 			value={value}
 			data-slot="progress"
-			className={cn("lib:flex lib:flex-wrap lib:gap-3", className)}
+			className={cn("fui:flex fui:flex-wrap fui:gap-3", className)}
 			{...props}
 		>
 			{children}
@@ -26,7 +26,7 @@ function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
 	return (
 		<ProgressPrimitive.Track
 			className={cn(
-				"lib:relative lib:flex lib:h-3 lib:w-full lib:items-center lib:overflow-x-hidden lib:rounded-4xl lib:bg-muted",
+				"fui:relative fui:flex fui:h-3 fui:w-full fui:items-center fui:overflow-x-hidden fui:rounded-4xl fui:bg-muted",
 				className,
 			)}
 			data-slot="progress-track"
@@ -42,7 +42,7 @@ function ProgressIndicator({
 	return (
 		<ProgressPrimitive.Indicator
 			data-slot="progress-indicator"
-			className={cn("lib:h-full lib:bg-primary lib:transition-all", className)}
+			className={cn("fui:h-full fui:bg-primary fui:transition-all", className)}
 			{...props}
 		/>
 	);
@@ -51,7 +51,7 @@ function ProgressIndicator({
 function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
 	return (
 		<ProgressPrimitive.Label
-			className={cn("lib:text-sm lib:font-medium", className)}
+			className={cn("fui:text-sm fui:font-medium", className)}
 			data-slot="progress-label"
 			{...props}
 		/>
@@ -62,7 +62,7 @@ function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
 	return (
 		<ProgressPrimitive.Value
 			className={cn(
-				"lib:ml-auto lib:text-sm lib:text-muted-foreground lib:tabular-nums",
+				"fui:ml-auto fui:text-sm fui:text-muted-foreground fui:tabular-nums",
 				className,
 			)}
 			data-slot="progress-value"

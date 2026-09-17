@@ -11,7 +11,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
 	return (
 		<SelectPrimitive.Group
 			data-slot="select-group"
-			className={cn("lib:scroll-my-1 lib:p-1", className)}
+			className={cn("fui:scroll-my-1 fui:p-1", className)}
 			{...props}
 		/>
 	);
@@ -21,7 +21,7 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
 	return (
 		<SelectPrimitive.Value
 			data-slot="select-value"
-			className={cn("lib:flex lib:flex-1 lib:text-left", className)}
+			className={cn("fui:flex fui:flex-1 fui:text-left", className)}
 			{...props}
 		/>
 	);
@@ -40,7 +40,7 @@ function SelectTrigger({
 			data-slot="select-trigger"
 			data-size={size}
 			className={cn(
-				"lib:flex lib:w-fit lib:items-center lib:justify-between lib:gap-1.5 lib:rounded-4xl lib:border lib:border-input lib:bg-input/30 lib:px-3 lib:py-2 lib:text-sm lib:whitespace-nowrap lib:transition-colors lib:outline-none lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:disabled:cursor-not-allowed lib:disabled:opacity-50 lib:aria-invalid:border-destructive lib:aria-invalid:ring-[3px] lib:aria-invalid:ring-destructive/20 lib:data-placeholder:text-muted-foreground lib:data-[size=default]:h-9 lib:data-[size=sm]:h-8 lib:*:data-[slot=select-value]:line-clamp-1 lib:*:data-[slot=select-value]:flex lib:*:data-[slot=select-value]:items-center lib:*:data-[slot=select-value]:gap-1.5 lib:dark:hover:bg-input/50 lib:dark:aria-invalid:border-destructive/50 lib:dark:aria-invalid:ring-destructive/40 lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4",
+				"fui:flex fui:w-fit fui:items-center fui:justify-between fui:gap-1.5 fui:rounded-4xl fui:border fui:border-input fui:bg-input/30 fui:px-3 fui:py-2 fui:text-sm fui:whitespace-nowrap fui:transition-colors fui:outline-none fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:cursor-not-allowed fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-[3px] fui:aria-invalid:ring-destructive/20 fui:data-placeholder:text-muted-foreground fui:data-[size=default]:h-9 fui:data-[size=sm]:h-8 fui:*:data-[slot=select-value]:line-clamp-1 fui:*:data-[slot=select-value]:flex fui:*:data-[slot=select-value]:items-center fui:*:data-[slot=select-value]:gap-1.5 fui:dark:hover:bg-input/50 fui:dark:aria-invalid:border-destructive/50 fui:dark:aria-invalid:ring-destructive/40 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
@@ -48,7 +48,7 @@ function SelectTrigger({
 			{children}
 			<SelectPrimitive.Icon
 				render={
-					<ChevronDownIcon className="lib:pointer-events-none lib:size-4 lib:text-muted-foreground" />
+					<ChevronDownIcon className="fui:pointer-events-none fui:size-4 fui:text-muted-foreground" />
 				}
 			/>
 		</SelectPrimitive.Trigger>
@@ -77,13 +77,13 @@ function SelectContent({
 				align={align}
 				alignOffset={alignOffset}
 				alignItemWithTrigger={alignItemWithTrigger}
-				className="lib:isolate lib:z-50"
+				className="fui:isolate fui:z-50"
 			>
 				<SelectPrimitive.Popup
 					data-slot="select-content"
 					data-align-trigger={alignItemWithTrigger}
 					className={cn(
-						"lib: lib: lib:relative lib:isolate lib:z-50 lib:max-h-(--available-height) lib:w-(--anchor-width) lib:min-w-36 lib:origin-(--transform-origin) lib:overflow-x-hidden lib:overflow-y-auto lib:rounded-2xl lib:bg-popover lib:text-popover-foreground lib:shadow-2xl lib:ring-1 lib:ring-foreground/5 lib:duration-100 lib:data-[align-trigger=true]:animate-none lib:data-[side=bottom]:slide-in-from-top-2 lib:data-[side=inline-end]:slide-in-from-left-2 lib:data-[side=inline-start]:slide-in-from-right-2 lib:data-[side=left]:slide-in-from-right-2 lib:data-[side=right]:slide-in-from-left-2 lib:data-[side=top]:slide-in-from-bottom-2 lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95 animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!",
+						"fui: fui: fui:relative fui:isolate fui:z-50 fui:max-h-(--available-height) fui:w-(--anchor-width) fui:min-w-36 fui:origin-(--transform-origin) fui:overflow-x-hidden fui:overflow-y-auto fui:rounded-2xl fui:bg-popover fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:data-[align-trigger=true]:animate-none fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95 animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!",
 						className,
 					)}
 					{...props}
@@ -105,7 +105,7 @@ function SelectLabel({
 		<SelectPrimitive.GroupLabel
 			data-slot="select-label"
 			className={cn(
-				"lib:px-3 lib:py-2.5 lib:text-xs lib:text-muted-foreground",
+				"fui:px-3 fui:py-2.5 fui:text-xs fui:text-muted-foreground",
 				className,
 			)}
 			{...props}
@@ -122,20 +122,20 @@ function SelectItem({
 		<SelectPrimitive.Item
 			data-slot="select-item"
 			className={cn(
-				"lib:relative lib:flex lib:w-full lib:cursor-default lib:items-center lib:gap-2.5 lib:rounded-xl lib:py-2 lib:pr-8 lib:pl-3 lib:text-sm lib:outline-hidden lib:select-none lib:focus:bg-accent lib:focus:text-accent-foreground lib:not-data-[variant=destructive]:focus:**:text-accent-foreground lib:data-disabled:pointer-events-none lib:data-disabled:opacity-50 lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4 lib:*:[span]:last:flex lib:*:[span]:last:items-center lib:*:[span]:last:gap-2",
+				"fui:relative fui:flex fui:w-full fui:cursor-default fui:items-center fui:gap-2.5 fui:rounded-xl fui:py-2 fui:pr-8 fui:pl-3 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:not-data-[variant=destructive]:focus:**:text-accent-foreground fui:data-disabled:pointer-events-none fui:data-disabled:opacity-50 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4 fui:*:[span]:last:flex fui:*:[span]:last:items-center fui:*:[span]:last:gap-2",
 				className,
 			)}
 			{...props}
 		>
-			<SelectPrimitive.ItemText className="lib:flex lib:flex-1 lib:shrink-0 lib:gap-2 lib:whitespace-nowrap">
+			<SelectPrimitive.ItemText className="fui:flex fui:flex-1 fui:shrink-0 fui:gap-2 fui:whitespace-nowrap">
 				{children}
 			</SelectPrimitive.ItemText>
 			<SelectPrimitive.ItemIndicator
 				render={
-					<span className="lib:pointer-events-none lib:absolute lib:right-2 lib:flex lib:size-4 lib:items-center lib:justify-center" />
+					<span className="fui:pointer-events-none fui:absolute fui:right-2 fui:flex fui:size-4 fui:items-center fui:justify-center" />
 				}
 			>
-				<CheckIcon className="lib:pointer-events-none" />
+				<CheckIcon className="fui:pointer-events-none" />
 			</SelectPrimitive.ItemIndicator>
 		</SelectPrimitive.Item>
 	);
@@ -149,7 +149,7 @@ function SelectSeparator({
 		<SelectPrimitive.Separator
 			data-slot="select-separator"
 			className={cn(
-				"lib:pointer-events-none lib:-mx-1 lib:my-1 lib:h-px lib:bg-border/50",
+				"fui:pointer-events-none fui:-mx-1 fui:my-1 fui:h-px fui:bg-border/50",
 				className,
 			)}
 			{...props}
@@ -165,7 +165,7 @@ function SelectScrollUpButton({
 		<SelectPrimitive.ScrollUpArrow
 			data-slot="select-scroll-up-button"
 			className={cn(
-				"lib:top-0 lib:z-10 lib:flex lib:w-full lib:cursor-default lib:items-center lib:justify-center lib:bg-popover lib:py-1 lib:[&_svg:not([class*=size-])]:size-4",
+				"fui:top-0 fui:z-10 fui:flex fui:w-full fui:cursor-default fui:items-center fui:justify-center fui:bg-popover fui:py-1 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
@@ -183,7 +183,7 @@ function SelectScrollDownButton({
 		<SelectPrimitive.ScrollDownArrow
 			data-slot="select-scroll-down-button"
 			className={cn(
-				"lib:bottom-0 lib:z-10 lib:flex lib:w-full lib:cursor-default lib:items-center lib:justify-center lib:bg-popover lib:py-1 lib:[&_svg:not([class*=size-])]:size-4",
+				"fui:bottom-0 fui:z-10 fui:flex fui:w-full fui:cursor-default fui:items-center fui:justify-center fui:bg-popover fui:py-1 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}

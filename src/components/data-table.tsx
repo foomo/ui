@@ -74,12 +74,6 @@ import {
 	TableRow,
 } from "@/components/table";
 
-/**
- * Feature set for `DataTable`. TanStack Table v9 is opt-in: features and their
- * row models are registered here, and the resulting type parameterises every
- * column definition. Row-model factories take no arguments, and the core row
- * model is implicit — never register it.
- */
 const dataTableFeatures = tableFeatures({
 	columnFilteringFeature,
 	columnVisibilityFeature,
@@ -120,39 +114,21 @@ type DataTableInstance<TData extends Record<string, any>> = ReactTable<
 	TData
 >;
 
-/**
- * Typed column helper bound to the `DataTable` feature set.
- *
- * @example
- * const column = createDataTableColumnHelper<Invoice>();
- * const columns = column.columns([
- *   column.accessor("amount", { header: "Amount", sortFn: "alphanumeric" }),
- * ]);
- */
 // biome-ignore lint/suspicious/noExplicitAny: mirrors TanStack's RowData constraint.
 function createDataTableColumnHelper<TData extends Record<string, any>>() {
 	return createColumnHelper<DataTableFeatures, TData>();
 }
-
-/* -------------------------------------------------------------------------- */
-/*                                column header                               */
-/* -------------------------------------------------------------------------- */
 
 type DataTableColumnHeaderProps<
 	// biome-ignore lint/suspicious/noExplicitAny: mirrors TanStack's RowData constraint.
 	TData extends Record<string, any>,
 	TValue,
 > = React.ComponentProps<"div"> & {
-	/** `Column` is invariant in `TData`/`TValue`, so both must be generic here. */
 	column: Column<DataTableFeatures, TData, TValue>;
 	title: string;
 	align?: "start" | "end";
 };
 
-/**
- * Sortable header cell. Renders plain text when the column cannot be sorted so
- * it stays out of the tab order.
- */
 function DataTableColumnHeader<
 	// biome-ignore lint/suspicious/noExplicitAny: mirrors TanStack's RowData constraint.
 	TData extends Record<string, any>,
@@ -170,7 +146,7 @@ function DataTableColumnHeader<
 		return (
 			<div
 				data-slot="data-table-column-header"
-				className={cn(align === "end" && "lib:text-right", className)}
+				className={cn(align === "end" && "fui:text-right", className)}
 				{...props}
 			>
 				{title}
@@ -189,8 +165,8 @@ function DataTableColumnHeader<
 		<div
 			data-slot="data-table-column-header"
 			className={cn(
-				"lib:flex lib:items-center",
-				align === "end" && "lib:justify-end",
+				"fui:flex fui:items-center",
+				align === "end" && "fui:justify-end",
 				className,
 			)}
 			{...props}
@@ -206,26 +182,20 @@ function DataTableColumnHeader<
 							? `${title}, sorted descending`
 							: `${title}, not sorted`
 				}
-				className="lib:-mx-2 lib:h-7 lib:gap-1 lib:font-medium lib:data-[sorted=true]:text-foreground"
+				className="fui:-mx-2 fui:h-7 fui:gap-1 fui:font-medium fui:data-[sorted=true]:text-foreground"
 				data-sorted={sorted !== false}
 			>
 				{title}
 				<Icon
 					data-icon="inline-end"
-					className={cn(sorted === false && "lib:opacity-50")}
+					className={cn(sorted === false && "fui:opacity-50")}
 				/>
 			</Button>
 		</div>
 	);
 }
 
-/* -------------------------------------------------------------------------- */
-/*                              selection column                              */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Ready-made checkbox column. Spread it as the first entry of `columns`.
- */
+/** Checkbox column. Spread it as the first entry of `columns`. */
 function dataTableSelectColumn<
 	// biome-ignore lint/suspicious/noExplicitAny: mirrors TanStack's RowData constraint.
 	TData extends Record<string, any>,
@@ -257,10 +227,6 @@ function dataTableSelectColumn<
 	};
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 data table                                 */
-/* -------------------------------------------------------------------------- */
-
 // biome-ignore lint/suspicious/noExplicitAny: mirrors TanStack's RowData constraint.
 type DataTableProps<TData extends Record<string, any>> = Omit<
 	React.ComponentProps<"div">,
@@ -283,6 +249,59 @@ type DataTableProps<TData extends Record<string, any>> = Omit<
 	empty?: React.ReactNode;
 	/** Extra controls rendered in the toolbar, after the search field. */
 	toolbar?: React.ReactNode;
+	/** Optional detail row rendered directly below each data row. */
+	renderSubComponent?: (row: DataTableRow<TData>) => React.ReactNode;
+
+	/* ------------------------------ server-driven ----------------------------- */
+	/*
+	 * Each of the three concerns below is controlled when its state prop is
+	 * passed, and the table then stops doing that work itself — TanStack's
+	 * `manualSorting` / `manualPagination` / `manualFiltering`. Leave them out
+	 * and everything happens client-side over `data`, as before.
+	 *
+	 * This is what a table whose rows come back a page at a time needs: sorting
+	 * or filtering the rows already fetched would only reorder the current
+	 * window while presenting it as the whole result.
+	 */
+
+	/**
+	 * Sort state owned by the caller. Implies the sort is the server's, unless
+	 * `manualSorting` says otherwise.
+	 */
+	sorting?: SortingState;
+	onSortingChange?: (sorting: SortingState) => void;
+	/**
+	 * Page state owned by the caller. Implies paging is the server's, unless
+	 * `manualPagination` says otherwise.
+	 */
+	pagination?: PaginationState;
+	onPaginationChange?: (pagination: PaginationState) => void;
+	/**
+	 * Total unpaged rows, as reported by the server. Required alongside
+	 * `pagination` — without it the table cannot know how many pages exist, and
+	 * "Next" would stop working after the first one.
+	 */
+	rowCount?: number;
+	/**
+	 * Search term owned by the caller. Implies filtering is the server's, unless
+	 * `manualFiltering` says otherwise.
+	 */
+	globalFilter?: string;
+	onGlobalFilterChange?: (value: string) => void;
+
+	/*
+	 * Who does the work, when that is not the same question as who holds the
+	 * state. Each defaults to "the server" when the matching state prop is
+	 * passed, which is the common case.
+	 *
+	 * Set one to `false` alongside its state prop for a table that holds the
+	 * complete result but keeps the state elsewhere — a listing that persists
+	 * its search in the URL, say. The table then still sorts, filters and pages
+	 * its rows itself, and the caller only stores the state.
+	 */
+	manualSorting?: boolean;
+	manualPagination?: boolean;
+	manualFiltering?: boolean;
 };
 
 function DataTable<
@@ -300,7 +319,18 @@ function DataTable<
 	onRowSelectionChange,
 	empty = "No results.",
 	toolbar,
+	renderSubComponent,
 	className,
+	sorting: sortingProp,
+	onSortingChange: onSortingChangeProp,
+	pagination: paginationProp,
+	onPaginationChange: onPaginationChangeProp,
+	rowCount,
+	globalFilter: globalFilterProp,
+	onGlobalFilterChange: onGlobalFilterChangeProp,
+	manualSorting: manualSortingProp,
+	manualPagination: manualPaginationProp,
+	manualFiltering: manualFilteringProp,
 	...props
 }: DataTableProps<TData>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -316,26 +346,65 @@ function DataTable<
 		pageSize: pageSize === false ? Infinity : pageSize,
 	});
 
+	// Server-driven by default whenever the caller holds the state, but a
+	// caller with the complete result can opt back out.
+	const manualSorting = manualSortingProp ?? sortingProp !== undefined;
+	const manualPagination = manualPaginationProp ?? paginationProp !== undefined;
+	const manualFiltering = manualFilteringProp ?? globalFilterProp !== undefined;
+
+	/**
+	 * TanStack hands updaters through as `T | ((old: T) => T)`, so resolve them
+	 * against the current value before calling the caller's plain setter.
+	 */
+	const resolve = <T,>(updater: T | ((old: T) => T), current: T): T =>
+		typeof updater === "function"
+			? (updater as (old: T) => T)(current)
+			: updater;
+
 	const table = useTable({
 		features: dataTableFeatures,
 		columns,
 		data,
 		getRowId,
 		enableRowSelection,
+		manualSorting,
+		manualPagination,
+		manualFiltering,
+		// Only meaningful under `manualPagination`; TanStack derives it from the
+		// row count otherwise.
+		rowCount: manualPagination ? rowCount : undefined,
 		state: {
-			sorting,
+			sorting: sortingProp ?? sorting,
 			columnFilters,
-			globalFilter,
+			globalFilter: globalFilterProp ?? globalFilter,
 			columnVisibility,
 			rowSelection,
-			pagination,
+			pagination: paginationProp ?? pagination,
 		},
-		onSortingChange: setSorting,
+		onSortingChange: (updater) => {
+			if (onSortingChangeProp) {
+				onSortingChangeProp(resolve(updater, sortingProp ?? sorting));
+				return;
+			}
+			setSorting(updater);
+		},
 		onColumnFiltersChange: setColumnFilters,
-		onGlobalFilterChange: setGlobalFilter,
+		onGlobalFilterChange: (updater) => {
+			if (onGlobalFilterChangeProp) {
+				onGlobalFilterChangeProp(resolve(updater, globalFilterProp ?? ""));
+				return;
+			}
+			setGlobalFilter(updater);
+		},
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
-		onPaginationChange: setPagination,
+		onPaginationChange: (updater) => {
+			if (onPaginationChangeProp) {
+				onPaginationChangeProp(resolve(updater, paginationProp ?? pagination));
+				return;
+			}
+			setPagination(updater);
+		},
 	});
 
 	const selectedRows = table.getSelectedRowModel().rows;
@@ -349,17 +418,21 @@ function DataTable<
 
 	const rows = table.getRowModel().rows;
 	const showToolbar = searchable !== false || hideableColumns || !!toolbar;
+	const totalRows =
+		manualPagination && rowCount !== undefined
+			? rowCount
+			: table.getFilteredRowModel().rows.length;
 
 	return (
 		<div
 			data-slot="data-table"
-			className={cn("lib:flex lib:flex-col lib:gap-3", className)}
+			className={cn("fui:flex fui:flex-col fui:gap-3", className)}
 			{...props}
 		>
 			{showToolbar && (
-				<div className="lib:flex lib:flex-wrap lib:items-center lib:gap-2">
+				<div className="fui:flex fui:flex-wrap fui:items-end fui:gap-2">
 					{searchable !== false && (
-						<InputGroup className="lib:w-full lib:sm:w-64">
+						<InputGroup className="fui:w-full fui:sm:w-64">
 							<InputGroupAddon>
 								<SearchIcon />
 							</InputGroupAddon>
@@ -378,13 +451,13 @@ function DataTable<
 						<DropdownMenu>
 							<DropdownMenuTrigger
 								render={
-									<Button variant="outline" size="sm" className="lib:ml-auto">
+									<Button variant="outline" size="sm" className="fui:ml-auto">
 										<Settings2Icon data-icon="inline-start" />
 										Columns
 									</Button>
 								}
 							/>
-							<DropdownMenuContent align="end" className="lib:w-44">
+							<DropdownMenuContent align="end" className="fui:w-44">
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
 								</DropdownMenuGroup>
@@ -401,7 +474,7 @@ function DataTable<
 													column.toggleVisibility(!!value)
 												}
 												onSelect={(event) => event.preventDefault()}
-												className="lib:capitalize"
+												className="fui:capitalize"
 											>
 												{column.id}
 											</DropdownMenuCheckboxItem>
@@ -413,7 +486,7 @@ function DataTable<
 				</div>
 			)}
 
-			<div className="lib:overflow-hidden lib:rounded-lg lib:border">
+			<div className="fui:overflow-hidden fui:rounded-lg fui:border fui:bg-card">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -440,50 +513,67 @@ function DataTable<
 					</TableHeader>
 					<TableBody>
 						{rows.length === 0 ? (
-							<TableRow className="lib:hover:bg-transparent">
+							<TableRow className="fui:hover:bg-transparent">
 								<TableCell
 									colSpan={table.getAllLeafColumns().length}
-									className="lib:h-28 lib:text-center lib:text-muted-foreground"
+									className="fui:h-28 fui:text-center fui:text-muted-foreground"
 								>
 									{empty}
 								</TableCell>
 							</TableRow>
 						) : (
-							rows.map((row: DataTableRow<TData>) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() ? "selected" : undefined}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											<table.FlexRender cell={cell} />
-										</TableCell>
-									))}
-								</TableRow>
-							))
+							rows.map((row: DataTableRow<TData>) => {
+								const subComponent = renderSubComponent?.(row);
+
+								return (
+									<React.Fragment key={row.id}>
+										<TableRow
+											data-state={row.getIsSelected() ? "selected" : undefined}
+										>
+											{row.getVisibleCells().map((cell) => (
+												<TableCell key={cell.id}>
+													<table.FlexRender cell={cell} />
+												</TableCell>
+											))}
+										</TableRow>
+										{subComponent && (
+											<TableRow className="fui:hover:bg-transparent">
+												<TableCell
+													colSpan={row.getVisibleCells().length}
+													className="fui:bg-muted/50 fui:p-0"
+												>
+													{subComponent}
+												</TableCell>
+											</TableRow>
+										)}
+									</React.Fragment>
+								);
+							})
 						)}
 					</TableBody>
 				</Table>
 			</div>
 
 			{pageSize !== false && (
-				<div className="lib:flex lib:flex-wrap lib:items-center lib:justify-between lib:gap-3">
-					<p className="lib:text-sm lib:text-muted-foreground">
+				<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
+					<p className="fui:text-sm fui:text-muted-foreground">
+						{/* Under `manualPagination` the row model holds only the page that
+						    was fetched, so the server's total is the honest figure. */}
 						{enableRowSelection
-							? `${selectedRows.length} of ${table.getFilteredRowModel().rows.length} row(s) selected`
-							: `${table.getFilteredRowModel().rows.length} row(s)`}
+							? `${selectedRows.length} of ${totalRows} row(s) selected`
+							: `${totalRows} row(s)`}
 					</p>
 
-					<div className="lib:flex lib:items-center lib:gap-4">
-						<div className="lib:flex lib:items-center lib:gap-2">
-							<span className="lib:text-sm lib:text-muted-foreground">
+					<div className="fui:flex fui:items-center fui:gap-4">
+						<div className="fui:flex fui:items-center fui:gap-2">
+							<span className="fui:text-sm fui:text-muted-foreground">
 								Rows per page
 							</span>
 							<Select
 								value={String(table.state.pagination.pageSize)}
 								onValueChange={(value) => table.setPageSize(Number(value))}
 							>
-								<SelectTrigger size="sm" className="lib:w-18">
+								<SelectTrigger size="sm" className="fui:w-18">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
@@ -498,12 +588,12 @@ function DataTable<
 							</Select>
 						</div>
 
-						<span className="lib:text-sm lib:tabular-nums lib:text-muted-foreground">
+						<span className="fui:text-sm fui:tabular-nums fui:text-muted-foreground">
 							Page {table.state.pagination.pageIndex + 1} of{" "}
 							{Math.max(table.getPageCount(), 1)}
 						</span>
 
-						<div className="lib:flex lib:items-center lib:gap-1">
+						<div className="fui:flex fui:items-center fui:gap-1">
 							<Button
 								variant="outline"
 								size="icon-sm"
@@ -511,7 +601,7 @@ function DataTable<
 								disabled={!table.getCanPreviousPage()}
 							>
 								<ChevronsLeftIcon />
-								<span className="lib:sr-only">First page</span>
+								<span className="fui:sr-only">First page</span>
 							</Button>
 							<Button
 								variant="outline"
@@ -520,7 +610,7 @@ function DataTable<
 								disabled={!table.getCanPreviousPage()}
 							>
 								<ChevronLeftIcon />
-								<span className="lib:sr-only">Previous page</span>
+								<span className="fui:sr-only">Previous page</span>
 							</Button>
 							<Button
 								variant="outline"
@@ -529,7 +619,7 @@ function DataTable<
 								disabled={!table.getCanNextPage()}
 							>
 								<ChevronRightIcon />
-								<span className="lib:sr-only">Next page</span>
+								<span className="fui:sr-only">Next page</span>
 							</Button>
 							<Button
 								variant="outline"
@@ -538,7 +628,7 @@ function DataTable<
 								disabled={!table.getCanNextPage()}
 							>
 								<ChevronsRightIcon />
-								<span className="lib:sr-only">Last page</span>
+								<span className="fui:sr-only">Last page</span>
 							</Button>
 						</div>
 					</div>

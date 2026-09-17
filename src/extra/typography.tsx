@@ -18,7 +18,7 @@ function Prose({
 		render,
 		props: mergeProps<"div">(
 			{
-				className: cn("lib:prose", className),
+				className: cn("fui:prose", className),
 			} as React.ComponentProps<"div">,
 			props,
 		),

@@ -64,7 +64,7 @@ function ChartContainer({
 				data-slot="chart"
 				data-chart={chartId}
 				className={cn(
-					"lib:flex lib:aspect-video lib:justify-center lib:text-xs lib:[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground lib:[&_.recharts-cartesian-grid_line[stroke=#ccc]]:stroke-border/50 lib:[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border lib:[&_.recharts-dot[stroke=#fff]]:stroke-transparent lib:[&_.recharts-layer]:outline-hidden lib:[&_.recharts-polar-grid_[stroke=#ccc]]:stroke-border lib:[&_.recharts-radial-bar-background-sector]:fill-muted lib:[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted lib:[&_.recharts-reference-line_[stroke=#ccc]]:stroke-border lib:[&_.recharts-sector]:outline-hidden lib:[&_.recharts-sector[stroke=#fff]]:stroke-transparent lib:[&_.recharts-surface]:outline-hidden",
+					"fui:flex fui:aspect-video fui:justify-center fui:text-xs fui:[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground fui:[&_.recharts-cartesian-grid_line[stroke=#ccc]]:stroke-border/50 fui:[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border fui:[&_.recharts-dot[stroke=#fff]]:stroke-transparent fui:[&_.recharts-layer]:outline-hidden fui:[&_.recharts-polar-grid_[stroke=#ccc]]:stroke-border fui:[&_.recharts-radial-bar-background-sector]:fill-muted fui:[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted fui:[&_.recharts-reference-line_[stroke=#ccc]]:stroke-border fui:[&_.recharts-sector]:outline-hidden fui:[&_.recharts-sector[stroke=#fff]]:stroke-transparent fui:[&_.recharts-surface]:outline-hidden",
 					className,
 				)}
 				{...props}
@@ -160,7 +160,7 @@ function ChartTooltipContent({
 
 		if (labelFormatter) {
 			return (
-				<div className={cn("lib:font-medium", labelClassName)}>
+				<div className={cn("fui:font-medium", labelClassName)}>
 					{labelFormatter(value, payload)}
 				</div>
 			);
@@ -170,7 +170,7 @@ function ChartTooltipContent({
 			return null;
 		}
 
-		return <div className={cn("lib:font-medium", labelClassName)}>{value}</div>;
+		return <div className={cn("fui:font-medium", labelClassName)}>{value}</div>;
 	}, [
 		label,
 		labelFormatter,
@@ -190,12 +190,12 @@ function ChartTooltipContent({
 	return (
 		<div
 			className={cn(
-				"lib:grid lib:min-w-32 lib:items-start lib:gap-1.5 lib:rounded-lg lib:border lib:border-border/50 lib:bg-background lib:px-2.5 lib:py-1.5 lib:text-xs lib:shadow-xl",
+				"fui:grid fui:min-w-32 fui:items-start fui:gap-1.5 fui:rounded-lg fui:border fui:border-border/50 fui:bg-background fui:px-2.5 fui:py-1.5 fui:text-xs fui:shadow-xl",
 				className,
 			)}
 		>
 			{!nestLabel ? tooltipLabel : null}
-			<div className="lib:grid lib:gap-1.5">
+			<div className="fui:grid fui:gap-1.5">
 				{payload
 					.filter((item) => item.type !== "none")
 					.map((item, index) => {
@@ -207,8 +207,8 @@ function ChartTooltipContent({
 							<div
 								key={index}
 								className={cn(
-									"lib:flex lib:w-full lib:flex-wrap lib:items-stretch lib:gap-2 lib:[&>svg]:h-2.5 lib:[&>svg]:w-2.5 lib:[&>svg]:text-muted-foreground",
-									indicator === "dot" && "lib:items-center",
+									"fui:flex fui:w-full fui:flex-wrap fui:items-stretch fui:gap-2 fui:[&>svg]:h-2.5 fui:[&>svg]:w-2.5 fui:[&>svg]:text-muted-foreground",
+									indicator === "dot" && "fui:items-center",
 								)}
 							>
 								{formatter && item?.value !== undefined && item.name ? (
@@ -221,7 +221,7 @@ function ChartTooltipContent({
 											!hideIndicator && (
 												<div
 													className={cn(
-														"lib:shrink-0 lib:rounded-[2px] lib:border-(--color-border) lib:bg-(--color-bg)",
+														"fui:shrink-0 fui:rounded-[2px] fui:border-(--color-border) fui:bg-(--color-bg)",
 														{
 															"h-2.5 w-2.5": indicator === "dot",
 															"w-1": indicator === "line",
@@ -241,18 +241,18 @@ function ChartTooltipContent({
 										)}
 										<div
 											className={cn(
-												"lib:flex lib:flex-1 lib:justify-between lib:leading-none",
-												nestLabel ? "lib:items-end" : "lib:items-center",
+												"fui:flex fui:flex-1 fui:justify-between fui:leading-none",
+												nestLabel ? "fui:items-end" : "fui:items-center",
 											)}
 										>
-											<div className="lib:grid lib:gap-1.5">
+											<div className="fui:grid fui:gap-1.5">
 												{nestLabel ? tooltipLabel : null}
-												<span className="lib:text-muted-foreground">
+												<span className="fui:text-muted-foreground">
 													{itemConfig?.label ?? item.name}
 												</span>
 											</div>
 											{item.value != null && (
-												<span className="lib:font-mono lib:font-medium lib:text-foreground lib:tabular-nums">
+												<span className="fui:font-mono fui:font-medium fui:text-foreground fui:tabular-nums">
 													{typeof item.value === "number"
 														? item.value.toLocaleString()
 														: String(item.value)}
@@ -290,8 +290,8 @@ function ChartLegendContent({
 	return (
 		<div
 			className={cn(
-				"lib:flex lib:items-center lib:justify-center lib:gap-4",
-				verticalAlign === "top" ? "lib:pb-3" : "lib:pt-3",
+				"fui:flex fui:items-center fui:justify-center fui:gap-4",
+				verticalAlign === "top" ? "fui:pb-3" : "fui:pt-3",
 				className,
 			)}
 		>
@@ -305,14 +305,14 @@ function ChartLegendContent({
 						<div
 							key={index}
 							className={cn(
-								"lib:flex lib:items-center lib:gap-1.5 lib:[&>svg]:h-3 lib:[&>svg]:w-3 lib:[&>svg]:text-muted-foreground",
+								"fui:flex fui:items-center fui:gap-1.5 fui:[&>svg]:h-3 fui:[&>svg]:w-3 fui:[&>svg]:text-muted-foreground",
 							)}
 						>
 							{itemConfig?.icon && !hideIcon ? (
 								<itemConfig.icon />
 							) : (
 								<div
-									className="lib:h-2 lib:w-2 lib:shrink-0 lib:rounded-[2px]"
+									className="fui:h-2 fui:w-2 fui:shrink-0 fui:rounded-[2px]"
 									style={{
 										backgroundColor: item.color,
 									}}

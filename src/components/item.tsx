@@ -12,7 +12,7 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
 			role="list"
 			data-slot="item-group"
 			className={cn(
-				"lib:group/item-group lib:flex lib:w-full lib:flex-col lib:gap-4 lib:has-data-[size=sm]:gap-2.5 lib:has-data-[size=xs]:gap-2",
+				"fui:group/item-group fui:flex fui:w-full fui:flex-col fui:gap-4 fui:has-data-[size=sm]:gap-2.5 fui:has-data-[size=xs]:gap-2",
 				className,
 			)}
 			{...props}
@@ -28,25 +28,25 @@ function ItemSeparator({
 		<Separator
 			data-slot="item-separator"
 			orientation="horizontal"
-			className={cn("lib:my-2", className)}
+			className={cn("fui:my-2", className)}
 			{...props}
 		/>
 	);
 }
 
 const itemVariants = cva(
-	"lib:group/item lib:flex lib:w-full lib:flex-wrap lib:items-center lib:rounded-2xl lib:border lib:text-sm lib:transition-colors lib:duration-100 lib:outline-none lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:[a]:transition-colors lib:[a]:hover:bg-muted",
+	"fui:group/item fui:flex fui:w-full fui:flex-wrap fui:items-center fui:rounded-2xl fui:border fui:text-sm fui:transition-colors fui:duration-100 fui:outline-none fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:[a]:transition-colors fui:[a]:hover:bg-muted",
 	{
 		variants: {
 			variant: {
-				default: "lib:border-transparent",
-				outline: "lib:border-border",
-				muted: "lib:border-transparent lib:bg-muted/50",
+				default: "fui:border-transparent",
+				outline: "fui:border-border",
+				muted: "fui:border-transparent fui:bg-muted/50",
 			},
 			size: {
-				default: "lib:gap-3.5 lib:px-4 lib:py-3.5",
-				sm: "lib:gap-3.5 lib:px-3.5 lib:py-3",
-				xs: "lib:gap-2.5 lib:px-3 lib:py-2.5 lib:in-data-[slot=dropdown-menu-content]:p-0",
+				default: "fui:gap-3.5 fui:px-4 fui:py-3.5",
+				sm: "fui:gap-3.5 fui:px-3.5 fui:py-3",
+				xs: "fui:gap-2.5 fui:px-3 fui:py-2.5 fui:in-data-[slot=dropdown-menu-content]:p-0",
 			},
 		},
 		defaultVariants: {
@@ -81,14 +81,14 @@ function Item({
 }
 
 const itemMediaVariants = cva(
-	"lib:flex lib:shrink-0 lib:items-center lib:justify-center lib:gap-2 lib:group-has-data-[slot=item-description]/item:translate-y-0.5 lib:group-has-data-[slot=item-description]/item:self-start lib:[&_svg]:pointer-events-none",
+	"fui:flex fui:shrink-0 fui:items-center fui:justify-center fui:gap-2 fui:group-has-data-[slot=item-description]/item:translate-y-0.5 fui:group-has-data-[slot=item-description]/item:self-start fui:[&_svg]:pointer-events-none",
 	{
 		variants: {
 			variant: {
-				default: "lib:bg-transparent",
-				icon: "lib:[&_svg:not([class*=size-])]:size-4",
+				default: "fui:bg-transparent",
+				icon: "fui:[&_svg:not([class*=size-])]:size-4",
 				image:
-					"lib:size-10 lib:overflow-hidden lib:rounded-lg lib:group-data-[size=sm]/item:size-8 lib:group-data-[size=xs]/item:size-6 lib:group-data-[size=xs]/item:rounded-md lib:[&_img]:size-full lib:[&_img]:object-cover",
+					"fui:size-10 fui:overflow-hidden fui:rounded-lg fui:group-data-[size=sm]/item:size-8 fui:group-data-[size=xs]/item:size-6 fui:group-data-[size=xs]/item:rounded-md fui:[&_img]:size-full fui:[&_img]:object-cover",
 			},
 		},
 		defaultVariants: {
@@ -117,7 +117,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-content"
 			className={cn(
-				"lib:flex lib:flex-1 lib:flex-col lib:gap-1 lib:group-data-[size=xs]/item:gap-0.5 lib:[&+[data-slot=item-content]]:flex-none",
+				"fui:flex fui:flex-1 fui:flex-col fui:gap-1 fui:group-data-[size=xs]/item:gap-0.5 fui:[&+[data-slot=item-content]]:flex-none",
 				className,
 			)}
 			{...props}
@@ -130,7 +130,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-title"
 			className={cn(
-				"lib:line-clamp-1 lib:flex lib:w-fit lib:items-center lib:gap-2 lib:text-sm lib:leading-snug lib:font-medium lib:underline-offset-4",
+				"fui:line-clamp-1 fui:flex fui:w-fit fui:items-center fui:gap-2 fui:text-sm fui:leading-snug fui:font-medium fui:underline-offset-4",
 				className,
 			)}
 			{...props}
@@ -143,7 +143,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
 		<p
 			data-slot="item-description"
 			className={cn(
-				"lib:line-clamp-2 lib:text-left lib:text-sm lib:font-normal lib:text-muted-foreground lib:[&>a]:underline lib:[&>a]:underline-offset-4 lib:[&>a:hover]:text-primary",
+				"fui:line-clamp-2 fui:text-left fui:text-sm fui:font-normal fui:text-muted-foreground fui:[&>a]:underline fui:[&>a]:underline-offset-4 fui:[&>a:hover]:text-primary",
 				className,
 			)}
 			{...props}
@@ -155,7 +155,7 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="item-actions"
-			className={cn("lib:flex lib:items-center lib:gap-2", className)}
+			className={cn("fui:flex fui:items-center fui:gap-2", className)}
 			{...props}
 		/>
 	);
@@ -166,7 +166,7 @@ function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-header"
 			className={cn(
-				"lib:flex lib:basis-full lib:items-center lib:justify-between lib:gap-2",
+				"fui:flex fui:basis-full fui:items-center fui:justify-between fui:gap-2",
 				className,
 			)}
 			{...props}
@@ -179,7 +179,7 @@ function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="item-footer"
 			className={cn(
-				"lib:flex lib:basis-full lib:items-center lib:justify-between lib:gap-2",
+				"fui:flex fui:basis-full fui:items-center fui:justify-between fui:gap-2",
 				className,
 			)}
 			{...props}

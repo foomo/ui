@@ -5,7 +5,7 @@ function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
 		<kbd
 			data-slot="kbd"
 			className={cn(
-				"lib:pointer-events-none lib:inline-flex lib:h-5 lib:w-fit lib:min-w-5 lib:items-center lib:justify-center lib:gap-1 lib:rounded-sm lib:bg-muted lib:px-1 lib:font-sans lib:text-xs lib:font-medium lib:text-muted-foreground lib:select-none lib:in-data-[slot=tooltip-content]:bg-background/20 lib:in-data-[slot=tooltip-content]:text-background lib:dark:in-data-[slot=tooltip-content]:bg-background/10 lib:[&_svg:not([class*=size-])]:size-3",
+				"fui:pointer-events-none fui:inline-flex fui:h-5 fui:w-fit fui:min-w-5 fui:items-center fui:justify-center fui:gap-1 fui:rounded-sm fui:bg-muted fui:px-1 fui:font-sans fui:text-xs fui:font-medium fui:text-muted-foreground fui:select-none fui:in-data-[slot=tooltip-content]:bg-background/20 fui:in-data-[slot=tooltip-content]:text-background fui:dark:in-data-[slot=tooltip-content]:bg-background/10 fui:[&_svg:not([class*=size-])]:size-3",
 				className,
 			)}
 			{...props}
@@ -17,7 +17,7 @@ function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<kbd
 			data-slot="kbd-group"
-			className={cn("lib:inline-flex lib:items-center lib:gap-1", className)}
+			className={cn("fui:inline-flex fui:items-center fui:gap-1", className)}
 			{...props}
 		/>
 	);

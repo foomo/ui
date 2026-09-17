@@ -12,7 +12,7 @@ function Tabs({
 			data-slot="tabs"
 			data-orientation={orientation}
 			className={cn(
-				"lib:group/tabs lib:flex lib:gap-2 lib:data-horizontal:flex-col",
+				"fui:group/tabs fui:flex fui:gap-2 fui:data-horizontal:flex-col",
 				className,
 			)}
 			{...props}
@@ -21,12 +21,12 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-	"lib:group/tabs-list lib:inline-flex lib:w-fit lib:items-center lib:justify-center lib:rounded-4xl lib:p-[3px] lib:text-muted-foreground lib:group-data-horizontal/tabs:h-9 lib:group-data-vertical/tabs:h-fit lib:group-data-vertical/tabs:flex-col lib:group-data-vertical/tabs:rounded-2xl lib:data-[variant=line]:rounded-none",
+	"fui:group/tabs-list fui:inline-flex fui:w-fit fui:items-center fui:justify-center fui:rounded-4xl fui:p-[3px] fui:text-muted-foreground fui:group-data-horizontal/tabs:h-9 fui:group-data-vertical/tabs:h-fit fui:group-data-vertical/tabs:flex-col fui:group-data-vertical/tabs:rounded-2xl fui:data-[variant=line]:rounded-none",
 	{
 		variants: {
 			variant: {
-				default: "lib:bg-muted",
-				line: "lib:gap-1 lib:bg-transparent",
+				default: "fui:bg-muted",
+				line: "fui:gap-1 fui:bg-transparent",
 			},
 		},
 		defaultVariants: {
@@ -55,10 +55,10 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
 		<TabsPrimitive.Tab
 			data-slot="tabs-trigger"
 			className={cn(
-				"lib:relative lib:inline-flex lib:h-[calc(100%-1px)] lib:flex-1 lib:items-center lib:justify-center lib:gap-1.5 lib:rounded-xl lib:border lib:border-transparent lib:px-2 lib:py-1 lib:text-sm lib:font-medium lib:whitespace-nowrap lib:text-foreground/60 lib:transition-all lib:group-data-vertical/tabs:w-full lib:group-data-vertical/tabs:justify-start lib:group-data-vertical/tabs:px-2.5 lib:group-data-vertical/tabs:py-1.5 lib:hover:text-foreground lib:focus-visible:border-ring lib:focus-visible:ring-[3px] lib:focus-visible:ring-ring/50 lib:focus-visible:outline-1 lib:focus-visible:outline-ring lib:disabled:pointer-events-none lib:disabled:opacity-50 lib:has-data-[icon=inline-end]:pr-1.5 lib:has-data-[icon=inline-start]:pl-1.5 lib:aria-disabled:pointer-events-none lib:aria-disabled:opacity-50 lib:dark:text-muted-foreground lib:dark:hover:text-foreground lib:[&_svg]:pointer-events-none lib:[&_svg]:shrink-0 lib:[&_svg:not([class*=size-])]:size-4",
-				"lib:group-data-[variant=line]/tabs-list:bg-transparent lib:group-data-[variant=line]/tabs-list:data-active:bg-transparent lib:dark:group-data-[variant=line]/tabs-list:data-active:border-transparent lib:dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
-				"lib:data-active:bg-background lib:data-active:text-foreground lib:dark:data-active:border-input lib:dark:data-active:bg-input/30 lib:dark:data-active:text-foreground",
-				"lib:after:absolute lib:after:bg-foreground lib:after:opacity-0 lib:after:transition-opacity lib:group-data-horizontal/tabs:after:inset-x-0 lib:group-data-horizontal/tabs:after:bottom-[-5px] lib:group-data-horizontal/tabs:after:h-0.5 lib:group-data-vertical/tabs:after:inset-y-0 lib:group-data-vertical/tabs:after:-right-1 lib:group-data-vertical/tabs:after:w-0.5 lib:group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+				"fui:relative fui:inline-flex fui:h-[calc(100%-1px)] fui:flex-1 fui:items-center fui:justify-center fui:gap-1.5 fui:rounded-xl fui:border fui:border-transparent fui:px-2 fui:py-1 fui:text-sm fui:font-medium fui:whitespace-nowrap fui:text-foreground/60 fui:transition-all fui:group-data-vertical/tabs:w-full fui:group-data-vertical/tabs:justify-start fui:group-data-vertical/tabs:px-2.5 fui:group-data-vertical/tabs:py-1.5 fui:hover:text-foreground fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:focus-visible:outline-1 fui:focus-visible:outline-ring fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:has-data-[icon=inline-end]:pr-1.5 fui:has-data-[icon=inline-start]:pl-1.5 fui:aria-disabled:pointer-events-none fui:aria-disabled:opacity-50 fui:dark:text-muted-foreground fui:dark:hover:text-foreground fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
+				"fui:group-data-[variant=line]/tabs-list:bg-transparent fui:group-data-[variant=line]/tabs-list:data-active:bg-transparent fui:dark:group-data-[variant=line]/tabs-list:data-active:border-transparent fui:dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
+				"fui:data-active:bg-background fui:data-active:text-foreground fui:dark:data-active:border-input fui:dark:data-active:bg-input/30 fui:dark:data-active:text-foreground",
+				"fui:after:absolute fui:after:bg-foreground fui:after:opacity-0 fui:after:transition-opacity fui:group-data-horizontal/tabs:after:inset-x-0 fui:group-data-horizontal/tabs:after:bottom-[-5px] fui:group-data-horizontal/tabs:after:h-0.5 fui:group-data-vertical/tabs:after:inset-y-0 fui:group-data-vertical/tabs:after:-right-1 fui:group-data-vertical/tabs:after:w-0.5 fui:group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
 				className,
 			)}
 			{...props}
@@ -70,7 +70,7 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
 	return (
 		<TabsPrimitive.Panel
 			data-slot="tabs-content"
-			className={cn("lib:flex-1 lib:text-sm lib:outline-none", className)}
+			className={cn("fui:flex-1 fui:text-sm fui:outline-none", className)}
 			{...props}
 		/>
 	);

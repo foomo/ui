@@ -28,7 +28,7 @@ function AlertDialogOverlay({
 		<AlertDialogPrimitive.Backdrop
 			data-slot="alert-dialog-overlay"
 			className={cn(
-				"lib:fixed lib:inset-0 lib:isolate lib:z-50 lib:bg-black/80 lib:duration-100 lib:supports-backdrop-filter:backdrop-blur-xs lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-closed:animate-out lib:data-closed:fade-out-0",
+				"fui:fixed fui:inset-0 fui:isolate fui:z-50 fui:bg-black/80 fui:duration-100 fui:supports-backdrop-filter:backdrop-blur-xs fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-closed:animate-out fui:data-closed:fade-out-0",
 				className,
 			)}
 			{...props}
@@ -50,7 +50,7 @@ function AlertDialogContent({
 				data-slot="alert-dialog-content"
 				data-size={size}
 				className={cn(
-					"lib:group/alert-dialog-content lib:fixed lib:top-1/2 lib:left-1/2 lib:z-50 lib:grid lib:w-full lib:-translate-x-1/2 lib:-translate-y-1/2 lib:gap-6 lib:rounded-4xl lib:bg-popover lib:p-6 lib:text-popover-foreground lib:ring-1 lib:ring-foreground/5 lib:duration-100 lib:outline-none lib:data-[size=default]:max-w-xs lib:data-[size=sm]:max-w-xs lib:data-[size=default]:sm:max-w-md lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95",
+					"fui:group/alert-dialog-content fui:fixed fui:top-1/2 fui:left-1/2 fui:z-50 fui:grid fui:w-full fui:-translate-x-1/2 fui:-translate-y-1/2 fui:gap-6 fui:rounded-4xl fui:bg-popover fui:p-6 fui:text-popover-foreground fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:outline-none fui:data-[size=default]:max-w-xs fui:data-[size=sm]:max-w-xs fui:data-[size=default]:sm:max-w-md fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95",
 					className,
 				)}
 				{...props}
@@ -67,7 +67,7 @@ function AlertDialogHeader({
 		<div
 			data-slot="alert-dialog-header"
 			className={cn(
-				"lib:grid lib:grid-rows-[auto_1fr] lib:place-items-center lib:gap-1.5 lib:text-center lib:has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] lib:has-data-[slot=alert-dialog-media]:gap-x-6 lib:sm:group-data-[size=default]/alert-dialog-content:place-items-start lib:sm:group-data-[size=default]/alert-dialog-content:text-left lib:sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]",
+				"fui:grid fui:grid-rows-[auto_1fr] fui:place-items-center fui:gap-1.5 fui:text-center fui:has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] fui:has-data-[slot=alert-dialog-media]:gap-x-6 fui:sm:group-data-[size=default]/alert-dialog-content:place-items-start fui:sm:group-data-[size=default]/alert-dialog-content:text-left fui:sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]",
 				className,
 			)}
 			{...props}
@@ -83,7 +83,7 @@ function AlertDialogFooter({
 		<div
 			data-slot="alert-dialog-footer"
 			className={cn(
-				"lib:flex lib:flex-col-reverse lib:gap-2 lib:group-data-[size=sm]/alert-dialog-content:grid lib:group-data-[size=sm]/alert-dialog-content:grid-cols-2 lib:sm:flex-row lib:sm:justify-end",
+				"fui:flex fui:flex-col-reverse fui:gap-2 fui:group-data-[size=sm]/alert-dialog-content:grid fui:group-data-[size=sm]/alert-dialog-content:grid-cols-2 fui:sm:flex-row fui:sm:justify-end",
 				className,
 			)}
 			{...props}
@@ -99,7 +99,7 @@ function AlertDialogMedia({
 		<div
 			data-slot="alert-dialog-media"
 			className={cn(
-				"lib:mb-2 lib:inline-flex lib:size-16 lib:items-center lib:justify-center lib:rounded-full lib:bg-muted lib:sm:group-data-[size=default]/alert-dialog-content:row-span-2 lib:*:[svg:not([class*=size-])]:size-8",
+				"fui:mb-2 fui:inline-flex fui:size-16 fui:items-center fui:justify-center fui:rounded-full fui:bg-muted fui:sm:group-data-[size=default]/alert-dialog-content:row-span-2 fui:*:[svg:not([class*=size-])]:size-8",
 				className,
 			)}
 			{...props}
@@ -115,7 +115,7 @@ function AlertDialogTitle({
 		<AlertDialogPrimitive.Title
 			data-slot="alert-dialog-title"
 			className={cn(
-				"lib:font-heading lib:text-lg lib:font-medium lib:sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
+				"fui:font-heading fui:text-lg fui:font-medium fui:sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
 				className,
 			)}
 			{...props}
@@ -131,7 +131,7 @@ function AlertDialogDescription({
 		<AlertDialogPrimitive.Description
 			data-slot="alert-dialog-description"
 			className={cn(
-				"lib:text-sm lib:text-balance lib:text-muted-foreground lib:md:text-pretty lib:*:[a]:underline lib:*:[a]:underline-offset-3 lib:*:[a]:hover:text-foreground",
+				"fui:text-sm fui:text-balance fui:text-muted-foreground fui:md:text-pretty fui:*:[a]:underline fui:*:[a]:underline-offset-3 fui:*:[a]:hover:text-foreground",
 				className,
 			)}
 			{...props}

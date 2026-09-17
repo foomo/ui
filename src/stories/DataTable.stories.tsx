@@ -107,9 +107,9 @@ const columns = column.columns([
 			<DataTableColumnHeader column={column} title="Project" />
 		),
 		cell: ({ row }) => (
-			<div className="lib:flex lib:flex-col">
-				<span className="lib:font-medium">{row.original.name}</span>
-				<span className="lib:text-xs lib:text-muted-foreground">
+			<div className="fui:flex fui:flex-col">
+				<span className="fui:font-medium">{row.original.name}</span>
+				<span className="fui:text-xs fui:text-muted-foreground">
 					{row.original.id}
 				</span>
 			</div>
@@ -129,7 +129,7 @@ const columns = column.columns([
 		cell: (info) => (
 			<Badge
 				variant={statusVariant[info.getValue()]}
-				className="lib:capitalize"
+				className="fui:capitalize"
 			>
 				{info.getValue()}
 			</Badge>
@@ -142,7 +142,7 @@ const columns = column.columns([
 			<DataTableColumnHeader column={column} title="Updated" />
 		),
 		cell: (info) => (
-			<span className="lib:whitespace-nowrap lib:text-muted-foreground">
+			<span className="fui:whitespace-nowrap fui:text-muted-foreground">
 				{dateTime.format(info.getValue())}
 			</span>
 		),
@@ -153,7 +153,7 @@ const columns = column.columns([
 			<DataTableColumnHeader column={column} title="Deployments" align="end" />
 		),
 		cell: (info) => (
-			<div className="lib:text-right lib:tabular-nums">{info.getValue()}</div>
+			<div className="fui:text-right fui:tabular-nums">{info.getValue()}</div>
 		),
 	}),
 ]);
@@ -171,7 +171,7 @@ const meta = {
 	tags: ["autodocs"],
 	decorators: [
 		(Story) => (
-			<div className="lib:mx-auto lib:w-full lib:max-w-5xl">
+			<div className="fui:mx-auto fui:w-full fui:max-w-5xl">
 				<Story />
 			</div>
 		),

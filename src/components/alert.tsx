@@ -3,13 +3,13 @@ import { cn } from "cn";
 import type * as React from "react";
 
 const alertVariants = cva(
-	"lib:group/alert lib:relative lib:grid lib:w-full lib:gap-0.5 lib:rounded-lg lib:border lib:px-4 lib:py-3 lib:text-left lib:text-sm lib:has-data-[slot=alert-action]:relative lib:has-data-[slot=alert-action]:pr-18 lib:has-[>svg]:grid-cols-[auto_1fr] lib:has-[>svg]:gap-x-2.5 lib:*:[svg]:row-span-2 lib:*:[svg]:translate-y-0.5 lib:*:[svg]:text-current lib:*:[svg:not([class*=size-])]:size-4",
+	"fui:group/alert fui:relative fui:grid fui:w-full fui:gap-0.5 fui:rounded-lg fui:border fui:px-4 fui:py-3 fui:text-left fui:text-sm fui:has-data-[slot=alert-action]:relative fui:has-data-[slot=alert-action]:pr-18 fui:has-[>svg]:grid-cols-[auto_1fr] fui:has-[>svg]:gap-x-2.5 fui:*:[svg]:row-span-2 fui:*:[svg]:translate-y-0.5 fui:*:[svg]:text-current fui:*:[svg:not([class*=size-])]:size-4",
 	{
 		variants: {
 			variant: {
-				default: "lib:bg-card lib:text-card-foreground",
+				default: "fui:bg-card fui:text-card-foreground",
 				destructive:
-					"lib:bg-card lib:text-destructive lib:*:data-[slot=alert-description]:text-destructive/90 lib:*:[svg]:text-current",
+					"fui:bg-card fui:text-destructive fui:*:data-[slot=alert-description]:text-destructive/90 fui:*:[svg]:text-current",
 			},
 		},
 		defaultVariants: {
@@ -38,7 +38,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="alert-title"
 			className={cn(
-				"lib:font-medium lib:group-has-[>svg]/alert:col-start-2 lib:[&_a]:underline lib:[&_a]:underline-offset-3 lib:[&_a]:hover:text-foreground",
+				"fui:font-medium fui:group-has-[>svg]/alert:col-start-2 fui:[&_a]:underline fui:[&_a]:underline-offset-3 fui:[&_a]:hover:text-foreground",
 				className,
 			)}
 			{...props}
@@ -54,7 +54,7 @@ function AlertDescription({
 		<div
 			data-slot="alert-description"
 			className={cn(
-				"lib:text-sm lib:text-balance lib:text-muted-foreground lib:md:text-pretty lib:[&_a]:underline lib:[&_a]:underline-offset-3 lib:[&_a]:hover:text-foreground lib:[&_p:not(:last-child)]:mb-4",
+				"fui:text-sm fui:text-balance fui:text-muted-foreground fui:md:text-pretty fui:[&_a]:underline fui:[&_a]:underline-offset-3 fui:[&_a]:hover:text-foreground fui:[&_p:not(:last-child)]:mb-4",
 				className,
 			)}
 			{...props}
@@ -66,7 +66,7 @@ function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="alert-action"
-			className={cn("lib:absolute lib:top-2.5 lib:right-3", className)}
+			className={cn("fui:absolute fui:top-2.5 fui:right-3", className)}
 			{...props}
 		/>
 	);

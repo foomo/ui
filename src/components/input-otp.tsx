@@ -18,7 +18,7 @@ function InputOTP({
 				containerClassName,
 			)}
 			spellCheck={false}
-			className={cn("lib:disabled:cursor-not-allowed", className)}
+			className={cn("fui:disabled:cursor-not-allowed", className)}
 			{...props}
 		/>
 	);
@@ -29,7 +29,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="input-otp-group"
 			className={cn(
-				"lib:flex lib:items-center lib:rounded-4xl lib:has-aria-invalid:border-destructive lib:has-aria-invalid:ring-[3px] lib:has-aria-invalid:ring-destructive/20 lib:dark:has-aria-invalid:ring-destructive/40",
+				"fui:flex fui:items-center fui:rounded-4xl fui:has-aria-invalid:border-destructive fui:has-aria-invalid:ring-[3px] fui:has-aria-invalid:ring-destructive/20 fui:dark:has-aria-invalid:ring-destructive/40",
 				className,
 			)}
 			{...props}
@@ -52,15 +52,15 @@ function InputOTPSlot({
 			data-slot="input-otp-slot"
 			data-active={isActive}
 			className={cn(
-				"lib:relative lib:flex lib:size-9 lib:items-center lib:justify-center lib:border-y lib:border-r lib:border-input lib:bg-input/30 lib:text-sm lib:transition-all lib:outline-none lib:first:rounded-l-4xl lib:first:border-l lib:last:rounded-r-4xl lib:aria-invalid:border-destructive lib:data-[active=true]:z-10 lib:data-[active=true]:border-ring lib:data-[active=true]:ring-[3px] lib:data-[active=true]:ring-ring/50 lib:data-[active=true]:aria-invalid:border-destructive lib:data-[active=true]:aria-invalid:ring-destructive/20 lib:dark:data-[active=true]:aria-invalid:ring-destructive/40",
+				"fui:relative fui:flex fui:size-9 fui:items-center fui:justify-center fui:border-y fui:border-r fui:border-input fui:bg-input/30 fui:text-sm fui:transition-all fui:outline-none fui:first:rounded-l-4xl fui:first:border-l fui:last:rounded-r-4xl fui:aria-invalid:border-destructive fui:data-[active=true]:z-10 fui:data-[active=true]:border-ring fui:data-[active=true]:ring-[3px] fui:data-[active=true]:ring-ring/50 fui:data-[active=true]:aria-invalid:border-destructive fui:data-[active=true]:aria-invalid:ring-destructive/20 fui:dark:data-[active=true]:aria-invalid:ring-destructive/40",
 				className,
 			)}
 			{...props}
 		>
 			{char}
 			{hasFakeCaret && (
-				<div className="lib:pointer-events-none lib:absolute lib:inset-0 lib:flex lib:items-center lib:justify-center">
-					<div className="lib:h-4 lib:w-px lib:animate-caret-blink lib:bg-foreground lib:duration-1000" />
+				<div className="fui:pointer-events-none fui:absolute fui:inset-0 fui:flex fui:items-center fui:justify-center">
+					<div className="fui:h-4 fui:w-px fui:animate-caret-blink fui:bg-foreground fui:duration-1000" />
 				</div>
 			)}
 		</div>
@@ -71,7 +71,7 @@ function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="input-otp-separator"
-			className="lib:flex lib:items-center lib:[&_svg:not([class*=size-])]:size-4"
+			className="fui:flex fui:items-center fui:[&_svg:not([class*=size-])]:size-4"
 			role="separator"
 			{...props}
 		>

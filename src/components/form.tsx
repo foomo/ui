@@ -104,7 +104,7 @@ function FormLabel({
 		<FieldLabel
 			data-slot="form-label"
 			data-error={!!error}
-			className={cn("lib:data-[error=true]:text-destructive", className)}
+			className={cn("fui:data-[error=true]:text-destructive", className)}
 			htmlFor={formItemId}
 			{...props}
 		/>

@@ -1,4 +1,4 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	prefix: "lib",
+	prefix: "fui",
 };

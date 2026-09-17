@@ -32,6 +32,7 @@
 	--color-popover-foreground: var(--popover-foreground);
 	--color-primary: var(--primary);
 	--color-primary-foreground: var(--primary-foreground);
+	--color-link: var(--link);
 	--color-secondary: var(--secondary);
 	--color-secondary-foreground: var(--secondary-foreground);
 	--color-muted: var(--muted);
@@ -64,12 +65,12 @@
 
 @layer base {
 	* {
-		@apply lib:border-border lib:outline-ring/50;
+		@apply fui:border-border fui:outline-ring/50;
 	}
 	body {
-		@apply lib:bg-background lib:text-foreground;
+		@apply fui:bg-background fui:text-foreground;
 	}
 	html {
-		@apply lib:font-sans;
+		@apply fui:font-sans;
 	}
 }

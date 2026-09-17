@@ -6,14 +6,14 @@ import { cn } from "cn";
 import { Separator } from "@/components/separator";
 
 const buttonGroupVariants = cva(
-	"lib:flex lib:w-fit lib:items-stretch lib:*:focus-visible:relative lib:*:focus-visible:z-10 lib:has-[>[data-slot=button-group]]:gap-2 lib:has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-4xl lib:[&>[data-slot=select-trigger]:not([class*=w-])]:w-fit lib:[&>input]:flex-1",
+	"fui:flex fui:w-fit fui:items-stretch fui:*:focus-visible:relative fui:*:focus-visible:z-10 fui:has-[>[data-slot=button-group]]:gap-2 fui:has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-4xl fui:[&>[data-slot=select-trigger]:not([class*=w-])]:w-fit fui:[&>input]:flex-1",
 	{
 		variants: {
 			orientation: {
 				horizontal:
-					"lib:*:data-slot:rounded-r-none lib:[&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-4xl! lib:[&>[data-slot]~[data-slot]]:rounded-l-none lib:[&>[data-slot]~[data-slot]]:border-l-0",
+					"fui:*:data-slot:rounded-r-none fui:[&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-4xl! fui:[&>[data-slot]~[data-slot]]:rounded-l-none fui:[&>[data-slot]~[data-slot]]:border-l-0",
 				vertical:
-					"lib:flex-col lib:*:data-slot:rounded-b-none lib:[&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-4xl! lib:[&>[data-slot]~[data-slot]]:rounded-t-none lib:[&>[data-slot]~[data-slot]]:border-t-0",
+					"fui:flex-col fui:*:data-slot:rounded-b-none fui:[&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-4xl! fui:[&>[data-slot]~[data-slot]]:rounded-t-none fui:[&>[data-slot]~[data-slot]]:border-t-0",
 			},
 		},
 		defaultVariants: {
@@ -48,7 +48,7 @@ function ButtonGroupText({
 		props: mergeProps<"div">(
 			{
 				className: cn(
-					"flex items-center gap-2 rounded-4xl border bg-muted px-2.5 text-sm font-medium [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+					"fui:flex fui:items-center fui:gap-2 fui:rounded-4xl fui:border fui:bg-muted fui:px-2.5 fui:text-sm fui:font-medium fui:[&_svg]:pointer-events-none fui:[&_svg:not([class*='size-'])]:size-4",
 					className,
 				),
 			},
@@ -71,7 +71,7 @@ function ButtonGroupSeparator({
 			data-slot="button-group-separator"
 			orientation={orientation}
 			className={cn(
-				"lib:relative lib:self-stretch lib:bg-input lib:data-horizontal:mx-px lib:data-horizontal:w-auto lib:data-vertical:my-px lib:data-vertical:h-auto",
+				"fui:relative fui:self-stretch fui:bg-input fui:data-horizontal:mx-px fui:data-horizontal:w-auto fui:data-vertical:my-px fui:data-vertical:h-auto",
 				className,
 			)}
 			{...props}

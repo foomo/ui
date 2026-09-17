@@ -32,7 +32,7 @@ function Calendar({
 		<DayPicker
 			showOutsideDays={showOutsideDays}
 			className={cn(
-				"lib:group/calendar lib:bg-background lib:p-3 lib:[--cell-radius:var(--radius-4xl)] lib:[--cell-size:--spacing(8)] lib:in-data-[slot=card-content]:bg-transparent lib:in-data-[slot=popover-content]:bg-transparent",
+				"fui:group/calendar fui:bg-background fui:p-3 fui:[--cell-radius:var(--radius-4xl)] fui:[--cell-size:--spacing(8)] fui:in-data-[slot=card-content]:bg-transparent fui:in-data-[slot=popover-content]:bg-transparent",
 				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
 				String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
 				className,
@@ -45,99 +45,99 @@ function Calendar({
 				...formatters,
 			}}
 			classNames={{
-				root: cn("lib:w-fit", defaultClassNames.root),
+				root: cn("fui:w-fit", defaultClassNames.root),
 				months: cn(
-					"lib:relative lib:flex lib:flex-col lib:gap-4 lib:md:flex-row",
+					"fui:relative fui:flex fui:flex-col fui:gap-4 fui:md:flex-row",
 					defaultClassNames.months,
 				),
 				month: cn(
-					"lib:flex lib:w-full lib:flex-col lib:gap-4",
+					"fui:flex fui:w-full fui:flex-col fui:gap-4",
 					defaultClassNames.month,
 				),
 				nav: cn(
-					"lib:absolute lib:inset-x-0 lib:top-0 lib:flex lib:w-full lib:items-center lib:justify-between lib:gap-1",
+					"fui:absolute fui:inset-x-0 fui:top-0 fui:flex fui:w-full fui:items-center fui:justify-between fui:gap-1",
 					defaultClassNames.nav,
 				),
 				button_previous: cn(
 					buttonVariants({ variant: buttonVariant }),
-					"lib:size-(--cell-size) lib:p-0 lib:select-none lib:aria-disabled:opacity-50",
+					"fui:size-(--cell-size) fui:p-0 fui:select-none fui:aria-disabled:opacity-50",
 					defaultClassNames.button_previous,
 				),
 				button_next: cn(
 					buttonVariants({ variant: buttonVariant }),
-					"lib:size-(--cell-size) lib:p-0 lib:select-none lib:aria-disabled:opacity-50",
+					"fui:size-(--cell-size) fui:p-0 fui:select-none fui:aria-disabled:opacity-50",
 					defaultClassNames.button_next,
 				),
 				month_caption: cn(
-					"lib:flex lib:h-(--cell-size) lib:w-full lib:items-center lib:justify-center lib:px-(--cell-size)",
+					"fui:flex fui:h-(--cell-size) fui:w-full fui:items-center fui:justify-center fui:px-(--cell-size)",
 					defaultClassNames.month_caption,
 				),
 				dropdowns: cn(
-					"lib:flex lib:h-(--cell-size) lib:w-full lib:items-center lib:justify-center lib:gap-1.5 lib:text-sm lib:font-medium",
+					"fui:flex fui:h-(--cell-size) fui:w-full fui:items-center fui:justify-center fui:gap-1.5 fui:text-sm fui:font-medium",
 					defaultClassNames.dropdowns,
 				),
 				dropdown_root: cn(
-					"lib:relative lib:rounded-(--cell-radius)",
+					"fui:relative fui:rounded-(--cell-radius)",
 					defaultClassNames.dropdown_root,
 				),
 				dropdown: cn(
-					"lib:absolute lib:inset-0 lib:bg-popover lib:opacity-0",
+					"fui:absolute fui:inset-0 fui:bg-popover fui:opacity-0",
 					defaultClassNames.dropdown,
 				),
 				caption_label: cn(
-					"lib:font-medium lib:select-none",
+					"fui:font-medium fui:select-none",
 					captionLayout === "label"
-						? "lib:text-sm"
-						: "lib:flex lib:items-center lib:gap-1 lib:rounded-(--cell-radius) lib:text-sm lib:[&>svg]:size-3.5 lib:[&>svg]:text-muted-foreground",
+						? "fui:text-sm"
+						: "fui:flex fui:items-center fui:gap-1 fui:rounded-(--cell-radius) fui:text-sm fui:[&>svg]:size-3.5 fui:[&>svg]:text-muted-foreground",
 					defaultClassNames.caption_label,
 				),
 				month_grid: cn(
-					"lib:w-full lib:border-collapse",
+					"fui:w-full fui:border-collapse",
 					defaultClassNames.month_grid,
 				),
-				weekdays: cn("lib:flex", defaultClassNames.weekdays),
+				weekdays: cn("fui:flex", defaultClassNames.weekdays),
 				weekday: cn(
-					"lib:flex-1 lib:rounded-(--cell-radius) lib:text-[0.8rem] lib:font-normal lib:text-muted-foreground lib:select-none",
+					"fui:flex-1 fui:rounded-(--cell-radius) fui:text-[0.8rem] fui:font-normal fui:text-muted-foreground fui:select-none",
 					defaultClassNames.weekday,
 				),
-				week: cn("lib:mt-2 lib:flex lib:w-full", defaultClassNames.week),
+				week: cn("fui:mt-2 fui:flex fui:w-full", defaultClassNames.week),
 				week_number_header: cn(
-					"lib:w-(--cell-size) lib:select-none",
+					"fui:w-(--cell-size) fui:select-none",
 					defaultClassNames.week_number_header,
 				),
 				week_number: cn(
-					"lib:text-[0.8rem] lib:text-muted-foreground lib:select-none",
+					"fui:text-[0.8rem] fui:text-muted-foreground fui:select-none",
 					defaultClassNames.week_number,
 				),
 				day: cn(
-					"lib:group/day lib:relative lib:aspect-square lib:h-full lib:w-full lib:rounded-(--cell-radius) lib:p-0 lib:text-center lib:select-none lib:[&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)",
+					"fui:group/day fui:relative fui:aspect-square fui:h-full fui:w-full fui:rounded-(--cell-radius) fui:p-0 fui:text-center fui:select-none fui:[&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)",
 					props.showWeekNumber
-						? "lib:[&:nth-child(2)[data-selected=true]_button]:rounded-l-(--cell-radius)"
-						: "lib:[&:first-child[data-selected=true]_button]:rounded-l-(--cell-radius)",
+						? "fui:[&:nth-child(2)[data-selected=true]_button]:rounded-l-(--cell-radius)"
+						: "fui:[&:first-child[data-selected=true]_button]:rounded-l-(--cell-radius)",
 					defaultClassNames.day,
 				),
 				range_start: cn(
-					"lib:relative lib:isolate lib:z-0 lib:rounded-l-(--cell-radius) lib:bg-muted lib:after:absolute lib:after:inset-y-0 lib:after:right-0 lib:after:w-4 lib:after:bg-muted",
+					"fui:relative fui:isolate fui:z-0 fui:rounded-l-(--cell-radius) fui:bg-muted fui:after:absolute fui:after:inset-y-0 fui:after:right-0 fui:after:w-4 fui:after:bg-muted",
 					defaultClassNames.range_start,
 				),
-				range_middle: cn("lib:rounded-none", defaultClassNames.range_middle),
+				range_middle: cn("fui:rounded-none", defaultClassNames.range_middle),
 				range_end: cn(
-					"lib:relative lib:isolate lib:z-0 lib:rounded-r-(--cell-radius) lib:bg-muted lib:after:absolute lib:after:inset-y-0 lib:after:left-0 lib:after:w-4 lib:after:bg-muted",
+					"fui:relative fui:isolate fui:z-0 fui:rounded-r-(--cell-radius) fui:bg-muted fui:after:absolute fui:after:inset-y-0 fui:after:left-0 fui:after:w-4 fui:after:bg-muted",
 					defaultClassNames.range_end,
 				),
 				today: cn(
-					"lib:rounded-(--cell-radius) lib:bg-muted lib:text-foreground lib:data-[selected=true]:rounded-none",
+					"fui:rounded-(--cell-radius) fui:bg-muted fui:text-foreground fui:data-[selected=true]:rounded-none",
 					defaultClassNames.today,
 				),
 				outside: cn(
-					"lib:text-muted-foreground lib:aria-selected:text-muted-foreground",
+					"fui:text-muted-foreground fui:aria-selected:text-muted-foreground",
 					defaultClassNames.outside,
 				),
 				disabled: cn(
-					"lib:text-muted-foreground lib:opacity-50",
+					"fui:text-muted-foreground fui:opacity-50",
 					defaultClassNames.disabled,
 				),
-				hidden: cn("lib:invisible", defaultClassNames.hidden),
+				hidden: cn("fui:invisible", defaultClassNames.hidden),
 				...classNames,
 			}}
 			components={{
@@ -155,7 +155,7 @@ function Calendar({
 					if (orientation === "left") {
 						return (
 							<ChevronLeftIcon
-								className={cn("lib:size-4", className)}
+								className={cn("fui:size-4", className)}
 								{...props}
 							/>
 						);
@@ -164,7 +164,7 @@ function Calendar({
 					if (orientation === "right") {
 						return (
 							<ChevronRightIcon
-								className={cn("lib:size-4", className)}
+								className={cn("fui:size-4", className)}
 								{...props}
 							/>
 						);
@@ -172,7 +172,7 @@ function Calendar({
 
 					return (
 						<ChevronDownIcon
-							className={cn("lib:size-4", className)}
+							className={cn("fui:size-4", className)}
 							{...props}
 						/>
 					);
@@ -183,7 +183,7 @@ function Calendar({
 				WeekNumber: ({ children, ...props }) => {
 					return (
 						<td {...props}>
-							<div className="lib:flex lib:size-(--cell-size) lib:items-center lib:justify-center lib:text-center">
+							<div className="fui:flex fui:size-(--cell-size) fui:items-center fui:justify-center fui:text-center">
 								{children}
 							</div>
 						</td>
@@ -226,7 +226,7 @@ function CalendarDayButton({
 			data-range-end={modifiers.range_end}
 			data-range-middle={modifiers.range_middle}
 			className={cn(
-				"lib:relative lib:isolate lib:z-10 lib:flex lib:aspect-square lib:size-auto lib:w-full lib:min-w-(--cell-size) lib:flex-col lib:gap-1 lib:border-0 lib:leading-none lib:font-normal lib:group-data-[focused=true]/day:relative lib:group-data-[focused=true]/day:z-10 lib:group-data-[focused=true]/day:border-ring lib:group-data-[focused=true]/day:ring-[3px] lib:group-data-[focused=true]/day:ring-ring/50 lib:data-[range-end=true]:rounded-(--cell-radius) lib:data-[range-end=true]:rounded-r-(--cell-radius) lib:data-[range-end=true]:bg-primary lib:data-[range-end=true]:text-primary-foreground lib:data-[range-middle=true]:rounded-none lib:data-[range-middle=true]:bg-muted lib:data-[range-middle=true]:text-foreground lib:data-[range-start=true]:rounded-(--cell-radius) lib:data-[range-start=true]:rounded-l-(--cell-radius) lib:data-[range-start=true]:bg-primary lib:data-[range-start=true]:text-primary-foreground lib:data-[selected-single=true]:bg-primary lib:data-[selected-single=true]:text-primary-foreground lib:dark:hover:text-foreground lib:[&>span]:text-xs lib:[&>span]:opacity-70",
+				"fui:relative fui:isolate fui:z-10 fui:flex fui:aspect-square fui:size-auto fui:w-full fui:min-w-(--cell-size) fui:flex-col fui:gap-1 fui:border-0 fui:leading-none fui:font-normal fui:group-data-[focused=true]/day:relative fui:group-data-[focused=true]/day:z-10 fui:group-data-[focused=true]/day:border-ring fui:group-data-[focused=true]/day:ring-[3px] fui:group-data-[focused=true]/day:ring-ring/50 fui:data-[range-end=true]:rounded-(--cell-radius) fui:data-[range-end=true]:rounded-r-(--cell-radius) fui:data-[range-end=true]:bg-primary fui:data-[range-end=true]:text-primary-foreground fui:data-[range-middle=true]:rounded-none fui:data-[range-middle=true]:bg-muted fui:data-[range-middle=true]:text-foreground fui:data-[range-start=true]:rounded-(--cell-radius) fui:data-[range-start=true]:rounded-l-(--cell-radius) fui:data-[range-start=true]:bg-primary fui:data-[range-start=true]:text-primary-foreground fui:data-[selected-single=true]:bg-primary fui:data-[selected-single=true]:text-primary-foreground fui:dark:hover:text-foreground fui:[&>span]:text-xs fui:[&>span]:opacity-70",
 				defaultClassNames.day,
 				className,
 			)}

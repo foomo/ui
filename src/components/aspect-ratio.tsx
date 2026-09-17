@@ -14,7 +14,7 @@ function AspectRatio({
 					"--ratio": ratio,
 				} as React.CSSProperties
 			}
-			className={cn("lib:relative lib:aspect-(--ratio)", className)}
+			className={cn("fui:relative fui:aspect-(--ratio)", className)}
 			{...props}
 		/>
 	);

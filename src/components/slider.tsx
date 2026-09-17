@@ -18,7 +18,7 @@ function Slider({
 	return (
 		<SliderPrimitive.Root
 			className={cn(
-				"lib:data-horizontal:w-full lib:data-vertical:h-full",
+				"fui:data-horizontal:w-full fui:data-vertical:h-full",
 				className,
 			)}
 			data-slot="slider"
@@ -29,21 +29,21 @@ function Slider({
 			thumbAlignment="edge"
 			{...props}
 		>
-			<SliderPrimitive.Control className="lib:relative lib:flex lib:w-full lib:touch-none lib:items-center lib:select-none lib:data-disabled:opacity-50 lib:data-vertical:h-full lib:data-vertical:min-h-40 lib:data-vertical:w-auto lib:data-vertical:flex-col">
+			<SliderPrimitive.Control className="fui:relative fui:flex fui:w-full fui:touch-none fui:items-center fui:select-none fui:data-disabled:opacity-50 fui:data-vertical:h-full fui:data-vertical:min-h-40 fui:data-vertical:w-auto fui:data-vertical:flex-col">
 				<SliderPrimitive.Track
 					data-slot="slider-track"
-					className="lib:relative lib:grow lib:overflow-hidden lib:rounded-4xl lib:bg-muted lib:select-none lib:data-horizontal:h-3 lib:data-horizontal:w-full lib:data-vertical:h-full lib:data-vertical:w-3"
+					className="fui:relative fui:grow fui:overflow-hidden fui:rounded-4xl fui:bg-muted fui:select-none fui:data-horizontal:h-3 fui:data-horizontal:w-full fui:data-vertical:h-full fui:data-vertical:w-3"
 				>
 					<SliderPrimitive.Indicator
 						data-slot="slider-range"
-						className="lib:bg-primary lib:select-none lib:data-horizontal:h-full lib:data-vertical:w-full"
+						className="fui:bg-primary fui:select-none fui:data-horizontal:h-full fui:data-vertical:w-full"
 					/>
 				</SliderPrimitive.Track>
 				{Array.from({ length: _values.length }, (_, index) => (
 					<SliderPrimitive.Thumb
 						data-slot="slider-thumb"
 						key={index}
-						className="lib:block lib:size-4 lib:shrink-0 lib:rounded-4xl lib:border lib:border-primary lib:bg-white lib:shadow-sm lib:ring-ring/50 lib:transition-colors lib:select-none lib:hover:ring-4 lib:focus-visible:ring-4 lib:focus-visible:outline-hidden lib:disabled:pointer-events-none lib:disabled:opacity-50"
+						className="fui:block fui:size-4 fui:shrink-0 fui:rounded-4xl fui:border fui:border-primary fui:bg-white fui:shadow-sm fui:ring-ring/50 fui:transition-colors fui:select-none fui:hover:ring-4 fui:focus-visible:ring-4 fui:focus-visible:outline-hidden fui:disabled:pointer-events-none fui:disabled:opacity-50"
 					/>
 				))}
 			</SliderPrimitive.Control>

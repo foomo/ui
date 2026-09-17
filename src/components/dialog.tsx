@@ -30,7 +30,7 @@ function DialogOverlay({
 		<DialogPrimitive.Backdrop
 			data-slot="dialog-overlay"
 			className={cn(
-				"lib:fixed lib:inset-0 lib:isolate lib:z-50 lib:bg-black/80 lib:duration-100 lib:supports-backdrop-filter:backdrop-blur-xs lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-closed:animate-out lib:data-closed:fade-out-0",
+				"fui:fixed fui:inset-0 fui:isolate fui:z-50 fui:bg-black/80 fui:duration-100 fui:supports-backdrop-filter:backdrop-blur-xs fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-closed:animate-out fui:data-closed:fade-out-0",
 				className,
 			)}
 			{...props}
@@ -52,7 +52,7 @@ function DialogContent({
 			<DialogPrimitive.Popup
 				data-slot="dialog-content"
 				className={cn(
-					"lib:fixed lib:top-1/2 lib:left-1/2 lib:z-50 lib:grid lib:w-full lib:max-w-[calc(100%-2rem)] lib:-translate-x-1/2 lib:-translate-y-1/2 lib:gap-6 lib:rounded-4xl lib:bg-popover lib:p-6 lib:text-sm lib:text-popover-foreground lib:ring-1 lib:ring-foreground/5 lib:duration-100 lib:outline-none lib:sm:max-w-md lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95",
+					"fui:fixed fui:top-1/2 fui:left-1/2 fui:z-50 fui:grid fui:w-full fui:max-w-[calc(100%-2rem)] fui:-translate-x-1/2 fui:-translate-y-1/2 fui:gap-6 fui:rounded-4xl fui:bg-popover fui:p-6 fui:text-sm fui:text-popover-foreground fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:outline-none fui:sm:max-w-md fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95",
 					className,
 				)}
 				{...props}
@@ -64,13 +64,13 @@ function DialogContent({
 						render={
 							<Button
 								variant="ghost"
-								className="lib:absolute lib:top-4 lib:right-4"
+								className="fui:absolute fui:top-4 fui:right-4"
 								size="icon-sm"
 							/>
 						}
 					>
 						<XIcon />
-						<span className="lib:sr-only">Close</span>
+						<span className="fui:sr-only">Close</span>
 					</DialogPrimitive.Close>
 				)}
 			</DialogPrimitive.Popup>
@@ -82,7 +82,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="dialog-header"
-			className={cn("lib:flex lib:flex-col lib:gap-2", className)}
+			className={cn("fui:flex fui:flex-col fui:gap-2", className)}
 			{...props}
 		/>
 	);
@@ -100,7 +100,7 @@ function DialogFooter({
 		<div
 			data-slot="dialog-footer"
 			className={cn(
-				"lib:flex lib:flex-col-reverse lib:gap-2 lib:sm:flex-row lib:sm:justify-end",
+				"fui:flex fui:flex-col-reverse fui:gap-2 fui:sm:flex-row fui:sm:justify-end",
 				className,
 			)}
 			{...props}
@@ -120,7 +120,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
 		<DialogPrimitive.Title
 			data-slot="dialog-title"
 			className={cn(
-				"lib:font-heading lib:text-base lib:leading-none lib:font-medium",
+				"fui:font-heading fui:text-base fui:leading-none fui:font-medium",
 				className,
 			)}
 			{...props}
@@ -136,7 +136,7 @@ function DialogDescription({
 		<DialogPrimitive.Description
 			data-slot="dialog-description"
 			className={cn(
-				"lib:text-sm lib:text-muted-foreground lib:*:[a]:underline lib:*:[a]:underline-offset-3 lib:*:[a]:hover:text-foreground",
+				"fui:text-sm fui:text-muted-foreground fui:*:[a]:underline fui:*:[a]:underline-offset-3 fui:*:[a]:hover:text-foreground",
 				className,
 			)}
 			{...props}

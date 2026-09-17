@@ -20,7 +20,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
 		<ol
 			data-slot="breadcrumb-list"
 			className={cn(
-				"lib:flex lib:flex-wrap lib:items-center lib:gap-1.5 lib:text-sm lib:wrap-break-word lib:text-muted-foreground lib:sm:gap-2.5",
+				"fui:flex fui:flex-wrap fui:items-center fui:gap-1.5 fui:text-sm fui:wrap-break-word fui:text-muted-foreground fui:sm:gap-2.5",
 				className,
 			)}
 			{...props}
@@ -32,7 +32,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 	return (
 		<li
 			data-slot="breadcrumb-item"
-			className={cn("lib:inline-flex lib:items-center lib:gap-1.5", className)}
+			className={cn("fui:inline-flex fui:items-center fui:gap-1.5", className)}
 			{...props}
 		/>
 	);
@@ -48,7 +48,7 @@ function BreadcrumbLink({
 		props: mergeProps<"a">(
 			{
 				className: cn(
-					"lib:transition-colors lib:hover:text-foreground",
+					"fui:transition-colors fui:hover:text-foreground",
 					className,
 				),
 			},
@@ -68,7 +68,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
 			role="link"
 			aria-disabled="true"
 			aria-current="page"
-			className={cn("lib:font-normal lib:text-foreground", className)}
+			className={cn("fui:font-normal fui:text-foreground", className)}
 			{...props}
 		/>
 	);
@@ -84,7 +84,7 @@ function BreadcrumbSeparator({
 			data-slot="breadcrumb-separator"
 			role="presentation"
 			aria-hidden="true"
-			className={cn("lib:[&>svg]:size-3.5", className)}
+			className={cn("fui:[&>svg]:size-3.5", className)}
 			{...props}
 		>
 			{children ?? <ChevronRightIcon />}
@@ -102,13 +102,13 @@ function BreadcrumbEllipsis({
 			role="presentation"
 			aria-hidden="true"
 			className={cn(
-				"lib:flex lib:size-5 lib:items-center lib:justify-center lib:[&>svg]:size-4",
+				"fui:flex fui:size-5 fui:items-center fui:justify-center fui:[&>svg]:size-4",
 				className,
 			)}
 			{...props}
 		>
 			<MoreHorizontalIcon />
-			<span className="lib:sr-only">More</span>
+			<span className="fui:sr-only">More</span>
 		</span>
 	);
 }

@@ -14,7 +14,7 @@ function Avatar({
 			data-slot="avatar"
 			data-size={size}
 			className={cn(
-				"lib:group/avatar lib:relative lib:flex lib:size-8 lib:shrink-0 lib:rounded-full lib:select-none lib:after:absolute lib:after:inset-0 lib:after:rounded-full lib:after:border lib:after:border-border lib:after:mix-blend-darken lib:data-[size=lg]:size-10 lib:data-[size=sm]:size-6 lib:dark:after:mix-blend-lighten",
+				"fui:group/avatar fui:relative fui:flex fui:size-8 fui:shrink-0 fui:rounded-full fui:select-none fui:after:absolute fui:after:inset-0 fui:after:rounded-full fui:after:border fui:after:border-border fui:after:mix-blend-darken fui:data-[size=lg]:size-10 fui:data-[size=sm]:size-6 fui:dark:after:mix-blend-lighten",
 				className,
 			)}
 			{...props}
@@ -27,7 +27,7 @@ function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
 		<AvatarPrimitive.Image
 			data-slot="avatar-image"
 			className={cn(
-				"lib:aspect-square lib:size-full lib:rounded-full lib:object-cover",
+				"fui:aspect-square fui:size-full fui:rounded-full fui:object-cover",
 				className,
 			)}
 			{...props}
@@ -43,7 +43,7 @@ function AvatarFallback({
 		<AvatarPrimitive.Fallback
 			data-slot="avatar-fallback"
 			className={cn(
-				"lib:flex lib:size-full lib:items-center lib:justify-center lib:rounded-full lib:bg-muted lib:text-sm lib:text-muted-foreground lib:group-data-[size=sm]/avatar:text-xs",
+				"fui:flex fui:size-full fui:items-center fui:justify-center fui:rounded-full fui:bg-muted fui:text-sm fui:text-muted-foreground fui:group-data-[size=sm]/avatar:text-xs",
 				className,
 			)}
 			{...props}
@@ -56,10 +56,10 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
 		<span
 			data-slot="avatar-badge"
 			className={cn(
-				"lib:absolute lib:right-0 lib:bottom-0 lib:z-10 lib:inline-flex lib:items-center lib:justify-center lib:rounded-full lib:bg-primary lib:text-primary-foreground lib:bg-blend-color lib:ring-2 lib:ring-background lib:select-none",
-				"lib:group-data-[size=sm]/avatar:size-2 lib:group-data-[size=sm]/avatar:[&>svg]:hidden",
-				"lib:group-data-[size=default]/avatar:size-2.5 lib:group-data-[size=default]/avatar:[&>svg]:size-2",
-				"lib:group-data-[size=lg]/avatar:size-3 lib:group-data-[size=lg]/avatar:[&>svg]:size-2",
+				"fui:absolute fui:right-0 fui:bottom-0 fui:z-10 fui:inline-flex fui:items-center fui:justify-center fui:rounded-full fui:bg-primary fui:text-primary-foreground fui:bg-blend-color fui:ring-2 fui:ring-background fui:select-none",
+				"fui:group-data-[size=sm]/avatar:size-2 fui:group-data-[size=sm]/avatar:[&>svg]:hidden",
+				"fui:group-data-[size=default]/avatar:size-2.5 fui:group-data-[size=default]/avatar:[&>svg]:size-2",
+				"fui:group-data-[size=lg]/avatar:size-3 fui:group-data-[size=lg]/avatar:[&>svg]:size-2",
 				className,
 			)}
 			{...props}
@@ -72,7 +72,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="avatar-group"
 			className={cn(
-				"lib:group/avatar-group lib:flex lib:-space-x-2 lib:*:data-[slot=avatar]:ring-2 lib:*:data-[slot=avatar]:ring-background",
+				"fui:group/avatar-group fui:flex fui:-space-x-2 fui:*:data-[slot=avatar]:ring-2 fui:*:data-[slot=avatar]:ring-background",
 				className,
 			)}
 			{...props}
@@ -88,7 +88,7 @@ function AvatarGroupCount({
 		<div
 			data-slot="avatar-group-count"
 			className={cn(
-				"lib:relative lib:flex lib:size-8 lib:shrink-0 lib:items-center lib:justify-center lib:rounded-full lib:bg-muted lib:text-sm lib:text-muted-foreground lib:ring-2 lib:ring-background lib:group-has-data-[size=lg]/avatar-group:size-10 lib:group-has-data-[size=sm]/avatar-group:size-6 lib:[&>svg]:size-4 lib:group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 lib:group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
+				"fui:relative fui:flex fui:size-8 fui:shrink-0 fui:items-center fui:justify-center fui:rounded-full fui:bg-muted fui:text-sm fui:text-muted-foreground fui:ring-2 fui:ring-background fui:group-has-data-[size=lg]/avatar-group:size-10 fui:group-has-data-[size=sm]/avatar-group:size-6 fui:[&>svg]:size-4 fui:group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 fui:group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
 				className,
 			)}
 			{...props}

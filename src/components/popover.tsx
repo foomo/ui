@@ -29,12 +29,12 @@ function PopoverContent({
 				alignOffset={alignOffset}
 				side={side}
 				sideOffset={sideOffset}
-				className="lib:isolate lib:z-50"
+				className="fui:isolate fui:z-50"
 			>
 				<PopoverPrimitive.Popup
 					data-slot="popover-content"
 					className={cn(
-						"lib:z-50 lib:flex lib:w-72 lib:origin-(--transform-origin) lib:flex-col lib:gap-4 lib:rounded-2xl lib:bg-popover lib:p-4 lib:text-sm lib:text-popover-foreground lib:shadow-2xl lib:ring-1 lib:ring-foreground/5 lib:outline-hidden lib:duration-100 lib:data-[side=bottom]:slide-in-from-top-2 lib:data-[side=inline-end]:slide-in-from-left-2 lib:data-[side=inline-start]:slide-in-from-right-2 lib:data-[side=left]:slide-in-from-right-2 lib:data-[side=right]:slide-in-from-left-2 lib:data-[side=top]:slide-in-from-bottom-2 lib:data-open:animate-in lib:data-open:fade-in-0 lib:data-open:zoom-in-95 lib:data-closed:animate-out lib:data-closed:fade-out-0 lib:data-closed:zoom-out-95",
+						"fui:z-50 fui:flex fui:w-72 fui:origin-(--transform-origin) fui:flex-col fui:gap-4 fui:rounded-2xl fui:bg-popover fui:p-4 fui:text-sm fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:outline-hidden fui:duration-100 fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95",
 						className,
 					)}
 					{...props}
@@ -48,7 +48,7 @@ function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="popover-header"
-			className={cn("lib:flex lib:flex-col lib:gap-1 lib:text-sm", className)}
+			className={cn("fui:flex fui:flex-col fui:gap-1 fui:text-sm", className)}
 			{...props}
 		/>
 	);
@@ -58,7 +58,7 @@ function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
 	return (
 		<PopoverPrimitive.Title
 			data-slot="popover-title"
-			className={cn("lib:text-base lib:font-medium", className)}
+			className={cn("fui:text-base fui:font-medium", className)}
 			{...props}
 		/>
 	);
@@ -71,7 +71,7 @@ function PopoverDescription({
 	return (
 		<PopoverPrimitive.Description
 			data-slot="popover-description"
-			className={cn("lib:text-muted-foreground", className)}
+			className={cn("fui:text-muted-foreground", className)}
 			{...props}
 		/>
 	);

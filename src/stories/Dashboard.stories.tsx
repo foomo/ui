@@ -195,10 +195,6 @@ import {
 	TooltipTrigger,
 } from "../components/tooltip";
 
-/* -------------------------------------------------------------------------- */
-/*                                    data                                    */
-/* -------------------------------------------------------------------------- */
-
 const revenueByMonth = [
 	{ month: "Jan", revenue: 18600, expenses: 11400 },
 	{ month: "Feb", revenue: 30500, expenses: 14200 },
@@ -457,10 +453,6 @@ const stats = [
 	},
 ];
 
-/* -------------------------------------------------------------------------- */
-/*                                   sidebar                                  */
-/* -------------------------------------------------------------------------- */
-
 function AppSidebar() {
 	return (
 		<Sidebar collapsible="icon" variant="inset">
@@ -471,22 +463,22 @@ function AppSidebar() {
 							<DropdownMenuTrigger
 								render={
 									<SidebarMenuButton size="lg" tooltip="Switch workspace">
-										<div className="lib:flex lib:aspect-square lib:size-8 lib:items-center lib:justify-center lib:rounded-lg lib:bg-sidebar-primary lib:text-sidebar-primary-foreground">
-											<Building2 className="lib:size-4" />
+										<div className="fui:flex fui:aspect-square fui:size-8 fui:items-center fui:justify-center fui:rounded-lg fui:bg-sidebar-primary fui:text-sidebar-primary-foreground">
+											<Building2 className="fui:size-4" />
 										</div>
-										<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
-											<span className="lib:truncate lib:font-medium">
+										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
+											<span className="fui:truncate fui:font-medium">
 												Foomo Inc.
 											</span>
-											<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
+											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
 												Enterprise
 											</span>
 										</div>
-										<ChevronsUpDown className="lib:ml-auto lib:size-4" />
+										<ChevronsUpDown className="fui:ml-auto fui:size-4" />
 									</SidebarMenuButton>
 								}
 							/>
-							<DropdownMenuContent align="start" className="lib:w-56">
+							<DropdownMenuContent align="start" className="fui:w-56">
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
 									<DropdownMenuItem>
@@ -530,14 +522,14 @@ function AppSidebar() {
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 
-						<Collapsible defaultOpen className="lib:group/collapsible">
+						<Collapsible defaultOpen className="fui:group/collapsible">
 							<SidebarMenuItem>
 								<CollapsibleTrigger
 									render={
 										<SidebarMenuButton tooltip="Projects">
 											<Package />
 											<span>Projects</span>
-											<ChevronRight className="lib:ml-auto lib:size-4 lib:transition-transform lib:duration-200 lib:group-data-open/collapsible:rotate-90" />
+											<ChevronRight className="fui:ml-auto fui:size-4 fui:transition-transform fui:duration-200 fui:group-data-open/collapsible:rotate-90" />
 										</SidebarMenuButton>
 									}
 								/>
@@ -620,27 +612,27 @@ function AppSidebar() {
 							<DropdownMenuTrigger
 								render={
 									<SidebarMenuButton size="lg" tooltip="Account">
-										<Avatar className="lib:size-8 lib:rounded-lg">
-											<AvatarFallback className="lib:rounded-lg">
+										<Avatar className="fui:size-8 fui:rounded-lg">
+											<AvatarFallback className="fui:rounded-lg">
 												LB
 											</AvatarFallback>
 										</Avatar>
-										<div className="lib:grid lib:flex-1 lib:text-left lib:text-sm lib:leading-tight">
-											<span className="lib:truncate lib:font-medium">
+										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
+											<span className="fui:truncate fui:font-medium">
 												Lena Brandt
 											</span>
-											<span className="lib:truncate lib:text-xs lib:text-sidebar-foreground/70">
+											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
 												lena@foomo.org
 											</span>
 										</div>
-										<ChevronsUpDown className="lib:ml-auto lib:size-4" />
+										<ChevronsUpDown className="fui:ml-auto fui:size-4" />
 									</SidebarMenuButton>
 								}
 							/>
 							<DropdownMenuContent
 								side="top"
 								align="start"
-								className="lib:w-56"
+								className="fui:w-56"
 							>
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>My account</DropdownMenuLabel>
@@ -678,20 +670,16 @@ function AppSidebar() {
 	);
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   header                                   */
-/* -------------------------------------------------------------------------- */
-
 function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 	return (
-		<header className="lib:sticky lib:top-0 lib:z-10 lib:flex lib:h-16 lib:shrink-0 lib:items-center lib:gap-2 lib:border-b lib:bg-background/80 lib:px-4 lib:backdrop-blur">
-			<SidebarTrigger className="lib:-ml-1" />
+		<header className="fui:sticky fui:top-0 fui:z-10 fui:flex fui:h-16 fui:shrink-0 fui:items-center fui:gap-2 fui:border-b fui:bg-background/80 fui:px-4 fui:backdrop-blur">
+			<SidebarTrigger className="fui:-ml-1" />
 			<Separator
 				orientation="vertical"
-				className="lib:mr-2 lib:h-4 lib:self-center!"
+				className="fui:mr-2 fui:h-4 fui:self-center!"
 			/>
 
-			<Breadcrumb className="lib:hidden lib:md:block">
+			<Breadcrumb className="fui:hidden fui:md:block">
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href="#">Foomo Inc.</BreadcrumbLink>
@@ -703,15 +691,15 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 				</BreadcrumbList>
 			</Breadcrumb>
 
-			<div className="lib:ml-auto lib:flex lib:items-center lib:gap-2">
+			<div className="fui:ml-auto fui:flex fui:items-center fui:gap-2">
 				<Button
 					variant="outline"
 					onClick={onOpenCommand}
-					className="lib:hidden lib:w-64 lib:justify-start lib:font-normal lib:text-muted-foreground lib:lg:inline-flex"
+					className="fui:hidden fui:w-64 fui:justify-start fui:font-normal fui:text-muted-foreground fui:lg:inline-flex"
 				>
 					<Search data-icon="inline-start" />
 					<span>Search everything…</span>
-					<KbdGroup className="lib:ml-auto">
+					<KbdGroup className="fui:ml-auto">
 						<Kbd>⌘</Kbd>
 						<Kbd>K</Kbd>
 					</KbdGroup>
@@ -724,10 +712,10 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 								variant="ghost"
 								size="icon"
 								onClick={onOpenCommand}
-								className="lib:lg:hidden"
+								className="fui:lg:hidden"
 							>
 								<CommandIcon />
-								<span className="lib:sr-only">Open command palette</span>
+								<span className="fui:sr-only">Open command palette</span>
 							</Button>
 						}
 					/>
@@ -738,20 +726,20 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 
 				<Separator
 					orientation="vertical"
-					className="lib:h-4 lib:self-center!"
+					className="fui:h-4 fui:self-center!"
 				/>
 
 				<DropdownMenu>
 					<DropdownMenuTrigger
 						render={
-							<Button variant="ghost" size="icon" className="lib:rounded-full">
-								<Avatar className="lib:size-7">
+							<Button variant="ghost" size="icon" className="fui:rounded-full">
+								<Avatar className="fui:size-7">
 									<AvatarFallback>LB</AvatarFallback>
 								</Avatar>
 							</Button>
 						}
 					/>
-					<DropdownMenuContent align="end" className="lib:w-56">
+					<DropdownMenuContent align="end" className="fui:w-56">
 						<DropdownMenuGroup>
 							<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
 						</DropdownMenuGroup>
@@ -807,16 +795,16 @@ function NotificationsMenu() {
 		<DropdownMenu>
 			<DropdownMenuTrigger
 				render={
-					<Button variant="ghost" size="icon" className="lib:relative">
+					<Button variant="ghost" size="icon" className="fui:relative">
 						<Bell />
-						<span className="lib:absolute lib:top-1.5 lib:right-1.5 lib:size-2 lib:rounded-full lib:bg-destructive" />
-						<span className="lib:sr-only">Notifications</span>
+						<span className="fui:absolute fui:top-1.5 fui:right-1.5 fui:size-2 fui:rounded-full fui:bg-destructive" />
+						<span className="fui:sr-only">Notifications</span>
 					</Button>
 				}
 			/>
-			<DropdownMenuContent align="end" className="lib:w-80 lib:p-0">
-				<div className="lib:flex lib:items-center lib:justify-between lib:px-3 lib:py-2">
-					<span className="lib:text-sm lib:font-medium">Notifications</span>
+			<DropdownMenuContent align="end" className="fui:w-80 fui:p-0">
+				<div className="fui:flex fui:items-center fui:justify-between fui:px-3 fui:py-2">
+					<span className="fui:text-sm fui:font-medium">Notifications</span>
 					<Badge variant="secondary">3 new</Badge>
 				</div>
 				<Separator />
@@ -831,7 +819,7 @@ function NotificationsMenu() {
 								<ItemDescription>{notification.body}</ItemDescription>
 							</ItemContent>
 							<ItemActions>
-								<span className="lib:text-xs lib:text-muted-foreground">
+								<span className="fui:text-xs fui:text-muted-foreground">
 									{notification.time}
 								</span>
 							</ItemActions>
@@ -843,24 +831,20 @@ function NotificationsMenu() {
 	);
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                  sections                                  */
-/* -------------------------------------------------------------------------- */
-
 function StatCards() {
 	return (
-		<div className="lib:grid lib:gap-4 lib:sm:grid-cols-2 lib:xl:grid-cols-4">
+		<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
 			{stats.map((stat) => (
 				<Card key={stat.label} size="sm">
 					<CardHeader>
 						<CardDescription>{stat.label}</CardDescription>
 						<CardAction>
-							<stat.icon className="lib:size-4 lib:text-muted-foreground" />
+							<stat.icon className="fui:size-4 fui:text-muted-foreground" />
 						</CardAction>
 					</CardHeader>
-					<CardContent className="lib:flex lib:flex-col lib:gap-3">
-						<div className="lib:flex lib:items-center lib:gap-2">
-							<span className="lib:font-heading lib:text-2xl lib:font-medium lib:tabular-nums">
+					<CardContent className="fui:flex fui:flex-col fui:gap-3">
+						<div className="fui:flex fui:items-center fui:gap-2">
+							<span className="fui:font-heading fui:text-2xl fui:font-medium fui:tabular-nums">
 								{stat.value}
 							</span>
 							<Badge variant="secondary">
@@ -872,8 +856,8 @@ function StatCards() {
 								{stat.delta}
 							</Badge>
 						</div>
-						<Progress value={stat.progress} className="lib:h-1.5" />
-						<p className="lib:text-xs lib:text-muted-foreground">{stat.hint}</p>
+						<Progress value={stat.progress} className="fui:h-1.5" />
+						<p className="fui:text-xs fui:text-muted-foreground">{stat.hint}</p>
 					</CardContent>
 				</Card>
 			))}
@@ -883,13 +867,13 @@ function StatCards() {
 
 function RevenueChartCard() {
 	return (
-		<Card className="lib:xl:col-span-4">
+		<Card className="fui:xl:col-span-4">
 			<CardHeader>
 				<CardTitle>Revenue vs. expenses</CardTitle>
 				<CardDescription>Rolling nine months, EUR</CardDescription>
 				<CardAction>
 					<Select defaultValue="9m">
-						<SelectTrigger className="lib:w-36" size="sm">
+						<SelectTrigger className="fui:w-36" size="sm">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -905,7 +889,7 @@ function RevenueChartCard() {
 			<CardContent>
 				<ChartContainer
 					config={revenueChartConfig}
-					className="lib:aspect-auto lib:h-[260px] lib:w-full"
+					className="fui:aspect-auto fui:h-[260px] fui:w-full"
 				>
 					<AreaChart data={revenueByMonth} margin={{ left: 4, right: 4 }}>
 						<defs>
@@ -975,20 +959,20 @@ function RevenueChartCard() {
 
 function ActivityCard() {
 	return (
-		<Card className="lib:xl:col-span-3">
+		<Card className="fui:xl:col-span-3">
 			<CardHeader>
 				<CardTitle>Recent activity</CardTitle>
 				<CardDescription>Last 24 hours across all workspaces</CardDescription>
 			</CardHeader>
-			<CardContent className="lib:px-0">
-				<ScrollArea className="lib:h-[260px]">
-					<ItemGroup className="lib:px-4">
+			<CardContent className="fui:px-0">
+				<ScrollArea className="fui:h-[260px]">
+					<ItemGroup className="fui:px-4">
 						{recentActivity.map((entry, index) => (
 							<React.Fragment key={entry.name}>
 								{index > 0 && <ItemSeparator />}
-								<Item size="sm" className="lib:px-0">
+								<Item size="sm" className="fui:px-0">
 									<ItemMedia>
-										<Avatar className="lib:size-8">
+										<Avatar className="fui:size-8">
 											<AvatarFallback>{entry.initials}</AvatarFallback>
 										</Avatar>
 									</ItemMedia>
@@ -996,11 +980,11 @@ function ActivityCard() {
 										<ItemTitle>{entry.name}</ItemTitle>
 										<ItemDescription>{entry.action}</ItemDescription>
 									</ItemContent>
-									<ItemActions className="lib:flex-col lib:items-end lib:gap-0.5">
-										<span className="lib:text-sm lib:font-medium lib:tabular-nums">
+									<ItemActions className="fui:flex-col fui:items-end fui:gap-0.5">
+										<span className="fui:text-sm fui:font-medium fui:tabular-nums">
 											{entry.amount}
 										</span>
-										<span className="lib:text-xs lib:text-muted-foreground">
+										<span className="fui:text-xs fui:text-muted-foreground">
 											{entry.time}
 										</span>
 									</ItemActions>
@@ -1011,7 +995,7 @@ function ActivityCard() {
 				</ScrollArea>
 			</CardContent>
 			<CardFooter>
-				<Button variant="outline" size="sm" className="lib:w-full">
+				<Button variant="outline" size="sm" className="fui:w-full">
 					View all activity
 				</Button>
 			</CardFooter>
@@ -1027,7 +1011,7 @@ const orderColumns = [
 		header: ({ column: col }) => (
 			<DataTableColumnHeader column={col} title="Invoice" />
 		),
-		cell: (info) => <span className="lib:font-medium">{info.getValue()}</span>,
+		cell: (info) => <span className="fui:font-medium">{info.getValue()}</span>,
 		sortFn: "text",
 	}),
 	column.accessor("customer", {
@@ -1035,15 +1019,15 @@ const orderColumns = [
 			<DataTableColumnHeader column={col} title="Customer" />
 		),
 		cell: ({ row }) => (
-			<div className="lib:flex lib:items-center lib:gap-2">
-				<Avatar className="lib:size-6">
-					<AvatarFallback className="lib:text-[10px]">
+			<div className="fui:flex fui:items-center fui:gap-2">
+				<Avatar className="fui:size-6">
+					<AvatarFallback className="fui:text-[10px]">
 						{initials(row.original.customer)}
 					</AvatarFallback>
 				</Avatar>
-				<div className="lib:leading-tight">
+				<div className="fui:leading-tight">
 					<div>{row.original.customer}</div>
-					<div className="lib:text-xs lib:text-muted-foreground">
+					<div className="fui:text-xs fui:text-muted-foreground">
 						{row.original.email}
 					</div>
 				</div>
@@ -1065,7 +1049,7 @@ const orderColumns = [
 		cell: (info) => (
 			<Badge
 				variant={statusVariant[info.getValue()]}
-				className="lib:capitalize"
+				className="fui:capitalize"
 			>
 				{info.getValue()}
 			</Badge>
@@ -1080,7 +1064,7 @@ const orderColumns = [
 			<DataTableColumnHeader column={col} title="Date" />
 		),
 		cell: (info) => (
-			<span className="lib:whitespace-nowrap lib:text-muted-foreground">
+			<span className="fui:whitespace-nowrap fui:text-muted-foreground">
 				{shortDate.format(info.getValue())}
 			</span>
 		),
@@ -1091,7 +1075,7 @@ const orderColumns = [
 			<DataTableColumnHeader column={col} title="Amount" align="end" />
 		),
 		cell: (info) => (
-			<div className="lib:text-right lib:tabular-nums">
+			<div className="fui:text-right fui:tabular-nums">
 				{currency.format(info.getValue())}
 			</div>
 		),
@@ -1105,11 +1089,11 @@ const orderColumns = [
 					render={
 						<Button variant="ghost" size="icon-sm">
 							<Ellipsis />
-							<span className="lib:sr-only">Actions for {row.original.id}</span>
+							<span className="fui:sr-only">Actions for {row.original.id}</span>
 						</Button>
 					}
 				/>
-				<DropdownMenuContent align="end" className="lib:w-44">
+				<DropdownMenuContent align="end" className="fui:w-44">
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
 							<Eye />
@@ -1147,7 +1131,7 @@ function OrdersTableCard() {
 						: "Sortable, filterable and paginated with TanStack Table"}
 				</CardDescription>
 				<CardAction>
-					<div className="lib:flex lib:items-center lib:gap-2">
+					<div className="fui:flex fui:items-center fui:gap-2">
 						<Button variant="outline" size="sm">
 							<Download data-icon="inline-start" />
 							Export
@@ -1220,7 +1204,7 @@ function NewProjectDialog() {
 					</Button>
 				}
 			/>
-			<DialogContent className="lib:sm:max-w-lg">
+			<DialogContent className="fui:sm:max-w-lg">
 				<DialogHeader>
 					<DialogTitle>Create project</DialogTitle>
 					<DialogDescription>
@@ -1287,8 +1271,8 @@ const goals = [
 
 function AnalyticsTab() {
 	return (
-		<div className="lib:grid lib:gap-4 lib:xl:grid-cols-7">
-			<Card className="lib:xl:col-span-4">
+		<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
+			<Card className="fui:xl:col-span-4">
 				<CardHeader>
 					<CardTitle>Traffic by source</CardTitle>
 					<CardDescription>Unique visitors, last 30 days</CardDescription>
@@ -1296,7 +1280,7 @@ function AnalyticsTab() {
 				<CardContent>
 					<ChartContainer
 						config={trafficChartConfig}
-						className="lib:aspect-auto lib:h-[240px] lib:w-full"
+						className="fui:aspect-auto fui:h-[240px] fui:w-full"
 					>
 						<BarChart data={trafficBySource} margin={{ left: 4, right: 4 }}>
 							<CartesianGrid vertical={false} />
@@ -1318,20 +1302,20 @@ function AnalyticsTab() {
 				</CardContent>
 			</Card>
 
-			<Card className="lib:xl:col-span-3">
+			<Card className="fui:xl:col-span-3">
 				<CardHeader>
 					<CardTitle>Quarterly goals</CardTitle>
 					<CardDescription>Progress toward Q3 targets</CardDescription>
 				</CardHeader>
-				<CardContent className="lib:flex lib:flex-col lib:gap-5">
+				<CardContent className="fui:flex fui:flex-col fui:gap-5">
 					{goals.map((goal) => (
 						<div
 							key={goal.label}
-							className="lib:flex lib:flex-col lib:gap-2 lib:text-sm"
+							className="fui:flex fui:flex-col fui:gap-2 fui:text-sm"
 						>
-							<div className="lib:flex lib:items-center lib:justify-between">
+							<div className="fui:flex fui:items-center fui:justify-between">
 								<span>{goal.label}</span>
-								<span className="lib:tabular-nums lib:text-muted-foreground">
+								<span className="fui:tabular-nums fui:text-muted-foreground">
 									{goal.value}%
 								</span>
 							</div>
@@ -1372,7 +1356,7 @@ function ReportsTab() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ItemGroup className="lib:gap-2">
+				<ItemGroup className="fui:gap-2">
 					{reports.map((report) => (
 						<Item key={report.title} variant="outline">
 							<ItemMedia variant="icon">
@@ -1404,7 +1388,7 @@ function AuditTab() {
 				<CardDescription>No events recorded in this range.</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<Empty className="lib:border">
+				<Empty className="fui:border">
 					<EmptyHeader>
 						<EmptyMedia variant="icon">
 							<Inbox />
@@ -1525,46 +1509,46 @@ function InviteDialog() {
 
 function LoadingSkeleton() {
 	return (
-		<div className="lib:flex lib:flex-col lib:gap-4">
-			<div className="lib:grid lib:gap-4 lib:sm:grid-cols-2 lib:xl:grid-cols-4">
+		<div className="fui:flex fui:flex-col fui:gap-4">
+			<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
 				{stats.map((stat) => (
 					<Card key={stat.label} size="sm">
 						<CardHeader>
-							<Skeleton className="lib:h-4 lib:w-24" />
+							<Skeleton className="fui:h-4 fui:w-24" />
 						</CardHeader>
-						<CardContent className="lib:flex lib:flex-col lib:gap-3">
-							<Skeleton className="lib:h-7 lib:w-32" />
-							<Skeleton className="lib:h-1.5 lib:w-full" />
-							<Skeleton className="lib:h-3 lib:w-40" />
+						<CardContent className="fui:flex fui:flex-col fui:gap-3">
+							<Skeleton className="fui:h-7 fui:w-32" />
+							<Skeleton className="fui:h-1.5 fui:w-full" />
+							<Skeleton className="fui:h-3 fui:w-40" />
 						</CardContent>
 					</Card>
 				))}
 			</div>
-			<div className="lib:grid lib:gap-4 lib:xl:grid-cols-7">
-				<Card className="lib:xl:col-span-4">
+			<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
+				<Card className="fui:xl:col-span-4">
 					<CardHeader>
-						<Skeleton className="lib:h-5 lib:w-48" />
+						<Skeleton className="fui:h-5 fui:w-48" />
 					</CardHeader>
 					<CardContent>
-						<Skeleton className="lib:h-[260px] lib:w-full" />
+						<Skeleton className="fui:h-[260px] fui:w-full" />
 					</CardContent>
 				</Card>
-				<Card className="lib:xl:col-span-3">
+				<Card className="fui:xl:col-span-3">
 					<CardHeader>
-						<Skeleton className="lib:h-5 lib:w-36" />
+						<Skeleton className="fui:h-5 fui:w-36" />
 					</CardHeader>
-					<CardContent className="lib:flex lib:flex-col lib:gap-4">
+					<CardContent className="fui:flex fui:flex-col fui:gap-4">
 						{recentActivity.map((entry) => (
 							<div
 								key={entry.name}
-								className="lib:flex lib:items-center lib:gap-3"
+								className="fui:flex fui:items-center fui:gap-3"
 							>
-								<Skeleton className="lib:size-8 lib:rounded-full" />
-								<div className="lib:flex lib:flex-1 lib:flex-col lib:gap-1.5">
-									<Skeleton className="lib:h-3.5 lib:w-32" />
-									<Skeleton className="lib:h-3 lib:w-48" />
+								<Skeleton className="fui:size-8 fui:rounded-full" />
+								<div className="fui:flex fui:flex-1 fui:flex-col fui:gap-1.5">
+									<Skeleton className="fui:h-3.5 fui:w-32" />
+									<Skeleton className="fui:h-3 fui:w-48" />
 								</div>
-								<Skeleton className="lib:h-3.5 lib:w-16" />
+								<Skeleton className="fui:h-3.5 fui:w-16" />
 							</div>
 						))}
 					</CardContent>
@@ -1573,10 +1557,6 @@ function LoadingSkeleton() {
 		</div>
 	);
 }
-
-/* -------------------------------------------------------------------------- */
-/*                                    page                                    */
-/* -------------------------------------------------------------------------- */
 
 type DashboardProps = {
 	/** Start with the sidebar collapsed to icons. */
@@ -1607,17 +1587,17 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 				<SidebarInset>
 					<DashboardHeader onOpenCommand={() => setCommandOpen(true)} />
 
-					<div className="lib:flex lib:flex-1 lib:flex-col lib:gap-4 lib:p-4 lib:md:p-6">
-						<div className="lib:flex lib:flex-wrap lib:items-center lib:justify-between lib:gap-3">
-							<div className="lib:flex lib:flex-col lib:gap-1">
-								<h1 className="lib:font-heading lib:text-xl lib:font-medium">
+					<div className="fui:flex fui:flex-1 fui:flex-col fui:gap-4 fui:p-4 fui:md:p-6">
+						<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
+							<div className="fui:flex fui:flex-col fui:gap-1">
+								<h1 className="fui:font-heading fui:text-xl fui:font-medium">
 									Good afternoon, Lena
 								</h1>
-								<p className="lib:text-sm lib:text-muted-foreground">
+								<p className="fui:text-sm fui:text-muted-foreground">
 									Here is what happened across Foomo Inc. today.
 								</p>
 							</div>
-							<div className="lib:flex lib:items-center lib:gap-2">
+							<div className="fui:flex fui:items-center fui:gap-2">
 								<Button
 									variant="outline"
 									size="sm"
@@ -1651,14 +1631,14 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 								<StatCards />
 
 								<Tabs defaultValue="overview">
-									<div className="lib:flex lib:flex-wrap lib:items-center lib:justify-between lib:gap-2">
+									<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-2">
 										<TabsList>
 											<TabsTrigger value="overview">Overview</TabsTrigger>
 											<TabsTrigger value="analytics">Analytics</TabsTrigger>
 											<TabsTrigger value="reports">Reports</TabsTrigger>
 											<TabsTrigger value="audit">Audit</TabsTrigger>
 										</TabsList>
-										<span className="lib:hidden lib:items-center lib:gap-1.5 lib:text-xs lib:text-muted-foreground lib:sm:flex">
+										<span className="fui:hidden fui:items-center fui:gap-1.5 fui:text-xs fui:text-muted-foreground fui:sm:flex">
 											Press
 											<KbdGroup>
 												<Kbd>⌘</Kbd>
@@ -1670,9 +1650,9 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 
 									<TabsContent
 										value="overview"
-										className="lib:flex lib:flex-col lib:gap-4"
+										className="fui:flex fui:flex-col fui:gap-4"
 									>
-										<div className="lib:grid lib:gap-4 lib:xl:grid-cols-7">
+										<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
 											<RevenueChartCard />
 											<ActivityCard />
 										</div>
@@ -1702,10 +1682,6 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 		</TooltipProvider>
 	);
 }
-
-/* -------------------------------------------------------------------------- */
-/*                                   stories                                  */
-/* -------------------------------------------------------------------------- */
 
 const meta = {
 	title: "Showcase/Admin Dashboard",

@@ -8,7 +8,7 @@
     "css": "src/index.css",
     "baseColor": "mist",
     "cssVariables": true,
-    "prefix": "lib"
+    "prefix": "fui"
   },
   "aliases": {
     "components": "@/components",
