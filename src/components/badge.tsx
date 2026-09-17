@@ -16,8 +16,7 @@ const badgeVariants = cva(
 					"fui:bg-destructive/10 fui:text-destructive fui:focus-visible:ring-destructive/20 fui:dark:bg-destructive/20 fui:dark:focus-visible:ring-destructive/40 fui:[a]:hover:bg-destructive/20",
 				outline:
 					"fui:border-border fui:bg-input/30 fui:text-foreground fui:[a]:hover:bg-muted fui:[a]:hover:text-muted-foreground",
-				ghost:
-					"fui:hover:bg-muted fui:hover:text-muted-foreground fui:dark:hover:bg-muted/50",
+				ghost: "fui:hover:bg-muted fui:dark:hover:bg-muted/50",
 				link: "fui:text-link fui:underline-offset-4 fui:hover:underline",
 			},
 		},

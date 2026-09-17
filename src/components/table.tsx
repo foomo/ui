@@ -77,12 +77,27 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
 	);
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+/**
+ * `wrap` lets a single cell hold a long value — a description, a joined list
+ * of ids — without widening the column past the table's own horizontal
+ * scroll. A prop rather than something a `className` can undo: the library's
+ * utilities carry its own prefix, so `cn` sees a caller's plain
+ * `whitespace-normal` as a different class and keeps the nowrap too.
+ */
+function TableCell({
+	className,
+	wrap = false,
+	...props
+}: React.ComponentProps<"td"> & { wrap?: boolean }) {
 	return (
 		<td
 			data-slot="table-cell"
+			data-wrap={wrap ? "" : undefined}
 			className={cn(
-				"fui:p-3 fui:align-middle fui:whitespace-nowrap fui:[&:has([role=checkbox])]:pr-0",
+				"fui:p-3 fui:align-middle fui:[&:has([role=checkbox])]:pr-0",
+				wrap
+					? "fui:break-words fui:whitespace-normal"
+					: "fui:whitespace-nowrap",
 				className,
 			)}
 			{...props}
@@ -108,11 +123,11 @@ function TableCaption({
 
 export {
 	Table,
-	TableHeader,
 	TableBody,
+	TableCaption,
+	TableCell,
 	TableFooter,
 	TableHead,
+	TableHeader,
 	TableRow,
-	TableCell,
-	TableCaption,
 };

@@ -5,10 +5,10 @@
 @config "../tailwind.config.js";
 
 /*
- * `--font-sans` below expects "Inter Variable". The font itself is deliberately
+ * `--font-sans` below expects "Roboto Variable". The font itself is deliberately
  * NOT imported here: bundling it inlines ~400kB of base64 woff2 into ui.css and
  * forces the typeface on every consumer. Load it in the host app instead, e.g.
- * `import "@fontsource-variable/inter"`.
+ * `import "@fontsource-variable/roboto"`.
  */
 
 @custom-variant dark (&:is(.dark *));
@@ -40,6 +40,9 @@
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
 	--color-destructive: var(--destructive);
+	/* The counterpart to `--destructive`, so a component with a "this went
+	   well" state has a semantic token to reach for. */
+	--color-success: var(--success);
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
@@ -57,7 +60,7 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--font-heading: var(--font-sans);
-	--font-sans: "Inter Variable", sans-serif;
+	--font-sans: "Roboto Variable", sans-serif;
 	--radius-2xl: var(--radius);
 	--radius-3xl: var(--radius);
 	--radius-4xl: var(--radius);

@@ -23,13 +23,27 @@ type BadgeVariant = React.ComponentProps<typeof Badge>["variant"];
  *
  * `label` names what the flag means, because a tick on its own tells a screen
  * reader nothing.
+ *
+ * `tone` picks how much the glyphs say on their own:
+ *
+ * - `neutral` (default) leaves the colour to the table. Right where the flag
+ *   is a plain attribute — "Discountable", "Webshop" — and a green tick would
+ *   imply an approval that isn't being made.
+ * - `semantic` colours true with `--success` and false with `--destructive`,
+ *   for a column where true really does mean good and false really does mean
+ *   bad.
+ *
+ * A caller cannot get `semantic` by passing a `className`: the icon is
+ * rendered bare, with no element of its own to hang one on.
  */
 function BooleanCell({
 	value,
 	label,
+	tone = "neutral",
 }: {
 	value: boolean | undefined | null;
 	label: string;
+	tone?: "neutral" | "semantic";
 }) {
 	if (value === undefined || value === null) {
 		return (
@@ -43,13 +57,24 @@ function BooleanCell({
 		);
 	}
 
+	const semantic = tone === "semantic";
+
 	return (
 		<>
 			{value ? (
-				<CheckIcon className="fui:size-4 fui:text-foreground" aria-hidden />
+				<CheckIcon
+					className={cn(
+						"fui:size-4",
+						semantic ? "fui:text-success" : "fui:text-foreground",
+					)}
+					aria-hidden
+				/>
 			) : (
 				<XIcon
-					className="fui:size-4 fui:text-muted-foreground/60"
+					className={cn(
+						"fui:size-4",
+						semantic ? "fui:text-destructive" : "fui:text-muted-foreground/60",
+					)}
 					aria-hidden
 				/>
 			)}
@@ -118,14 +143,24 @@ function TagListCell({
  * Presentational only. A cell that navigates wraps this in the router's own
  * link component — taking a route as a string here would mean casting away
  * whatever type safety that router provides.
+ *
+ * `mono={false}` drops the monospace and the smaller size, for an app whose
+ * ids are words rather than digit runs and which wants them to read as body
+ * text. This has to be a prop rather than something a `className` can undo:
+ * the library's utilities carry its own prefix, so `cn` sees a caller's plain
+ * `font-sans` as a different class entirely and keeps both.
  */
 function IdCell({
 	children,
 	className,
+	mono = true,
 	...props
-}: React.ComponentProps<"span">) {
+}: React.ComponentProps<"span"> & { mono?: boolean }) {
 	return (
-		<span className={cn("fui:font-mono fui:text-xs", className)} {...props}>
+		<span
+			className={cn(mono && "fui:font-mono fui:text-xs", className)}
+			{...props}
+		>
 			{children}
 		</span>
 	);

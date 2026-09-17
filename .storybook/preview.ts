@@ -5,7 +5,7 @@ import type { Decorator, Preview } from "@storybook/react-vite";
 import "../src/index.css";
 // The library CSS intentionally does not ship the typeface (see src/index.css);
 // Storybook plays the role of the host app here.
-import "@fontsource-variable/inter";
+import "@fontsource-variable/roboto";
 // The design tokens (--background, --primary, --sidebar, --chart-1, …) live in
 // the theme files, not in index.css. Without this import every `bg-*`/`text-*`
 // utility resolves to an undefined custom property.

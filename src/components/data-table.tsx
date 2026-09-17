@@ -240,6 +240,12 @@ type DataTableProps<TData extends Record<string, any>> = Omit<
 	searchable?: boolean | string;
 	/** Show the column visibility menu. */
 	hideableColumns?: boolean;
+	/**
+	 * Height of the toolbar's own controls — the search field and the column
+	 * menu. Match it to the `size` of a `FilterBar` passed as `toolbar`, so
+	 * every control on that row shares a bottom edge.
+	 */
+	toolbarSize?: "default" | "sm";
 	/** Show pagination controls. Pass `false` to render every row. */
 	pageSize?: number | false;
 	pageSizeOptions?: number[];
@@ -313,6 +319,7 @@ function DataTable<
 	getRowId,
 	searchable = false,
 	hideableColumns = false,
+	toolbarSize = "default",
 	pageSize = 10,
 	pageSizeOptions = [5, 10, 20, 50],
 	enableRowSelection = false,
@@ -432,7 +439,12 @@ function DataTable<
 			{showToolbar && (
 				<div className="fui:flex fui:flex-wrap fui:items-end fui:gap-2">
 					{searchable !== false && (
-						<InputGroup className="fui:w-full fui:sm:w-64">
+						<InputGroup
+							className={cn(
+								"fui:w-full fui:sm:w-64",
+								toolbarSize === "sm" && "fui:h-8",
+							)}
+						>
 							<InputGroupAddon>
 								<SearchIcon />
 							</InputGroupAddon>
@@ -451,7 +463,11 @@ function DataTable<
 						<DropdownMenu>
 							<DropdownMenuTrigger
 								render={
-									<Button variant="outline" size="sm" className="fui:ml-auto">
+									<Button
+										variant="outline"
+										size={toolbarSize}
+										className="fui:ml-auto"
+									>
 										<Settings2Icon data-icon="inline-start" />
 										Columns
 									</Button>
@@ -639,14 +655,14 @@ function DataTable<
 }
 
 export {
-	DataTable,
-	DataTableColumnHeader,
 	createDataTableColumnHelper,
-	dataTableFeatures,
-	dataTableSelectColumn,
+	DataTable,
 	type DataTableColumnDef,
+	DataTableColumnHeader,
 	type DataTableFeatures,
 	type DataTableInstance,
 	type DataTableProps,
 	type DataTableRow,
+	dataTableFeatures,
+	dataTableSelectColumn,
 };

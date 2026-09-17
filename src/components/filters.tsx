@@ -40,6 +40,29 @@ type FilterOption<T extends string = string> = {
 };
 
 /**
+ * How tall the row's controls are.
+ *
+ * `default` is 36px, matching `FilterSearch`'s input; `sm` is 32px for a
+ * denser bar. Held on the row rather than passed to each control, because the
+ * one thing that must not vary is the controls *disagreeing*: a select at
+ * 32px beside an input at 36px breaks the shared bottom edge the whole
+ * layout rests on.
+ */
+type FilterSize = "default" | "sm";
+
+const FilterSizeContext = React.createContext<FilterSize>("default");
+
+function useFilterSize(): FilterSize {
+	return React.useContext(FilterSizeContext);
+}
+
+/** Height utility for a control that is not a Button or a SelectTrigger. */
+const filterControlHeight: Record<FilterSize, string> = {
+	default: "fui:h-9",
+	sm: "fui:h-8",
+};
+
+/**
  * The row of filters.
  *
  * Belongs in `DataTable`'s `toolbar` so the filters share a line with the
@@ -55,26 +78,31 @@ function FilterBar({
 	className,
 	children,
 	actions,
+	size = "default",
 }: {
 	className?: string;
 	children: React.ReactNode;
 	actions?: React.ReactNode;
+	size?: FilterSize;
 }) {
 	return (
-		<div
-			data-slot="filter-bar"
-			className={cn(
-				"fui:flex fui:flex-1 fui:flex-wrap fui:items-end fui:gap-3",
-				className,
-			)}
-		>
-			{children}
-			{actions ? (
-				<div className="fui:ml-auto fui:flex fui:items-end fui:gap-2">
-					{actions}
-				</div>
-			) : null}
-		</div>
+		<FilterSizeContext.Provider value={size}>
+			<div
+				data-slot="filter-bar"
+				data-size={size}
+				className={cn(
+					"fui:flex fui:flex-1 fui:flex-wrap fui:items-end fui:gap-3",
+					className,
+				)}
+			>
+				{children}
+				{actions ? (
+					<div className="fui:ml-auto fui:flex fui:items-end fui:gap-2">
+						{actions}
+					</div>
+				) : null}
+			</div>
+		</FilterSizeContext.Provider>
 	);
 }
 
@@ -121,6 +149,7 @@ function FilterSearch({
 	className?: string;
 }) {
 	const id = React.useId();
+	const size = useFilterSize();
 
 	return (
 		<FilterField
@@ -128,7 +157,9 @@ function FilterSearch({
 			htmlFor={id}
 			className={cn("fui:w-64", className)}
 		>
-			<InputGroup>
+			{/* InputGroup is 36px by default; the height utility below is a no-op
+			    at that size and shrinks it for a compact bar. */}
+			<InputGroup className={filterControlHeight[size]}>
 				<InputGroupAddon>
 					<SearchIcon />
 				</InputGroupAddon>
@@ -167,6 +198,7 @@ function FilterSelect<T extends string>({
 	className?: string;
 }) {
 	const id = React.useId();
+	const size = useFilterSize();
 	const items = React.useMemo(
 		() =>
 			Object.fromEntries(options.map((option) => [option.value, option.label])),
@@ -180,7 +212,11 @@ function FilterSelect<T extends string>({
 				value={value}
 				onValueChange={(next) => onValueChange(next as T)}
 			>
-				<SelectTrigger id={id} size="sm" className={cn("fui:w-44", className)}>
+				<SelectTrigger
+					id={id}
+					size={size}
+					className={cn("fui:w-44", className)}
+				>
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
 				<SelectContent>
@@ -251,6 +287,7 @@ function FilterDateRange({
 	className?: string;
 }) {
 	const id = React.useId();
+	const size = useFilterSize();
 
 	const update = (next: FilterPeriod) =>
 		onValueChange(next.from || next.to ? next : undefined);
@@ -264,7 +301,7 @@ function FilterDateRange({
 							id={id}
 							type="button"
 							variant="outline"
-							size="sm"
+							size={size}
 							// `font-normal` and the muted empty state make it read as a
 							// field showing a value, not as an action.
 							className={cn(
@@ -361,11 +398,15 @@ function FilterToggle({
 	onCheckedChange: (checked: boolean) => void;
 }) {
 	const id = React.useId();
+	const size = useFilterSize();
 
 	return (
 		<div
 			data-slot="filter-toggle"
-			className="fui:flex fui:h-8 fui:items-center fui:gap-2"
+			className={cn(
+				"fui:flex fui:items-center fui:gap-2",
+				filterControlHeight[size],
+			)}
 		>
 			<Checkbox
 				id={id}
@@ -398,16 +439,12 @@ function FilterReset({
 	onReset: () => void;
 	label?: string;
 }) {
+	const size = useFilterSize();
+
 	if (!active) return null;
 
 	return (
-		<Button
-			type="button"
-			variant="ghost"
-			size="sm"
-			onClick={onReset}
-			className="fui:h-8"
-		>
+		<Button type="button" variant="ghost" size={size} onClick={onReset}>
 			<XIcon />
 			{label}
 		</Button>
@@ -423,5 +460,6 @@ export {
 	FilterReset,
 	FilterSearch,
 	FilterSelect,
+	type FilterSize,
 	FilterToggle,
 };
