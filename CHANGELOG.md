@@ -6,9 +6,17 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+## 1.0.1 - 2026-09-17
+
 ### Added
 
 - Project skills for OpenCode, Claude Code, and Codex.
+- Publishing and changelog guidance for maintainers.
+
+### Changed
+
+- Expanded the README with installation, theming, Base UI composition, public
+  modules, and 0.x migration guidance.
 
 ## 1.0.0 - 2026-09-17
 
