@@ -6,6 +6,26 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+## 1.1.0 - 2026-09-18
+
+### Added
+
+- Chart: re-exported Recharts primitives from
+  `@foomo/ui/components/chart` so consumers can keep a single Recharts instance
+  and React context.
+
+### Changed
+
+- Replaced Lucide with Phosphor icons throughout the component library.
+- Changed `@foomo/ui/icons` to re-export Phosphor icons.
+- Configured generated shadcn components to use Phosphor icons.
+
+### Removed
+
+- Removed the `lucide-react` dependency.
+- Removed all Lucide icon exports and the `LucideIcon` type from
+  `@foomo/ui/icons`. Consumers must switch to the corresponding Phosphor exports.
+
 ## 1.0.1 - 2026-09-17
 
 ### Added
