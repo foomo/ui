@@ -1,9 +1,9 @@
-import { cn } from "cn";
 import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	MoreHorizontalIcon,
-} from "lucide-react";
+	CaretLeftIcon,
+	CaretRightIcon,
+	DotsThreeIcon,
+} from "@phosphor-icons/react";
+import { cn } from "cn";
 import type * as React from "react";
 import { Button } from "@/components/button";
 
@@ -78,7 +78,7 @@ function PaginationPrevious({
 			className={cn("fui:pl-2!", className)}
 			{...props}
 		>
-			<ChevronLeftIcon data-icon="inline-start" />
+			<CaretLeftIcon data-icon="inline-start" />
 			<span className="fui:hidden fui:sm:block">{text}</span>
 		</PaginationLink>
 	);
@@ -97,7 +97,7 @@ function PaginationNext({
 			{...props}
 		>
 			<span className="fui:hidden fui:sm:block">{text}</span>
-			<ChevronRightIcon data-icon="inline-end" />
+			<CaretRightIcon data-icon="inline-end" />
 		</PaginationLink>
 	);
 }
@@ -116,7 +116,7 @@ function PaginationEllipsis({
 			)}
 			{...props}
 		>
-			<MoreHorizontalIcon />
+			<DotsThreeIcon />
 			<span className="fui:sr-only">More pages</span>
 		</span>
 	);

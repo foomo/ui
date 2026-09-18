@@ -1,6 +1,10 @@
+import {
+	CalendarIcon,
+	MagnifyingGlassIcon,
+	XIcon,
+} from "@phosphor-icons/react";
 import { cn } from "cn";
 import { format } from "date-fns";
-import { CalendarIcon, SearchIcon, XIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/button";
 import { Calendar } from "@/components/calendar";
@@ -161,7 +165,7 @@ function FilterSearch({
 			    at that size and shrinks it for a compact bar. */}
 			<InputGroup className={filterControlHeight[size]}>
 				<InputGroupAddon>
-					<SearchIcon />
+					<MagnifyingGlassIcon />
 				</InputGroupAddon>
 				<InputGroupInput
 					id={id}

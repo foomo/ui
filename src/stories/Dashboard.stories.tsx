@@ -1,39 +1,39 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-	Activity,
-	ArrowDownRight,
-	ArrowUpRight,
-	BadgeCheck,
-	BarChart3,
-	Bell,
-	Building2,
-	ChevronRight,
-	ChevronsUpDown,
-	CircleAlert,
-	Command as CommandIcon,
-	CreditCard,
-	DollarSign,
-	Download,
-	Ellipsis,
-	Eye,
-	FileText,
-	Inbox,
-	LayoutDashboard,
-	LifeBuoy,
-	LogOut,
-	Package,
-	Pencil,
-	Plus,
-	Rocket,
-	Search,
-	Send,
-	Settings,
-	ShoppingCart,
-	Sparkles,
-	Trash2,
-	TrendingUp,
-	Users,
-} from "lucide-react";
+	ActivityIcon,
+	ArrowDownRightIcon,
+	ArrowUpRightIcon,
+	BellIcon,
+	BuildingsIcon,
+	CaretRightIcon,
+	CaretUpDownIcon,
+	ChartBarIcon,
+	CircleWavyCheckIcon,
+	CommandIcon,
+	CreditCardIcon,
+	CurrencyDollarIcon,
+	DotsThreeIcon,
+	DownloadIcon,
+	EyeIcon,
+	FileTextIcon,
+	GearIcon,
+	LifebuoyIcon,
+	MagnifyingGlassIcon,
+	PackageIcon,
+	PaperPlaneTiltIcon,
+	PencilIcon,
+	PlusIcon,
+	RocketIcon,
+	ShoppingCartIcon,
+	SignOutIcon,
+	SparkleIcon,
+	SquaresFourIcon,
+	TrashIcon,
+	TrayIcon,
+	TrendUpIcon,
+	UsersIcon,
+	WarningCircleIcon,
+} from "@phosphor-icons/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import {
 	Area,
@@ -421,7 +421,7 @@ const stats = [
 		delta: "+18.2%",
 		trending: "up" as const,
 		hint: "vs. previous 30 days",
-		icon: DollarSign,
+		icon: CurrencyDollarIcon,
 		progress: 78,
 	},
 	{
@@ -430,7 +430,7 @@ const stats = [
 		delta: "+9.4%",
 		trending: "up" as const,
 		hint: "412 new this month",
-		icon: Users,
+		icon: UsersIcon,
 		progress: 64,
 	},
 	{
@@ -439,7 +439,7 @@ const stats = [
 		delta: "+2.1%",
 		trending: "up" as const,
 		hint: "peak 1,540 at 14:00",
-		icon: Activity,
+		icon: ActivityIcon,
 		progress: 41,
 	},
 	{
@@ -448,7 +448,7 @@ const stats = [
 		delta: "-0.6%",
 		trending: "down" as const,
 		hint: "lowest in 6 months",
-		icon: TrendingUp,
+		icon: TrendUpIcon,
 		progress: 22,
 	},
 ];
@@ -464,7 +464,7 @@ function AppSidebar() {
 								render={
 									<SidebarMenuButton size="lg" tooltip="Switch workspace">
 										<div className="fui:flex fui:aspect-square fui:size-8 fui:items-center fui:justify-center fui:rounded-lg fui:bg-sidebar-primary fui:text-sidebar-primary-foreground">
-											<Building2 className="fui:size-4" />
+											<BuildingsIcon className="fui:size-4" />
 										</div>
 										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
 											<span className="fui:truncate fui:font-medium">
@@ -474,7 +474,7 @@ function AppSidebar() {
 												Enterprise
 											</span>
 										</div>
-										<ChevronsUpDown className="fui:ml-auto fui:size-4" />
+										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
 									</SidebarMenuButton>
 								}
 							/>
@@ -482,12 +482,12 @@ function AppSidebar() {
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
 									<DropdownMenuItem>
-										<Building2 />
+										<BuildingsIcon />
 										Foomo Inc.
 										<DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
 									</DropdownMenuItem>
 									<DropdownMenuItem>
-										<Rocket />
+										<RocketIcon />
 										Skunkworks
 										<DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
 									</DropdownMenuItem>
@@ -495,7 +495,7 @@ function AppSidebar() {
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem>
-										<Plus />
+										<PlusIcon />
 										New workspace
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
@@ -511,13 +511,13 @@ function AppSidebar() {
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton isActive tooltip="Dashboard">
-								<LayoutDashboard />
+								<SquaresFourIcon />
 								<span>Dashboard</span>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 						<SidebarMenuItem>
 							<SidebarMenuButton tooltip="Analytics">
-								<BarChart3 />
+								<ChartBarIcon />
 								<span>Analytics</span>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
@@ -527,9 +527,9 @@ function AppSidebar() {
 								<CollapsibleTrigger
 									render={
 										<SidebarMenuButton tooltip="Projects">
-											<Package />
+											<PackageIcon />
 											<span>Projects</span>
-											<ChevronRight className="fui:ml-auto fui:size-4 fui:transition-transform fui:duration-200 fui:group-data-open/collapsible:rotate-90" />
+											<CaretRightIcon className="fui:ml-auto fui:size-4 fui:transition-transform fui:duration-200 fui:group-data-open/collapsible:rotate-90" />
 										</SidebarMenuButton>
 									}
 								/>
@@ -557,14 +557,14 @@ function AppSidebar() {
 
 						<SidebarMenuItem>
 							<SidebarMenuButton tooltip="Customers">
-								<Users />
+								<UsersIcon />
 								<span>Customers</span>
 							</SidebarMenuButton>
 							<SidebarMenuBadge>128</SidebarMenuBadge>
 						</SidebarMenuItem>
 						<SidebarMenuItem>
 							<SidebarMenuButton tooltip="Orders">
-								<ShoppingCart />
+								<ShoppingCartIcon />
 								<span>Orders</span>
 							</SidebarMenuButton>
 							<SidebarMenuBadge>12</SidebarMenuBadge>
@@ -579,20 +579,20 @@ function AppSidebar() {
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton tooltip="Invoices">
-								<FileText />
+								<FileTextIcon />
 								<span>Invoices</span>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 						<SidebarMenuItem>
 							<SidebarMenuButton tooltip="Billing">
-								<CreditCard />
+								<CreditCardIcon />
 								<span>Billing</span>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Settings">
-								<Settings />
-								<span>Settings</span>
+							<SidebarMenuButton tooltip="GearIcon">
+								<GearIcon />
+								<span>GearIcon</span>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					</SidebarMenu>
@@ -603,7 +603,7 @@ function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="sm" tooltip="Support">
-							<LifeBuoy />
+							<LifebuoyIcon />
 							<span>Support</span>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
@@ -625,7 +625,7 @@ function AppSidebar() {
 												lena@foomo.org
 											</span>
 										</div>
-										<ChevronsUpDown className="fui:ml-auto fui:size-4" />
+										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
 									</SidebarMenuButton>
 								}
 							/>
@@ -640,22 +640,22 @@ function AppSidebar() {
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem>
-										<Sparkles />
+										<SparkleIcon />
 										Upgrade to Pro
 									</DropdownMenuItem>
 									<DropdownMenuItem>
-										<BadgeCheck />
+										<CircleWavyCheckIcon />
 										Account
 									</DropdownMenuItem>
 									<DropdownMenuItem>
-										<CreditCard />
+										<CreditCardIcon />
 										Billing
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem variant="destructive">
-										<LogOut />
+										<SignOutIcon />
 										Log out
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
@@ -697,8 +697,8 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 					onClick={onOpenCommand}
 					className="fui:hidden fui:w-64 fui:justify-start fui:font-normal fui:text-muted-foreground fui:lg:inline-flex"
 				>
-					<Search data-icon="inline-start" />
-					<span>Search everything…</span>
+					<MagnifyingGlassIcon data-icon="inline-start" />
+					<span>MagnifyingGlassIcon everything…</span>
 					<KbdGroup className="fui:ml-auto">
 						<Kbd>⌘</Kbd>
 						<Kbd>K</Kbd>
@@ -746,11 +746,11 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>
-								<BadgeCheck />
+								<CircleWavyCheckIcon />
 								Profile
 							</DropdownMenuItem>
 							<DropdownMenuItem>
-								<Settings />
+								<GearIcon />
 								Preferences
 								<DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
 							</DropdownMenuItem>
@@ -758,7 +758,7 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem variant="destructive">
-								<LogOut />
+								<SignOutIcon />
 								Log out
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
@@ -774,19 +774,19 @@ const notifications = [
 		title: "Payment failed",
 		body: "Sara Lindqvist's card was declined.",
 		time: "5h ago",
-		icon: CircleAlert,
+		icon: WarningCircleIcon,
 	},
 	{
 		title: "New enterprise lead",
 		body: "Northwind requested a demo.",
 		time: "1d ago",
-		icon: Rocket,
+		icon: RocketIcon,
 	},
 	{
 		title: "Deploy succeeded",
 		body: "storefront@v2.14.0 is live.",
 		time: "2d ago",
-		icon: BadgeCheck,
+		icon: CircleWavyCheckIcon,
 	},
 ];
 
@@ -796,7 +796,7 @@ function NotificationsMenu() {
 			<DropdownMenuTrigger
 				render={
 					<Button variant="ghost" size="icon" className="fui:relative">
-						<Bell />
+						<BellIcon />
 						<span className="fui:absolute fui:top-1.5 fui:right-1.5 fui:size-2 fui:rounded-full fui:bg-destructive" />
 						<span className="fui:sr-only">Notifications</span>
 					</Button>
@@ -849,9 +849,9 @@ function StatCards() {
 							</span>
 							<Badge variant="secondary">
 								{stat.trending === "up" ? (
-									<ArrowUpRight data-icon="inline-start" />
+									<ArrowUpRightIcon data-icon="inline-start" />
 								) : (
-									<ArrowDownRight data-icon="inline-start" />
+									<ArrowDownRightIcon data-icon="inline-start" />
 								)}
 								{stat.delta}
 							</Badge>
@@ -1088,7 +1088,7 @@ const orderColumns = [
 				<DropdownMenuTrigger
 					render={
 						<Button variant="ghost" size="icon-sm">
-							<Ellipsis />
+							<DotsThreeIcon />
 							<span className="fui:sr-only">Actions for {row.original.id}</span>
 						</Button>
 					}
@@ -1096,15 +1096,15 @@ const orderColumns = [
 				<DropdownMenuContent align="end" className="fui:w-44">
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
-							<Eye />
+							<EyeIcon />
 							View invoice
 						</DropdownMenuItem>
 						<DropdownMenuItem>
-							<Pencil />
+							<PencilIcon />
 							Edit
 						</DropdownMenuItem>
 						<DropdownMenuItem>
-							<Send />
+							<PaperPlaneTiltIcon />
 							Resend email
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
@@ -1133,7 +1133,7 @@ function OrdersTableCard() {
 				<CardAction>
 					<div className="fui:flex fui:items-center fui:gap-2">
 						<Button variant="outline" size="sm">
-							<Download data-icon="inline-start" />
+							<DownloadIcon data-icon="inline-start" />
 							Export
 						</Button>
 						<NewProjectDialog />
@@ -1145,7 +1145,7 @@ function OrdersTableCard() {
 					columns={orderColumns}
 					data={orders}
 					getRowId={(order) => order.id}
-					searchable="Search invoices…"
+					searchable="MagnifyingGlassIcon invoices…"
 					hideableColumns
 					enableRowSelection
 					onRowSelectionChange={setSelected}
@@ -1167,7 +1167,7 @@ function DeleteOrderDialog({ invoice }: { invoice: string }) {
 						variant="destructive"
 						onSelect={(event) => event.preventDefault()}
 					>
-						<Trash2 />
+						<TrashIcon />
 						Delete
 					</DropdownMenuItem>
 				}
@@ -1199,7 +1199,7 @@ function NewProjectDialog() {
 			<DialogTrigger
 				render={
 					<Button size="sm">
-						<Plus data-icon="inline-start" />
+						<PlusIcon data-icon="inline-start" />
 						New project
 					</Button>
 				}
@@ -1216,7 +1216,7 @@ function NewProjectDialog() {
 						<FieldLabel htmlFor="project-name">Name</FieldLabel>
 						<InputGroup>
 							<InputGroupAddon>
-								<Package />
+								<PackageIcon />
 							</InputGroupAddon>
 							<InputGroupInput id="project-name" placeholder="storefront-eu" />
 						</InputGroup>
@@ -1360,7 +1360,7 @@ function ReportsTab() {
 					{reports.map((report) => (
 						<Item key={report.title} variant="outline">
 							<ItemMedia variant="icon">
-								<FileText />
+								<FileTextIcon />
 							</ItemMedia>
 							<ItemContent>
 								<ItemTitle>{report.title}</ItemTitle>
@@ -1391,7 +1391,7 @@ function AuditTab() {
 				<Empty className="fui:border">
 					<EmptyHeader>
 						<EmptyMedia variant="icon">
-							<Inbox />
+							<TrayIcon />
 						</EmptyMedia>
 						<EmptyTitle>Nothing to audit yet</EmptyTitle>
 						<EmptyDescription>
@@ -1401,7 +1401,7 @@ function AuditTab() {
 					</EmptyHeader>
 					<EmptyContent>
 						<Button variant="outline" size="sm">
-							<Settings data-icon="inline-start" />
+							<GearIcon data-icon="inline-start" />
 							Configure audit retention
 						</Button>
 					</EmptyContent>
@@ -1423,7 +1423,7 @@ function CommandPalette({
 			open={open}
 			onOpenChange={onOpenChange}
 			title="Command palette"
-			description="Search for a command to run"
+			description="MagnifyingGlassIcon for a command to run"
 		>
 			{/*
 			 * CommandDialog only renders <Dialog><DialogContent>{children}</…>.
@@ -1437,28 +1437,28 @@ function CommandPalette({
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup heading="Navigation">
 						<CommandItem>
-							<LayoutDashboard />
+							<SquaresFourIcon />
 							Dashboard
 							<CommandShortcut>⌘D</CommandShortcut>
 						</CommandItem>
 						<CommandItem>
-							<BarChart3 />
+							<ChartBarIcon />
 							Analytics
 							<CommandShortcut>⌘A</CommandShortcut>
 						</CommandItem>
 						<CommandItem>
-							<Users />
+							<UsersIcon />
 							Customers
 						</CommandItem>
 					</CommandGroup>
 					<CommandSeparator />
 					<CommandGroup heading="Actions">
 						<CommandItem onSelect={() => toast.info("Invite sent")}>
-							<Plus />
+							<PlusIcon />
 							Invite teammate
 						</CommandItem>
 						<CommandItem onSelect={() => toast.info("Export queued")}>
-							<Download />
+							<DownloadIcon />
 							Export invoices
 						</CommandItem>
 					</CommandGroup>
@@ -1474,7 +1474,7 @@ function InviteDialog() {
 			<DialogTrigger
 				render={
 					<Button size="sm">
-						<Plus data-icon="inline-start" />
+						<PlusIcon data-icon="inline-start" />
 						Invite
 					</Button>
 				}
@@ -1499,7 +1499,7 @@ function InviteDialog() {
 				<DialogFooter>
 					<Button variant="outline">Cancel</Button>
 					<Button onClick={() => toast.success("Invitations sent")}>
-						Send invites
+						PaperPlaneTiltIcon invites
 					</Button>
 				</DialogFooter>
 			</DialogContent>
@@ -1608,7 +1608,7 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 										})
 									}
 								>
-									<Send data-icon="inline-start" />
+									<PaperPlaneTiltIcon data-icon="inline-start" />
 									Email report
 								</Button>
 								<InviteDialog />
@@ -1616,7 +1616,7 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 						</div>
 
 						<Alert>
-							<Sparkles />
+							<SparkleIcon />
 							<AlertTitle>Usage-based billing is now available</AlertTitle>
 							<AlertDescription>
 								Switch any project to metered pricing and only pay for what you

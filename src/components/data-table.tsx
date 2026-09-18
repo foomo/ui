@@ -1,6 +1,17 @@
 "use client";
 
 import {
+	ArrowDownIcon,
+	ArrowUpIcon,
+	CaretDoubleLeftIcon,
+	CaretDoubleRightIcon,
+	CaretLeftIcon,
+	CaretRightIcon,
+	CaretUpDownIcon,
+	MagnifyingGlassIcon,
+	SlidersHorizontalIcon,
+} from "@phosphor-icons/react";
+import {
 	type Column,
 	type ColumnDef,
 	type ColumnFiltersState,
@@ -28,17 +39,6 @@ import {
 	useTable,
 } from "@tanstack/react-table";
 import { cn } from "cn";
-import {
-	ArrowDownIcon,
-	ArrowUpIcon,
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	ChevronsLeftIcon,
-	ChevronsRightIcon,
-	ChevronsUpDownIcon,
-	SearchIcon,
-	Settings2Icon,
-} from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/button";
@@ -159,7 +159,7 @@ function DataTableColumnHeader<
 			? ArrowUpIcon
 			: sorted === "desc"
 				? ArrowDownIcon
-				: ChevronsUpDownIcon;
+				: CaretUpDownIcon;
 
 	return (
 		<div
@@ -446,7 +446,7 @@ function DataTable<
 							)}
 						>
 							<InputGroupAddon>
-								<SearchIcon />
+								<MagnifyingGlassIcon />
 							</InputGroupAddon>
 							<InputGroupInput
 								value={globalFilter}
@@ -468,7 +468,7 @@ function DataTable<
 										size={toolbarSize}
 										className="fui:ml-auto"
 									>
-										<Settings2Icon data-icon="inline-start" />
+										<SlidersHorizontalIcon data-icon="inline-start" />
 										Columns
 									</Button>
 								}
@@ -616,7 +616,7 @@ function DataTable<
 								onClick={() => table.firstPage()}
 								disabled={!table.getCanPreviousPage()}
 							>
-								<ChevronsLeftIcon />
+								<CaretDoubleLeftIcon />
 								<span className="fui:sr-only">First page</span>
 							</Button>
 							<Button
@@ -625,7 +625,7 @@ function DataTable<
 								onClick={() => table.previousPage()}
 								disabled={!table.getCanPreviousPage()}
 							>
-								<ChevronLeftIcon />
+								<CaretLeftIcon />
 								<span className="fui:sr-only">Previous page</span>
 							</Button>
 							<Button
@@ -634,7 +634,7 @@ function DataTable<
 								onClick={() => table.nextPage()}
 								disabled={!table.getCanNextPage()}
 							>
-								<ChevronRightIcon />
+								<CaretRightIcon />
 								<span className="fui:sr-only">Next page</span>
 							</Button>
 							<Button
@@ -643,7 +643,7 @@ function DataTable<
 								onClick={() => table.lastPage()}
 								disabled={!table.getCanNextPage()}
 							>
-								<ChevronsRightIcon />
+								<CaretDoubleRightIcon />
 								<span className="fui:sr-only">Last page</span>
 							</Button>
 						</div>

@@ -370,3 +370,12 @@ export {
 	ChartLegendContent,
 	ChartStyle,
 };
+
+// The marks, axes and grids come from recharts itself; only the container,
+// tooltip and legend are wrapped above. Re-exporting them from this module —
+// rather than from an entry point of their own — is what keeps there being one
+// recharts in the graph: a bundler pre-bundling two entry points that each
+// depend on recharts produces two copies of it, and recharts 3 holds its chart
+// state in a React context, so marks from one copy render nothing inside a
+// container from the other.
+export * from "recharts";

@@ -1,6 +1,6 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
+import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import type * as React from "react";
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
@@ -119,7 +119,7 @@ function DropdownMenuSubTrigger({
 			{...props}
 		>
 			{children}
-			<ChevronRightIcon className="fui:ml-auto" />
+			<CaretRightIcon className="fui:ml-auto" />
 		</MenuPrimitive.SubmenuTrigger>
 	);
 }

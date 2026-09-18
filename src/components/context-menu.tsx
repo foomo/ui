@@ -1,6 +1,6 @@
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu";
+import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import type * as React from "react";
 
 function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
@@ -134,7 +134,7 @@ function ContextMenuSubTrigger({
 			{...props}
 		>
 			{children}
-			<ChevronRightIcon className="fui:ml-auto" />
+			<CaretRightIcon className="fui:ml-auto" />
 		</ContextMenuPrimitive.SubmenuTrigger>
 	);
 }

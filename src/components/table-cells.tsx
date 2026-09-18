@@ -1,5 +1,5 @@
+import { CheckIcon, MinusIcon, XIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { CheckIcon, MinusIcon, XIcon } from "lucide-react";
 import type * as React from "react";
 import { Badge } from "@/components/badge";
 
@@ -123,7 +123,7 @@ function TagListCell({
 	empty?: React.ReactNode;
 }) {
 	if (values.length === 0) {
-		return empty !== undefined ? <>{empty}</> : <EmptyCell />;
+		return empty !== undefined ? empty : <EmptyCell />;
 	}
 
 	return (

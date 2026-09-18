@@ -1,9 +1,9 @@
-import { cn } from "cn";
 import {
-	ChevronDownIcon,
-	ChevronLeftIcon,
-	ChevronRightIcon,
-} from "lucide-react";
+	CaretDownIcon,
+	CaretLeftIcon,
+	CaretRightIcon,
+} from "@phosphor-icons/react";
+import { cn } from "cn";
 import * as React from "react";
 import {
 	type DayButton,
@@ -154,7 +154,7 @@ function Calendar({
 				Chevron: ({ className, orientation, ...props }) => {
 					if (orientation === "left") {
 						return (
-							<ChevronLeftIcon
+							<CaretLeftIcon
 								className={cn("fui:size-4", className)}
 								{...props}
 							/>
@@ -163,7 +163,7 @@ function Calendar({
 
 					if (orientation === "right") {
 						return (
-							<ChevronRightIcon
+							<CaretRightIcon
 								className={cn("fui:size-4", className)}
 								{...props}
 							/>
@@ -171,10 +171,7 @@ function Calendar({
 					}
 
 					return (
-						<ChevronDownIcon
-							className={cn("fui:size-4", className)}
-							{...props}
-						/>
+						<CaretDownIcon className={cn("fui:size-4", className)} {...props} />
 					);
 				},
 				DayButton: ({ ...props }) => (

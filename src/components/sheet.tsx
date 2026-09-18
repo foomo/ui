@@ -1,6 +1,6 @@
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
+import { XIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { XIcon } from "lucide-react";
 import type * as React from "react";
 import { Button } from "@/components/button";
 
