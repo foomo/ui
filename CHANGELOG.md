@@ -6,6 +6,14 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+### Added
+
+- Autocomplete: `@foomo/ui/components/autocomplete` wraps the Base UI
+  Autocomplete with the same trigger and popup styling as Select.
+- Date picker: `@foomo/ui/components/date-picker` exposes `DatePicker`,
+  `DateRangePicker` and `DatePickerTrigger`, composed from Popover and
+  Calendar after the shadcn date picker example.
+
 ## 1.1.0 - 2026-09-18
 
 ### Added

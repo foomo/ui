@@ -1,5 +1,3 @@
-"use client";
-
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import type * as React from "react";
@@ -14,7 +12,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 			data-slot="input-group"
 			role="group"
 			className={cn(
-				"fui:group/input-group fui:relative fui:flex fui:h-9 fui:w-full fui:min-w-0 fui:items-center fui:rounded-4xl fui:border fui:border-input fui:bg-input/30 fui:transition-colors fui:outline-none fui:in-data-[slot=combobox-content]:focus-within:border-inherit fui:in-data-[slot=combobox-content]:focus-within:ring-0 fui:has-data-[align=block-end]:rounded-2xl fui:has-data-[align=block-start]:rounded-2xl fui:has-[[data-slot=input-group-control]:focus-visible]:border-ring fui:has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] fui:has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 fui:has-[[data-slot][aria-invalid=true]]:border-destructive fui:has-[[data-slot][aria-invalid=true]]:ring-[3px] fui:has-[[data-slot][aria-invalid=true]]:ring-destructive/20 fui:has-[textarea]:rounded-xl fui:has-[>[data-align=block-end]]:h-auto fui:has-[>[data-align=block-end]]:flex-col fui:has-[>[data-align=block-start]]:h-auto fui:has-[>[data-align=block-start]]:flex-col fui:has-[>textarea]:h-auto fui:dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 fui:has-[>[data-align=block-end]]:[&>input]:pt-3 fui:has-[>[data-align=block-start]]:[&>input]:pb-3 fui:has-[>[data-align=inline-end]]:[&>input]:pr-1.5 fui:has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+				"fui:group/input-group fui:relative fui:flex fui:h-9 fui:w-full fui:min-w-0 fui:items-center fui:rounded-4xl fui:border fui:border-input fui:bg-background fui:dark:bg-input/30 fui:transition-colors fui:outline-none fui:in-data-[slot=combobox-content]:focus-within:border-inherit fui:in-data-[slot=combobox-content]:focus-within:ring-0 fui:has-data-[align=block-end]:rounded-2xl fui:has-data-[align=block-start]:rounded-2xl fui:has-[[data-slot=input-group-control]:focus-visible]:border-ring fui:has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] fui:has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 fui:has-[[data-slot][aria-invalid=true]]:border-destructive fui:has-[[data-slot][aria-invalid=true]]:ring-[3px] fui:has-[[data-slot][aria-invalid=true]]:ring-destructive/20 fui:has-[textarea]:rounded-xl fui:has-[>[data-align=block-end]]:h-auto fui:has-[>[data-align=block-end]]:flex-col fui:has-[>[data-align=block-start]]:h-auto fui:has-[>[data-align=block-start]]:flex-col fui:has-[>textarea]:h-auto fui:dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 fui:has-[>[data-align=block-end]]:[&>input]:pt-3 fui:has-[>[data-align=block-start]]:[&>input]:pb-3 fui:has-[>[data-align=inline-end]]:[&>input]:pr-1.5 fui:has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
 				className,
 			)}
 			{...props}

@@ -14,7 +14,7 @@ function InputOTP({
 		<OTPInput
 			data-slot="input-otp"
 			containerClassName={cn(
-				"cn-input-otp flex items-center has-disabled:opacity-50",
+				"fui:flex fui:items-center fui:gap-2 fui:has-disabled:opacity-50",
 				containerClassName,
 			)}
 			spellCheck={false}
@@ -52,7 +52,7 @@ function InputOTPSlot({
 			data-slot="input-otp-slot"
 			data-active={isActive}
 			className={cn(
-				"fui:relative fui:flex fui:size-9 fui:items-center fui:justify-center fui:border-y fui:border-r fui:border-input fui:bg-input/30 fui:text-sm fui:transition-all fui:outline-none fui:first:rounded-l-4xl fui:first:border-l fui:last:rounded-r-4xl fui:aria-invalid:border-destructive fui:data-[active=true]:z-10 fui:data-[active=true]:border-ring fui:data-[active=true]:ring-[3px] fui:data-[active=true]:ring-ring/50 fui:data-[active=true]:aria-invalid:border-destructive fui:data-[active=true]:aria-invalid:ring-destructive/20 fui:dark:data-[active=true]:aria-invalid:ring-destructive/40",
+				"fui:relative fui:flex fui:size-9 fui:items-center fui:justify-center fui:border-y fui:border-r fui:border-input fui:bg-background fui:dark:bg-input/30 fui:text-sm fui:transition-all fui:outline-none fui:first:rounded-l-4xl fui:first:border-l fui:last:rounded-r-4xl fui:aria-invalid:border-destructive fui:data-[active=true]:z-10 fui:data-[active=true]:border-ring fui:data-[active=true]:ring-[3px] fui:data-[active=true]:ring-ring/50 fui:data-[active=true]:aria-invalid:border-destructive fui:data-[active=true]:aria-invalid:ring-destructive/20 fui:dark:data-[active=true]:aria-invalid:ring-destructive/40",
 				className,
 			)}
 			{...props}
