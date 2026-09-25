@@ -39,6 +39,8 @@
 	--color-muted-foreground: var(--muted-foreground);
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
+	--color-accent-highlight: var(--accent-highlight);
+	--color-accent-highlight-foreground: var(--accent-highlight-foreground);
 	--color-destructive: var(--destructive);
 	/* The counterpart to `--destructive`, so a component with a "this went
 	   well" state has a semantic token to reach for. */

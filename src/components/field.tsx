@@ -50,15 +50,15 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const fieldVariants = cva(
-	"fui:group/field fui:flex fui:w-full fui:gap-3 fui:data-[invalid=true]:text-destructive",
+	"fui:group/field fui:flex fui:w-full fui:data-[invalid=true]:text-destructive",
 	{
 		variants: {
 			orientation: {
-				vertical: "fui:flex-col fui:*:w-full fui:[&>.sr-only]:w-auto",
+				vertical: "fui:flex-col fui:gap-2 fui:*:w-full fui:[&>.sr-only]:w-auto",
 				horizontal:
-					"fui:flex-row fui:items-center fui:has-[>[data-slot=field-content]]:items-start fui:*:data-[slot=field-label]:flex-auto fui:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
+					"fui:flex-row fui:gap-3 fui:items-center fui:has-[>[data-slot=field-content]]:items-start fui:*:data-[slot=field-label]:flex-auto fui:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
 				responsive:
-					"fui:flex-col fui:*:w-full fui:@md/field-group:flex-row fui:@md/field-group:items-center fui:@md/field-group:*:w-auto fui:@md/field-group:has-[>[data-slot=field-content]]:items-start fui:@md/field-group:*:data-[slot=field-label]:flex-auto fui:[&>.sr-only]:w-auto fui:@md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
+					"fui:flex-col fui:gap-2 fui:*:w-full fui:@md/field-group:flex-row fui:@md/field-group:gap-3 fui:@md/field-group:items-center fui:@md/field-group:*:w-auto fui:@md/field-group:has-[>[data-slot=field-content]]:items-start fui:@md/field-group:*:data-[slot=field-label]:flex-auto fui:[&>.sr-only]:w-auto fui:@md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
 			},
 		},
 		defaultVariants: {
