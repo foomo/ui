@@ -226,6 +226,9 @@ function DateRangePicker(props: DateRangePickerProps) {
 				<Calendar
 					defaultMonth={range?.from}
 					numberOfMonths={2}
+					// Two months side by side would otherwise show the overlap twice,
+					// with a range end highlighted in both grids.
+					showOutsideDays={false}
 					{...calendar}
 					mode="range"
 					locale={locale}

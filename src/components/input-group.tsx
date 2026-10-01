@@ -30,9 +30,9 @@ const inputGroupAddonVariants = cva(
 				"inline-end":
 					"fui:order-last fui:pr-3 fui:has-[>button]:-mr-1 fui:has-[>kbd]:mr-[-0.15rem]",
 				"block-start":
-					"fui:order-first fui:w-full fui:justify-start fui:px-3 fui:pt-3 fui:group-has-[>input]/input-group:pt-3 fui:[.border-b]:pb-3",
+					"fui:order-first fui:w-full fui:justify-start fui:px-3 fui:pt-3 fui:group-has-[>input]/input-group:pt-3 fui:[&[class~='fui:border-b']]:pb-3",
 				"block-end":
-					"fui:order-last fui:w-full fui:justify-start fui:px-3 fui:pb-3 fui:group-has-[>input]/input-group:pb-3 fui:[.border-t]:pt-3",
+					"fui:order-last fui:w-full fui:justify-start fui:px-3 fui:pb-3 fui:group-has-[>input]/input-group:pb-3 fui:[&[class~='fui:border-t']]:pt-3",
 			},
 		},
 		defaultVariants: {
