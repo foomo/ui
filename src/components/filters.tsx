@@ -1,10 +1,10 @@
 import {
-	CalendarIcon,
+	CalendarDotsIcon,
 	MagnifyingGlassIcon,
 	XIcon,
 } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import * as React from "react";
 import { Button } from "@/components/button";
 import { Calendar } from "@/components/calendar";
@@ -238,10 +238,91 @@ function FilterSelect<T extends string>({
 }
 
 /**
- * A period, with either bound optional.
+ * Multiple-choice filter: the same control as `FilterSelect`, but each option
+ * toggles, and the popup stays open while picking.
  *
- * Both ends are independent: "since 1 March", "up to 31 March" and "1–31
- * March" are all expressible, and so is neither.
+ * An empty selection means "no restriction" and shows the placeholder, so the
+ * options list needs no "All" entry. The trigger names the first pick and
+ * counts the rest ("FancyBrand +2") rather than listing them all, which would
+ * widen the control and push its neighbours around as picks are added.
+ */
+function FilterMultiSelect<T extends string>({
+	label,
+	value,
+	onValueChange,
+	options,
+	placeholder = "Any",
+	className,
+}: {
+	label: string;
+	value: ReadonlyArray<T>;
+	onValueChange: (value: T[]) => void;
+	options: ReadonlyArray<FilterOption<T>>;
+	placeholder?: string;
+	className?: string;
+}) {
+	const id = React.useId();
+	const size = useFilterSize();
+	const labels = React.useMemo(
+		() => new Map(options.map((option) => [option.value, option.label])),
+		[options],
+	);
+
+	const describe = (selected: ReadonlyArray<T>) => {
+		if (selected.length === 0) return placeholder;
+		const first = labels.get(selected[0]) ?? selected[0];
+		return selected.length === 1 ? first : `${first} +${selected.length - 1}`;
+	};
+
+	return (
+		<FilterField label={label} htmlFor={id}>
+			<Select
+				multiple
+				value={[...value]}
+				onValueChange={(next) => onValueChange(next as T[])}
+			>
+				<SelectTrigger
+					id={id}
+					size={size}
+					className={cn("fui:w-44", className)}
+				>
+					<SelectValue>
+						{(selected: T[]) => (
+							<span
+								className={cn(
+									"fui:truncate",
+									selected.length === 0 && "fui:text-muted-foreground",
+								)}
+							>
+								{describe(selected)}
+							</span>
+						)}
+					</SelectValue>
+				</SelectTrigger>
+				{/* Opens below rather than over the trigger: the popup stays open
+				    while picking, and the trigger's summary should stay in view. */}
+				<SelectContent alignItemWithTrigger={false} align="start">
+					<SelectGroup>
+						{options.map((option) => (
+							<SelectItem key={option.value} value={option.value}>
+								{option.label}
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</Select>
+		</FilterField>
+	);
+}
+
+/**
+ * A period: a start and an end day.
+ *
+ * Picked as a range, so a period has a start before it has an end: "1–31
+ * March" and, while the second click is pending, "from 1 March". A `to` with
+ * no `from` is still accepted and described ("Until 31 March"), so a value
+ * restored from a URL keeps working, but the calendar itself only produces
+ * start-first periods.
  */
 type FilterPeriod = {
 	from?: Date;
@@ -254,6 +335,8 @@ function formatBound(date: Date) {
 
 function describePeriod(period: FilterPeriod | undefined, placeholder: string) {
 	if (period?.from && period.to) {
+		// The first click of a range picks one day as both ends.
+		if (isSameDay(period.from, period.to)) return formatBound(period.from);
 		return `${formatBound(period.from)} – ${formatBound(period.to)}`;
 	}
 	if (period?.from) return `From ${formatBound(period.from)}`;
@@ -265,17 +348,14 @@ function describePeriod(period: FilterPeriod | undefined, placeholder: string) {
  * Period filter: one control for a span, in place of a "from" box and a "to"
  * box.
  *
- * Two calendars in single-date mode rather than one in range mode, because a
- * range calendar can only be drawn start-then-end: it cannot express "up to
- * this date" with no start, and it forces a start-only pick to collapse into a
- * single day. Here each bound is set and cleared on its own.
+ * A range calendar over two months, after the shadcn range picker: the first
+ * click sets the start, the second the end, and the days between are shaded so
+ * the span reads at a glance. A clear button resets both ends at once.
  *
- * Each calendar disables the days that would invert the period, so an
- * unusable span cannot be selected in the first place.
- *
- * Values are exchanged as `Date`s. A caller storing the period in a URL or a
- * query converts at its own boundary, since the format that belongs there is
- * the caller's concern.
+ * Values are exchanged as `Date`s at the start of each picked day, so `to`
+ * is midnight *opening* the last day: compare against `endOfDay(to)` to include
+ * it. A caller storing the period in a URL or a query converts at its own
+ * boundary, since the format that belongs there is the caller's concern.
  */
 function FilterDateRange({
 	label,
@@ -292,9 +372,7 @@ function FilterDateRange({
 }) {
 	const id = React.useId();
 	const size = useFilterSize();
-
-	const update = (next: FilterPeriod) =>
-		onValueChange(next.from || next.to ? next : undefined);
+	const empty = !value?.from && !value?.to;
 
 	return (
 		<FilterField label={label} htmlFor={id}>
@@ -307,80 +385,62 @@ function FilterDateRange({
 							variant="outline"
 							size={size}
 							// `font-normal` and the muted empty state make it read as a
-							// field showing a value, not as an action.
+							// field showing a value, not as an action. `border-input`
+							// overrides the outline button's `border-current`, which would
+							// otherwise follow the text colour and not match the inputs.
+							//
+							// Active like the search field beside it: a dark border while
+							// open or focused, no grey fill and no focus ring. The `!`
+							// beats the outline variant's own hover/open fill and the
+							// button's focus border, which share these variants and would
+							// otherwise win on source order.
 							className={cn(
-								"fui:w-64 fui:justify-start fui:font-normal",
-								!value?.from && !value?.to && "fui:text-muted-foreground",
+								"fui:w-64 fui:justify-start fui:border-input fui:font-normal fui:dark:bg-input/30",
+								"fui:hover:bg-background! fui:aria-expanded:bg-background! fui:dark:hover:bg-input/30! fui:dark:aria-expanded:bg-input/30!",
+								"fui:aria-expanded:border-foreground! fui:focus-visible:border-foreground! fui:focus-visible:ring-0!",
+								empty && "fui:text-muted-foreground",
 								className,
 							)}
 						>
-							<CalendarIcon />
+							{/* Black even while the label is muted, like the other filter icons. */}
+							<CalendarDotsIcon className="fui:text-foreground" />
 							{describePeriod(value, placeholder)}
 						</Button>
 					}
 				/>
 				<PopoverContent align="start" className="fui:w-auto fui:p-0">
-					<div className="fui:flex fui:flex-col fui:divide-y fui:sm:flex-row fui:sm:divide-x fui:sm:divide-y-0">
-						<PeriodBound
-							title="From"
-							selected={value?.from}
-							defaultMonth={value?.from ?? value?.to}
-							disabled={value?.to ? { after: value.to } : undefined}
-							onSelect={(from) => update({ from, to: value?.to })}
-						/>
-						<PeriodBound
-							title="To"
-							selected={value?.to}
-							defaultMonth={value?.to ?? value?.from}
-							disabled={value?.from ? { before: value.from } : undefined}
-							onSelect={(to) => update({ from: value?.from, to })}
-						/>
-					</div>
+					<Calendar
+						mode="range"
+						numberOfMonths={2}
+						// With two months side by side, outside days would show the
+						// overlap twice: an end day highlighted in both grids.
+						showOutsideDays={false}
+						defaultMonth={value?.from ?? value?.to}
+						selected={empty ? undefined : { from: value?.from, to: value?.to }}
+						onSelect={(range) =>
+							onValueChange(
+								range?.from || range?.to
+									? { from: range.from, to: range.to }
+									: undefined,
+							)
+						}
+					/>
+					{empty ? null : (
+						<div className="fui:flex fui:justify-end fui:border-t fui:px-3 fui:py-2">
+							<Button
+								type="button"
+								variant="ghost"
+								size="xs"
+								onClick={() => onValueChange(undefined)}
+							>
+								<XIcon />
+								Clear
+							</Button>
+						</div>
+					)}
 				</PopoverContent>
 			</Popover>
 		</FilterField>
-	);
-}
-
-function PeriodBound({
-	title,
-	selected,
-	defaultMonth,
-	disabled,
-	onSelect,
-}: {
-	title: string;
-	selected: Date | undefined;
-	defaultMonth: Date | undefined;
-	disabled: React.ComponentProps<typeof Calendar>["disabled"];
-	onSelect: (date: Date | undefined) => void;
-}) {
-	return (
-		<div className="fui:flex fui:flex-col">
-			<div className="fui:flex fui:items-center fui:justify-between fui:gap-2 fui:px-3 fui:pt-3">
-				<span className="fui:text-xs fui:font-medium fui:text-muted-foreground">
-					{title}
-				</span>
-				{selected ? (
-					<Button
-						type="button"
-						variant="ghost"
-						size="xs"
-						onClick={() => onSelect(undefined)}
-					>
-						<XIcon />
-						Clear
-					</Button>
-				) : null}
-			</div>
-			<Calendar
-				mode="single"
-				selected={selected}
-				defaultMonth={defaultMonth}
-				disabled={disabled}
-				onSelect={onSelect}
-			/>
-		</div>
 	);
 }
 
@@ -459,6 +519,7 @@ export {
 	FilterBar,
 	FilterDateRange,
 	FilterField,
+	FilterMultiSelect,
 	type FilterOption,
 	type FilterPeriod,
 	FilterReset,

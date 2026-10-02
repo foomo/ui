@@ -28,7 +28,7 @@ function AutocompleteTrigger({
 			{...props}
 		>
 			{children}
-			<CaretDownIcon className="fui:pointer-events-none fui:size-4 fui:text-muted-foreground" />
+			<CaretDownIcon className="fui:pointer-events-none fui:size-4 fui:text-foreground" />
 		</AutocompletePrimitive.Trigger>
 	);
 }

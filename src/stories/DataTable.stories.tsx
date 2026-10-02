@@ -108,7 +108,7 @@ const columns = column.columns([
 		),
 		cell: ({ row }) => (
 			<div className="fui:flex fui:flex-col">
-				<span className="fui:font-medium">{row.original.name}</span>
+				<span>{row.original.name}</span>
 				<span className="fui:text-xs fui:text-muted-foreground">
 					{row.original.id}
 				</span>
