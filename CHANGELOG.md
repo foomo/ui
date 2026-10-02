@@ -33,6 +33,9 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 - Filters: `FilterMultiSelect` picks several options from one list. An empty
   selection means no restriction; the trigger names the first pick and
   counts the rest ("FancyBrand +2").
+- Hooks: `@foomo/ui/hooks/use-frame-dismiss` exposes `useFrameDismiss`, which
+  calls its callback when a page inside an iframe loses focus, so custom
+  popups can close on a click outside the frame.
 
 ### Changed
 
@@ -77,6 +80,12 @@ All notable changes to `@foomo/ui` are documented here. The format follows
   search field and selects beside it. It inherited the outline button's
   `border-current`, so its border followed the text colour (muted when
   empty, black once a period was set).
+- DropdownMenu and Select: an open popup now closes when the page is embedded
+  in an iframe (e.g. the Storybook canvas) and the user clicks outside the
+  frame. A click on the embedding page never reaches the frame's document, so
+  the popup now closes when the frame's window loses focus instead. Top-level
+  pages are unaffected. When Select closes this way, `onOpenChange(false)`
+  receives no event details.
 
 ## 1.1.0 - 2026-09-18
 
