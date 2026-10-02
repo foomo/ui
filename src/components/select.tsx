@@ -1,11 +1,51 @@
-"use client";
-
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { CaretDownIcon, CaretUpIcon, CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import type * as React from "react";
+import * as React from "react";
+import { useFrameDismiss } from "@/hooks/use-frame-dismiss";
 
-const Select = SelectPrimitive.Root;
+/**
+ * Base-ui's Select actions expose no imperative `close` — only `unmount` — so
+ * unlike DropdownMenu the root mirrors the open state and a frame blur (see
+ * useFrameDismiss) flips it through the regular `onOpenChange` path. The
+ * synthetic close carries no event details.
+ */
+function Select<Value, Multiple extends boolean | undefined = false>({
+	open,
+	defaultOpen,
+	onOpenChange,
+	...props
+}: SelectPrimitive.Root.Props<Value, Multiple>) {
+	const [uncontrolledOpen, setUncontrolledOpen] = React.useState(
+		defaultOpen ?? false,
+	);
+	const isOpen = open ?? uncontrolledOpen;
+
+	const isOpenRef = React.useRef(isOpen);
+	isOpenRef.current = isOpen;
+	const onOpenChangeRef = React.useRef(onOpenChange);
+	onOpenChangeRef.current = onOpenChange;
+
+	const handleOpenChange = React.useCallback(
+		(next: boolean, details: SelectPrimitive.Root.ChangeEventDetails) => {
+			setUncontrolledOpen(next);
+			onOpenChangeRef.current?.(next, details);
+		},
+		[],
+	);
+
+	useFrameDismiss(() => {
+		if (isOpenRef.current) handleOpenChange(false, undefined as never);
+	});
+
+	return (
+		<SelectPrimitive.Root
+			open={isOpen}
+			onOpenChange={handleOpenChange}
+			{...props}
+		/>
+	);
+}
 
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
 	return (
@@ -40,7 +80,7 @@ function SelectTrigger({
 			data-slot="select-trigger"
 			data-size={size}
 			className={cn(
-				"fui:flex fui:w-fit fui:items-center fui:justify-between fui:gap-1.5 fui:rounded-4xl fui:border fui:border-input fui:bg-input/30 fui:px-3 fui:py-2 fui:text-sm fui:whitespace-nowrap fui:transition-colors fui:outline-none fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:cursor-not-allowed fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-[3px] fui:aria-invalid:ring-destructive/20 fui:data-placeholder:text-muted-foreground fui:data-[size=default]:h-9 fui:data-[size=sm]:h-8 fui:*:data-[slot=select-value]:line-clamp-1 fui:*:data-[slot=select-value]:flex fui:*:data-[slot=select-value]:items-center fui:*:data-[slot=select-value]:gap-1.5 fui:dark:hover:bg-input/50 fui:dark:aria-invalid:border-destructive/50 fui:dark:aria-invalid:ring-destructive/40 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
+				"fui:flex fui:w-fit fui:items-center fui:justify-between fui:gap-1.5 fui:rounded-4xl fui:border fui:border-input fui:bg-background fui:dark:bg-input/30 fui:px-3 fui:py-2 fui:text-sm fui:whitespace-nowrap fui:transition-colors fui:outline-none fui:focus-visible:border-foreground fui:disabled:cursor-not-allowed fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-[3px] fui:aria-invalid:ring-destructive/20 fui:data-placeholder:text-muted-foreground fui:data-[size=default]:h-9 fui:data-[size=sm]:h-8 fui:*:data-[slot=select-value]:line-clamp-1 fui:*:data-[slot=select-value]:flex fui:*:data-[slot=select-value]:items-center fui:*:data-[slot=select-value]:gap-1.5 fui:dark:hover:bg-input/50 fui:dark:aria-invalid:border-destructive/50 fui:dark:aria-invalid:ring-destructive/40 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
@@ -48,7 +88,7 @@ function SelectTrigger({
 			{children}
 			<SelectPrimitive.Icon
 				render={
-					<CaretDownIcon className="fui:pointer-events-none fui:size-4 fui:text-muted-foreground" />
+					<CaretDownIcon className="fui:pointer-events-none fui:size-4 fui:text-foreground" />
 				}
 			/>
 		</SelectPrimitive.Trigger>

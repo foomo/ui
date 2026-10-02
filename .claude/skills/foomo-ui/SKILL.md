@@ -40,6 +40,12 @@ repository.
   `checked="indeterminate"`.
 - `FormControl` requires exactly one React element child.
 - `AspectRatio` requires `ratio`.
+- `Autocomplete` is a free-text input with suggestions: `value` and
+  `onValueChange` carry the input string, `items` goes on the root, and
+  `AutocompleteList` takes a render function per item. Wrap `AutocompleteInput`
+  in `FormControl`.
+- `DatePicker` and `DateRangePicker` take `value`/`onValueChange` as `Date` or
+  `DateRange`. Pass other Calendar props through `calendar`.
 - `AlertDialogAction` is a styled button and does not close the dialog by
   itself. Control the root state or compose the required close behaviour.
 - Keep accessible names on icon-only buttons and preserve Title/Description

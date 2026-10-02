@@ -24,7 +24,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="card-header"
 			className={cn(
-				"fui:group/card-header fui:@container/card-header fui:grid fui:auto-rows-min fui:items-start fui:gap-2 fui:rounded-t-xl fui:px-(--card-spacing) fui:has-data-[slot=card-action]:grid-cols-[1fr_auto] fui:has-data-[slot=card-description]:grid-rows-[auto_auto] fui:[.border-b]:pb-(--card-spacing)",
+				"fui:group/card-header fui:@container/card-header fui:grid fui:auto-rows-min fui:items-start fui:gap-2 fui:rounded-t-xl fui:px-(--card-spacing) fui:has-data-[slot=card-action]:grid-cols-[1fr_auto] fui:has-data-[slot=card-description]:grid-rows-[auto_auto] fui:[&[class~='fui:border-b']]:pb-(--card-spacing)",
 				className,
 			)}
 			{...props}
@@ -83,7 +83,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="card-footer"
 			className={cn(
-				"fui:flex fui:items-center fui:rounded-b-xl fui:px-(--card-spacing) fui:[.border-t]:pt-(--card-spacing)",
+				"fui:flex fui:items-center fui:rounded-b-xl fui:px-(--card-spacing) fui:[&[class~='fui:border-t']]:pt-(--card-spacing)",
 				className,
 			)}
 			{...props}

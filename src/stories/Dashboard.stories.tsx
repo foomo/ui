@@ -831,10 +831,19 @@ function NotificationsMenu() {
 	);
 }
 
+// One chart color per bar, so progress bars read as part of the chart palette
+// rather than the near-black primary.
+const progressColors = [
+	"fui:[&_[data-slot=progress-indicator]]:bg-chart-2",
+	"fui:[&_[data-slot=progress-indicator]]:bg-chart-3",
+	"fui:[&_[data-slot=progress-indicator]]:bg-chart-4",
+	"fui:[&_[data-slot=progress-indicator]]:bg-chart-5",
+];
+
 function StatCards() {
 	return (
 		<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
-			{stats.map((stat) => (
+			{stats.map((stat, index) => (
 				<Card key={stat.label} size="sm">
 					<CardHeader>
 						<CardDescription>{stat.label}</CardDescription>
@@ -856,7 +865,10 @@ function StatCards() {
 								{stat.delta}
 							</Badge>
 						</div>
-						<Progress value={stat.progress} className="fui:h-1.5" />
+						<Progress
+							value={stat.progress}
+							className={`fui:h-1.5 ${progressColors[index % progressColors.length]}`}
+						/>
 						<p className="fui:text-xs fui:text-muted-foreground">{stat.hint}</p>
 					</CardContent>
 				</Card>
@@ -1308,7 +1320,7 @@ function AnalyticsTab() {
 					<CardDescription>Progress toward Q3 targets</CardDescription>
 				</CardHeader>
 				<CardContent className="fui:flex fui:flex-col fui:gap-5">
-					{goals.map((goal) => (
+					{goals.map((goal, index) => (
 						<div
 							key={goal.label}
 							className="fui:flex fui:flex-col fui:gap-2 fui:text-sm"
@@ -1319,7 +1331,10 @@ function AnalyticsTab() {
 									{goal.value}%
 								</span>
 							</div>
-							<Progress value={goal.value} />
+							<Progress
+								value={goal.value}
+								className={progressColors[index % progressColors.length]}
+							/>
 						</div>
 					))}
 				</CardContent>

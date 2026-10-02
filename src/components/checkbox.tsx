@@ -1,5 +1,3 @@
-"use client";
-
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
@@ -11,7 +9,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 		<CheckboxPrimitive.Root
 			data-slot="checkbox"
 			className={cn(
-				"fui:peer fui:relative fui:flex fui:size-4 fui:shrink-0 fui:items-center fui:justify-center fui:rounded-[6px] fui:border fui:border-input fui:transition-shadow fui:outline-none fui:group-has-disabled/field:opacity-50 fui:group-has-[:focus-visible]/field-label:ring-0 fui:group-has-[:focus-visible]/field-label:not-data-checked:border-input fui:after:absolute fui:after:-inset-x-3 fui:after:-inset-y-2 fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:cursor-not-allowed fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-[3px] fui:aria-invalid:ring-destructive/20 fui:aria-invalid:aria-checked:border-primary fui:dark:bg-input/30 fui:dark:aria-invalid:border-destructive/50 fui:dark:aria-invalid:ring-destructive/40 fui:data-checked:border-primary fui:data-checked:bg-primary fui:data-checked:text-primary-foreground fui:group-has-[:focus-visible]/field-label:data-checked:border-primary fui:dark:data-checked:bg-primary",
+				"fui:peer fui:relative fui:flex fui:size-4 fui:shrink-0 fui:items-center fui:justify-center fui:rounded-[6px] fui:border fui:border-input fui:transition-shadow fui:outline-none fui:group-has-disabled/field:opacity-50 fui:group-has-[:focus-visible]/field-label:ring-0 fui:group-has-[:focus-visible]/field-label:not-data-checked:border-input fui:after:absolute fui:after:-inset-x-3 fui:after:-inset-y-2 fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:cursor-not-allowed fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-[3px] fui:aria-invalid:ring-destructive/20 fui:aria-invalid:aria-checked:border-accent-highlight fui:dark:bg-input/30 fui:dark:aria-invalid:border-destructive/50 fui:dark:aria-invalid:ring-destructive/40 fui:data-checked:border-accent-highlight fui:data-checked:bg-accent-highlight fui:data-checked:text-accent-highlight-foreground fui:group-has-[:focus-visible]/field-label:data-checked:border-accent-highlight fui:dark:data-checked:bg-accent-highlight",
 				className,
 			)}
 			{...props}

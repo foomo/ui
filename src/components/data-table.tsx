@@ -1,5 +1,3 @@
-"use client";
-
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -182,7 +180,7 @@ function DataTableColumnHeader<
 							? `${title}, sorted descending`
 							: `${title}, not sorted`
 				}
-				className="fui:-mx-2 fui:h-7 fui:gap-1 fui:font-medium fui:data-[sorted=true]:text-foreground"
+				className="fui:-mx-2 fui:h-7 fui:gap-1 fui:font-medium fui:data-[sorted=true]:bg-muted fui:data-[sorted=true]:text-foreground fui:dark:data-[sorted=true]:bg-muted/50"
 				data-sorted={sorted !== false}
 			>
 				{title}
