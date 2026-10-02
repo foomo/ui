@@ -6,6 +6,8 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+## 1.2.0 - 2026-10-02
+
 ### Added
 
 - Autocomplete: `@foomo/ui/components/autocomplete` wraps the Base UI
