@@ -1,10 +1,51 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import type * as React from "react";
+import * as React from "react";
+import { useFrameDismiss } from "@/hooks/use-frame-dismiss";
 
-function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
-	return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
+function DropdownMenu({
+	open,
+	defaultOpen,
+	onOpenChange,
+	actionsRef,
+	...props
+}: MenuPrimitive.Root.Props) {
+	// base-ui only exposes an imperative close through `actionsRef`, so the menu
+	// stays uncontrolled and the open state is merely mirrored — closing an
+	// already-closed menu would fire a spurious `onOpenChange(false)`.
+	const actions = React.useRef<MenuPrimitive.Root.Actions | null>(null);
+	const openRef = React.useRef(open ?? defaultOpen ?? false);
+	if (open !== undefined) {
+		openRef.current = open;
+	}
+
+	React.useImperativeHandle(
+		actionsRef,
+		() => ({
+			unmount: () => actions.current?.unmount(),
+			close: () => actions.current?.close(),
+		}),
+		[],
+	);
+
+	useFrameDismiss(() => {
+		if (openRef.current) actions.current?.close();
+	});
+
+	return (
+		<MenuPrimitive.Root
+			data-slot="dropdown-menu"
+			open={open}
+			defaultOpen={defaultOpen}
+			onOpenChange={(next, details) => {
+				openRef.current = next;
+				onOpenChange?.(next, details);
+			}}
+			actionsRef={actions}
+			{...props}
+		/>
+	);
 }
 
 function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {

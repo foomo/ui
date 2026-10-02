@@ -1,9 +1,51 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { CaretDownIcon, CaretUpIcon, CheckIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
-import type * as React from "react";
+import * as React from "react";
+import { useFrameDismiss } from "@/hooks/use-frame-dismiss";
 
-const Select = SelectPrimitive.Root;
+/**
+ * Base-ui's Select actions expose no imperative `close` — only `unmount` — so
+ * unlike DropdownMenu the root mirrors the open state and a frame blur (see
+ * useFrameDismiss) flips it through the regular `onOpenChange` path. The
+ * synthetic close carries no event details.
+ */
+function Select<Value, Multiple extends boolean | undefined = false>({
+	open,
+	defaultOpen,
+	onOpenChange,
+	...props
+}: SelectPrimitive.Root.Props<Value, Multiple>) {
+	const [uncontrolledOpen, setUncontrolledOpen] = React.useState(
+		defaultOpen ?? false,
+	);
+	const isOpen = open ?? uncontrolledOpen;
+
+	const isOpenRef = React.useRef(isOpen);
+	isOpenRef.current = isOpen;
+	const onOpenChangeRef = React.useRef(onOpenChange);
+	onOpenChangeRef.current = onOpenChange;
+
+	const handleOpenChange = React.useCallback(
+		(next: boolean, details: SelectPrimitive.Root.ChangeEventDetails) => {
+			setUncontrolledOpen(next);
+			onOpenChangeRef.current?.(next, details);
+		},
+		[],
+	);
+
+	useFrameDismiss(() => {
+		if (isOpenRef.current) handleOpenChange(false, undefined as never);
+	});
+
+	return (
+		<SelectPrimitive.Root
+			open={isOpen}
+			onOpenChange={handleOpenChange}
+			{...props}
+		/>
+	);
+}
 
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
 	return (
