@@ -35,6 +35,8 @@
 	--color-link: var(--link);
 	--color-secondary: var(--secondary);
 	--color-secondary-foreground: var(--secondary-foreground);
+	--color-tertiary: var(--tertiary);
+	--color-tertiary-foreground: var(--tertiary-foreground);
 	--color-muted: var(--muted);
 	--color-muted-foreground: var(--muted-foreground);
 	--color-accent: var(--accent);
@@ -45,6 +47,8 @@
 	/* The counterpart to `--destructive`, so a component with a "this went
 	   well" state has a semantic token to reach for. */
 	--color-success: var(--success);
+	--color-alert: var(--alert);
+	--color-alert-foreground: var(--alert-foreground);
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);

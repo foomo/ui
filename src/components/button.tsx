@@ -10,11 +10,11 @@ const buttonVariants = cva(
 				default:
 					"fui:bg-primary fui:text-primary-foreground fui:hover:bg-primary/80",
 				outline:
-					"fui:border-current fui:bg-background fui:text-foreground fui:hover:bg-muted fui:aria-expanded:bg-muted",
+					"fui:border-current fui:bg-background fui:text-foreground fui:hover:bg-tertiary fui:aria-expanded:bg-tertiary",
 				secondary:
-					"fui:bg-secondary fui:text-secondary-foreground fui:hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] fui:aria-expanded:bg-secondary fui:aria-expanded:text-secondary-foreground",
+					"fui:bg-tertiary fui:text-tertiary-foreground fui:hover:bg-[color-mix(in_oklch,var(--tertiary),var(--foreground)_5%)] fui:aria-expanded:bg-tertiary fui:aria-expanded:text-tertiary-foreground",
 				ghost:
-					"fui:underline fui:underline-offset-4 fui:hover:bg-muted fui:hover:text-foreground fui:aria-expanded:bg-muted fui:aria-expanded:text-foreground fui:dark:hover:bg-muted/50",
+					"fui:underline fui:underline-offset-4 fui:hover:bg-tertiary fui:hover:text-foreground fui:aria-expanded:bg-tertiary fui:aria-expanded:text-foreground fui:dark:hover:bg-tertiary/50",
 				destructive:
 					"fui:bg-destructive/10 fui:text-destructive fui:hover:bg-destructive/20 fui:focus-visible:border-destructive/40 fui:focus-visible:ring-destructive/20 fui:dark:bg-destructive/20 fui:dark:hover:bg-destructive/30 fui:dark:focus-visible:ring-destructive/40",
 				link: "fui:text-link fui:underline-offset-4 fui:hover:underline",
@@ -25,10 +25,14 @@ const buttonVariants = cva(
 				xs: "fui:h-6 fui:gap-1 fui:px-2.5 fui:text-xs fui:has-data-[icon=inline-end]:pr-2 fui:has-data-[icon=inline-start]:pl-2 fui:[&_svg:not([class*=size-])]:size-3",
 				sm: "fui:h-8 fui:gap-1 fui:px-3 fui:has-data-[icon=inline-end]:pr-2 fui:has-data-[icon=inline-start]:pl-2",
 				lg: "fui:h-10 fui:gap-1.5 fui:px-4 fui:has-data-[icon=inline-end]:pr-3 fui:has-data-[icon=inline-start]:pl-3",
-				icon: "fui:size-9",
-				"icon-xs": "fui:size-6 fui:[&_svg:not([class*=size-])]:size-3",
-				"icon-sm": "fui:size-8",
-				"icon-lg": "fui:size-10",
+				// Square buttons hold an icon or an avatar, never a label, so they
+				// opt out of the ghost variant's underline: it would otherwise run
+				// under an avatar's initials.
+				icon: "fui:size-9 fui:no-underline",
+				"icon-xs":
+					"fui:size-6 fui:no-underline fui:[&_svg:not([class*=size-])]:size-3",
+				"icon-sm": "fui:size-8 fui:no-underline",
+				"icon-lg": "fui:size-10 fui:no-underline",
 			},
 		},
 		defaultVariants: {

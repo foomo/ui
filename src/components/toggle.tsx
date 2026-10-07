@@ -3,13 +3,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 
 const toggleVariants = cva(
-	"fui:group/toggle fui:inline-flex fui:items-center fui:justify-center fui:gap-1 fui:rounded-4xl fui:text-sm fui:font-medium fui:whitespace-nowrap fui:transition-colors fui:outline-none fui:hover:bg-muted fui:hover:text-foreground fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-destructive/20 fui:aria-pressed:bg-muted fui:dark:aria-invalid:ring-destructive/40 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
+	"fui:group/toggle fui:inline-flex fui:items-center fui:justify-center fui:gap-1 fui:rounded-4xl fui:text-sm fui:font-medium fui:whitespace-nowrap fui:transition-colors fui:outline-none fui:hover:bg-tertiary fui:hover:text-foreground fui:focus-visible:border-ring fui:focus-visible:ring-[3px] fui:focus-visible:ring-ring/50 fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-invalid:border-destructive fui:aria-invalid:ring-destructive/20 fui:aria-pressed:bg-tertiary fui:dark:aria-invalid:ring-destructive/40 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 	{
 		variants: {
 			variant: {
 				default: "fui:bg-transparent",
 				outline:
-					"fui:border fui:border-input fui:bg-transparent fui:hover:bg-muted",
+					"fui:border fui:border-foreground fui:bg-transparent fui:hover:bg-tertiary",
 			},
 			size: {
 				default:

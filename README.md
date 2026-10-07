@@ -135,6 +135,15 @@ bun run storybook
 bun run build
 ```
 
+To work on the package from an app that consumes it, link it and run the
+watch mode, which rebuilds `dist/` incrementally on every change under `src/`:
+
+```bash
+bun link            # in this repo
+bun link @foomo/ui  # in the app
+bun run watch       # in this repo
+```
+
 The project-local `foomo-ui` agent skill documents component selection and the
 v1 composition conventions. It is available for OpenCode, Claude Code, and
 Codex under `.opencode/skills`, `.claude/skills`, and `.agents/skills`

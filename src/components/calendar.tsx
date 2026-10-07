@@ -117,16 +117,16 @@ function Calendar({
 					defaultClassNames.day,
 				),
 				range_start: cn(
-					"fui:relative fui:isolate fui:z-0 fui:rounded-l-(--cell-radius) fui:bg-muted fui:after:absolute fui:after:inset-y-0 fui:after:right-0 fui:after:w-4 fui:after:bg-muted",
+					"fui:relative fui:isolate fui:z-0 fui:rounded-l-(--cell-radius) fui:bg-tertiary fui:after:absolute fui:after:inset-y-0 fui:after:right-0 fui:after:w-4 fui:after:bg-tertiary",
 					defaultClassNames.range_start,
 				),
 				range_middle: cn("fui:rounded-none", defaultClassNames.range_middle),
 				range_end: cn(
-					"fui:relative fui:isolate fui:z-0 fui:rounded-r-(--cell-radius) fui:bg-muted fui:after:absolute fui:after:inset-y-0 fui:after:left-0 fui:after:w-4 fui:after:bg-muted",
+					"fui:relative fui:isolate fui:z-0 fui:rounded-r-(--cell-radius) fui:bg-tertiary fui:after:absolute fui:after:inset-y-0 fui:after:left-0 fui:after:w-4 fui:after:bg-tertiary",
 					defaultClassNames.range_end,
 				),
 				today: cn(
-					"fui:rounded-(--cell-radius) fui:bg-muted fui:text-foreground fui:data-[selected=true]:rounded-none",
+					"fui:rounded-(--cell-radius) fui:bg-tertiary fui:text-foreground fui:data-[selected=true]:rounded-none",
 					defaultClassNames.today,
 				),
 				outside: cn(
@@ -223,7 +223,7 @@ function CalendarDayButton({
 			data-range-end={modifiers.range_end}
 			data-range-middle={modifiers.range_middle}
 			className={cn(
-				"fui:relative fui:isolate fui:z-10 fui:flex fui:aspect-square fui:size-auto fui:w-full fui:min-w-(--cell-size) fui:flex-col fui:gap-1 fui:border-0 fui:leading-none fui:font-normal fui:no-underline fui:group-data-[focused=true]/day:relative fui:group-data-[focused=true]/day:z-10 fui:group-data-[focused=true]/day:border-ring fui:group-data-[focused=true]/day:ring-[3px] fui:group-data-[focused=true]/day:ring-ring/50 fui:data-[range-end=true]:rounded-(--cell-radius) fui:data-[range-end=true]:rounded-r-(--cell-radius) fui:data-[range-end=true]:bg-accent-highlight fui:data-[range-end=true]:text-accent-highlight-foreground fui:data-[range-middle=true]:rounded-none fui:data-[range-middle=true]:bg-muted fui:data-[range-middle=true]:text-foreground fui:data-[range-start=true]:rounded-(--cell-radius) fui:data-[range-start=true]:rounded-l-(--cell-radius) fui:data-[range-start=true]:bg-accent-highlight fui:data-[range-start=true]:text-accent-highlight-foreground fui:data-[selected-single=true]:bg-accent-highlight fui:data-[selected-single=true]:text-accent-highlight-foreground fui:dark:hover:text-foreground fui:[&>span]:text-xs fui:[&>span]:opacity-70",
+				"fui:relative fui:isolate fui:z-10 fui:flex fui:aspect-square fui:size-auto fui:w-full fui:min-w-(--cell-size) fui:flex-col fui:gap-1 fui:border-0 fui:leading-none fui:font-normal fui:no-underline fui:group-data-[focused=true]/day:relative fui:group-data-[focused=true]/day:z-10 fui:group-data-[focused=true]/day:border-ring fui:group-data-[focused=true]/day:ring-[3px] fui:group-data-[focused=true]/day:ring-ring/50 fui:data-[range-end=true]:rounded-(--cell-radius) fui:data-[range-end=true]:rounded-r-(--cell-radius) fui:data-[range-end=true]:bg-accent-highlight fui:data-[range-end=true]:text-accent-highlight-foreground fui:data-[range-middle=true]:rounded-none fui:data-[range-middle=true]:bg-tertiary fui:data-[range-middle=true]:text-foreground fui:data-[range-start=true]:rounded-(--cell-radius) fui:data-[range-start=true]:rounded-l-(--cell-radius) fui:data-[range-start=true]:bg-accent-highlight fui:data-[range-start=true]:text-accent-highlight-foreground fui:data-[selected-single=true]:bg-accent-highlight fui:data-[selected-single=true]:text-accent-highlight-foreground fui:dark:hover:text-foreground fui:[&>span]:text-xs fui:[&>span]:opacity-70",
 				defaultClassNames.day,
 				className,
 			)}

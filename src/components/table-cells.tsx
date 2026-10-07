@@ -3,6 +3,7 @@ import {
 	CheckIcon,
 	type Icon,
 	MinusIcon,
+	WarningIcon,
 	XIcon,
 } from "@phosphor-icons/react";
 import { cn } from "cn";
@@ -106,7 +107,7 @@ function BooleanCell({
  * theme), for categories that have no good/bad meaning (a type, an area, a
  * source). Pick one per category and keep it stable, so a category keeps its
  * colour across every table. A state that really is good or bad ("Enabled",
- * "Failed") takes the `success` or `destructive` variant instead.
+ * "Failed") takes the `success`, `alert` or `destructive` variant instead.
  */
 type TagColor =
 	| "label-1"
@@ -190,11 +191,7 @@ function TagCell({
 		<Badge
 			variant={color ? null : variant}
 			data-color={color}
-			className={cn(
-				"fui:font-normal",
-				color && tagColorClassNames[color],
-				className,
-			)}
+			className={cn(color && tagColorClassNames[color], className)}
 		>
 			{LeadingIcon ? (
 				<LeadingIcon data-icon="inline-start" aria-hidden />
@@ -210,10 +207,12 @@ function TagCell({
  *
  * - `success`: a tick on green, for a step that completed ("Imported").
  * - `destructive`: a cross on red, for one that failed ("Failed").
+ * - `alert`: a warning sign on yellow, for one that needs a look but has not
+ *   failed ("Needs review").
  * - `info`: a circled tick on blue, for one settled some other way, after
  *   the fact ("Resolved").
  */
-type StatusTone = "success" | "destructive" | "info";
+type StatusTone = "success" | "destructive" | "alert" | "info";
 
 const statusTones: Record<
 	StatusTone,
@@ -221,6 +220,7 @@ const statusTones: Record<
 > = {
 	success: { icon: CheckIcon, variant: "success" },
 	destructive: { icon: XIcon, variant: "destructive" },
+	alert: { icon: WarningIcon, variant: "alert" },
 	info: { icon: CheckCircleIcon, color: "label-1" },
 };
 

@@ -326,7 +326,7 @@ function FilteredProductTable({ size = "default" }: { size?: FilterSize }) {
 }
 
 const meta = {
-	title: "Filters",
+	title: "Forms/Filters",
 	component: ProductFilters,
 	parameters: {
 		layout: "padded",

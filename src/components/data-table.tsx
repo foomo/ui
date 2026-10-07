@@ -1,10 +1,6 @@
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
-	CaretDoubleLeftIcon,
-	CaretDoubleRightIcon,
-	CaretLeftIcon,
-	CaretRightIcon,
 	CaretUpDownIcon,
 	MagnifyingGlassIcon,
 	SlidersHorizontalIcon,
@@ -50,19 +46,13 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/dropdown-menu";
+import { FilterLabelSpacer } from "@/components/filters";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/input-group";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/select";
+import { PaginationPager } from "@/components/pagination";
 import {
 	Table,
 	TableBody,
@@ -435,67 +425,72 @@ function DataTable<
 			{...props}
 		>
 			{showToolbar && (
-				<div className="fui:flex fui:flex-wrap fui:items-end fui:gap-2">
-					{searchable !== false && (
-						<InputGroup
-							className={cn(
-								"fui:w-full fui:sm:w-64",
-								toolbarSize === "sm" && "fui:h-8",
-							)}
-						>
-							<InputGroupAddon>
-								<MagnifyingGlassIcon />
-							</InputGroupAddon>
-							<InputGroupInput
-								value={globalFilter}
-								onChange={(event) => setGlobalFilter(event.target.value)}
-								placeholder={
-									typeof searchable === "string" ? searchable : "Search…"
-								}
-								aria-label="Search table"
-							/>
-						</InputGroup>
-					)}
-					{toolbar}
+				// The search and `toolbar` wrap on the left; the column menu sits in
+				// its own container on the right, so it stays put when the filters
+				// wrap or "Clear filters" appears. Beside labelled filters it gets a
+				// label-high spacer, so it lines up with their first row.
+				<div className="fui:group/toolbar fui:flex fui:items-start fui:gap-6">
+					<div className="fui:flex fui:min-w-0 fui:flex-1 fui:flex-wrap fui:items-end fui:gap-2">
+						{searchable !== false && (
+							<InputGroup
+								className={cn(
+									"fui:w-full fui:sm:w-64",
+									toolbarSize === "sm" && "fui:h-8",
+								)}
+							>
+								<InputGroupAddon>
+									<MagnifyingGlassIcon />
+								</InputGroupAddon>
+								<InputGroupInput
+									value={globalFilter}
+									onChange={(event) => setGlobalFilter(event.target.value)}
+									placeholder={
+										typeof searchable === "string" ? searchable : "Search…"
+									}
+									aria-label="Search table"
+								/>
+							</InputGroup>
+						)}
+						{toolbar}
+					</div>
 					{hideableColumns && (
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<Button
-										variant="outline"
-										size={toolbarSize}
-										className="fui:ml-auto"
-									>
-										<SlidersHorizontalIcon data-icon="inline-start" />
-										Columns
-									</Button>
-								}
-							/>
-							<DropdownMenuContent align="end" className="fui:w-44">
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									{table
-										.getAllColumns()
-										.filter((column) => column.getCanHide())
-										.map((column) => (
-											<DropdownMenuCheckboxItem
-												key={column.id}
-												checked={column.getIsVisible()}
-												onCheckedChange={(value) =>
-													column.toggleVisibility(!!value)
-												}
-												onSelect={(event) => event.preventDefault()}
-												className="fui:capitalize"
-											>
-												{column.id}
-											</DropdownMenuCheckboxItem>
-										))}
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<div className="fui:flex fui:shrink-0 fui:flex-col fui:gap-1">
+							<FilterLabelSpacer className="fui:hidden fui:group-has-data-[slot=filter-field]/toolbar:block" />
+							<DropdownMenu>
+								<DropdownMenuTrigger
+									render={
+										<Button variant="outline" size={toolbarSize}>
+											<SlidersHorizontalIcon data-icon="inline-start" />
+											Columns
+										</Button>
+									}
+								/>
+								<DropdownMenuContent align="end" className="fui:w-44">
+									<DropdownMenuGroup>
+										<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+									</DropdownMenuGroup>
+									<DropdownMenuSeparator />
+									<DropdownMenuGroup>
+										{table
+											.getAllColumns()
+											.filter((column) => column.getCanHide())
+											.map((column) => (
+												<DropdownMenuCheckboxItem
+													key={column.id}
+													checked={column.getIsVisible()}
+													onCheckedChange={(value) =>
+														column.toggleVisibility(!!value)
+													}
+													onSelect={(event) => event.preventDefault()}
+													className="fui:capitalize"
+												>
+													{column.id}
+												</DropdownMenuCheckboxItem>
+											))}
+									</DropdownMenuGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
 					)}
 				</div>
 			)}
@@ -569,84 +564,21 @@ function DataTable<
 			</div>
 
 			{pageSize !== false && (
-				<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
-					<p className="fui:text-sm fui:text-muted-foreground">
-						{/* Under `manualPagination` the row model holds only the page that
-						    was fetched, so the server's total is the honest figure. */}
-						{enableRowSelection
+				<PaginationPager
+					page={table.state.pagination.pageIndex + 1}
+					pageCount={table.getPageCount()}
+					onPageChange={(page) => table.setPageIndex(page - 1)}
+					pageSize={table.state.pagination.pageSize}
+					pageSizeOptions={pageSizeOptions}
+					onPageSizeChange={(size) => table.setPageSize(size)}
+					summary={
+						// Under `manualPagination` the row model holds only the page
+						// that was fetched, so the server's total is the honest figure.
+						enableRowSelection
 							? `${selectedRows.length} of ${totalRows} row(s) selected`
-							: `${totalRows} row(s)`}
-					</p>
-
-					<div className="fui:flex fui:items-center fui:gap-4">
-						<div className="fui:flex fui:items-center fui:gap-2">
-							<span className="fui:text-sm fui:text-muted-foreground">
-								Rows per page
-							</span>
-							<Select
-								value={String(table.state.pagination.pageSize)}
-								onValueChange={(value) => table.setPageSize(Number(value))}
-							>
-								<SelectTrigger size="sm" className="fui:w-18">
-									<SelectValue />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										{pageSizeOptions.map((option) => (
-											<SelectItem key={option} value={String(option)}>
-												{option}
-											</SelectItem>
-										))}
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						</div>
-
-						<span className="fui:text-sm fui:tabular-nums fui:text-muted-foreground">
-							Page {table.state.pagination.pageIndex + 1} of{" "}
-							{Math.max(table.getPageCount(), 1)}
-						</span>
-
-						<div className="fui:flex fui:items-center fui:gap-1">
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.firstPage()}
-								disabled={!table.getCanPreviousPage()}
-							>
-								<CaretDoubleLeftIcon />
-								<span className="fui:sr-only">First page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.previousPage()}
-								disabled={!table.getCanPreviousPage()}
-							>
-								<CaretLeftIcon />
-								<span className="fui:sr-only">Previous page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.nextPage()}
-								disabled={!table.getCanNextPage()}
-							>
-								<CaretRightIcon />
-								<span className="fui:sr-only">Next page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.lastPage()}
-								disabled={!table.getCanNextPage()}
-							>
-								<CaretDoubleRightIcon />
-								<span className="fui:sr-only">Last page</span>
-							</Button>
-						</div>
-					</div>
-				</div>
+							: `${totalRows} row(s)`
+					}
+				/>
 			)}
 		</div>
 	);

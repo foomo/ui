@@ -3,27 +3,21 @@ import {
 	ArrowDownRightIcon,
 	ArrowUpRightIcon,
 	BellIcon,
-	BuildingsIcon,
-	CaretRightIcon,
-	CaretUpDownIcon,
 	ChartBarIcon,
 	CircleWavyCheckIcon,
 	CommandIcon,
-	CreditCardIcon,
 	CurrencyDollarIcon,
 	DotsThreeIcon,
 	DownloadIcon,
 	EyeIcon,
 	FileTextIcon,
 	GearIcon,
-	LifebuoyIcon,
 	MagnifyingGlassIcon,
 	PackageIcon,
 	PaperPlaneTiltIcon,
 	PencilIcon,
 	PlusIcon,
 	RocketIcon,
-	ShoppingCartIcon,
 	SignOutIcon,
 	SparkleIcon,
 	SquaresFourIcon,
@@ -86,11 +80,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "../components/chart";
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "../components/collapsible";
 import {
 	Command,
 	CommandDialog,
@@ -164,23 +153,8 @@ import {
 } from "../components/select";
 import { Separator } from "../components/separator";
 import {
-	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarGroup,
-	SidebarGroupLabel,
-	SidebarHeader,
 	SidebarInset,
-	SidebarMenu,
-	SidebarMenuBadge,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
 	SidebarProvider,
-	SidebarRail,
-	SidebarSeparator,
 	SidebarTrigger,
 } from "../components/sidebar";
 import { Skeleton } from "../components/skeleton";
@@ -194,6 +168,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "../components/tooltip";
+import { ToolboxSidebar } from "./toolbox-sidebar";
 
 const revenueByMonth = [
 	{ month: "Jan", revenue: 18600, expenses: 11400 },
@@ -453,223 +428,6 @@ const stats = [
 	},
 ];
 
-function AppSidebar() {
-	return (
-		<Sidebar collapsible="icon" variant="inset">
-			<SidebarHeader>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<SidebarMenuButton size="lg" tooltip="Switch workspace">
-										<div className="fui:flex fui:aspect-square fui:size-8 fui:items-center fui:justify-center fui:rounded-lg fui:bg-sidebar-primary fui:text-sidebar-primary-foreground">
-											<BuildingsIcon className="fui:size-4" />
-										</div>
-										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
-											<span className="fui:truncate fui:font-medium">
-												Foomo Inc.
-											</span>
-											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
-												Enterprise
-											</span>
-										</div>
-										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
-									</SidebarMenuButton>
-								}
-							/>
-							<DropdownMenuContent align="start" className="fui:w-56">
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
-									<DropdownMenuItem>
-										<BuildingsIcon />
-										Foomo Inc.
-										<DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<RocketIcon />
-										Skunkworks
-										<DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem>
-										<PlusIcon />
-										New workspace
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarHeader>
-
-			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupLabel>Platform</SidebarGroupLabel>
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton isActive tooltip="Dashboard">
-								<SquaresFourIcon />
-								<span>Dashboard</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Analytics">
-								<ChartBarIcon />
-								<span>Analytics</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-
-						<Collapsible defaultOpen className="fui:group/collapsible">
-							<SidebarMenuItem>
-								<CollapsibleTrigger
-									render={
-										<SidebarMenuButton tooltip="Projects">
-											<PackageIcon />
-											<span>Projects</span>
-											<CaretRightIcon className="fui:ml-auto fui:size-4 fui:transition-transform fui:duration-200 fui:group-data-open/collapsible:rotate-90" />
-										</SidebarMenuButton>
-									}
-								/>
-								<CollapsibleContent>
-									<SidebarMenuSub>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Storefront
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Checkout API
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Design system
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-									</SidebarMenuSub>
-								</CollapsibleContent>
-							</SidebarMenuItem>
-						</Collapsible>
-
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Customers">
-								<UsersIcon />
-								<span>Customers</span>
-							</SidebarMenuButton>
-							<SidebarMenuBadge>128</SidebarMenuBadge>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Orders">
-								<ShoppingCartIcon />
-								<span>Orders</span>
-							</SidebarMenuButton>
-							<SidebarMenuBadge>12</SidebarMenuBadge>
-						</SidebarMenuItem>
-					</SidebarMenu>
-				</SidebarGroup>
-
-				<SidebarSeparator />
-
-				<SidebarGroup>
-					<SidebarGroupLabel>Workspace</SidebarGroupLabel>
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Invoices">
-								<FileTextIcon />
-								<span>Invoices</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Billing">
-								<CreditCardIcon />
-								<span>Billing</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="GearIcon">
-								<GearIcon />
-								<span>GearIcon</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					</SidebarMenu>
-				</SidebarGroup>
-			</SidebarContent>
-
-			<SidebarFooter>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<SidebarMenuButton size="sm" tooltip="Support">
-							<LifebuoyIcon />
-							<span>Support</span>
-						</SidebarMenuButton>
-					</SidebarMenuItem>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<SidebarMenuButton size="lg" tooltip="Account">
-										<Avatar className="fui:size-8 fui:rounded-lg">
-											<AvatarFallback className="fui:rounded-lg">
-												LB
-											</AvatarFallback>
-										</Avatar>
-										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
-											<span className="fui:truncate fui:font-medium">
-												Lena Brandt
-											</span>
-											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
-												lena@foomo.org
-											</span>
-										</div>
-										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
-									</SidebarMenuButton>
-								}
-							/>
-							<DropdownMenuContent
-								side="top"
-								align="start"
-								className="fui:w-56"
-							>
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>My account</DropdownMenuLabel>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem>
-										<SparkleIcon />
-										Upgrade to Pro
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<CircleWavyCheckIcon />
-										Account
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<CreditCardIcon />
-										Billing
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem variant="destructive">
-										<SignOutIcon />
-										Log out
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarFooter>
-
-			<SidebarRail />
-		</Sidebar>
-	);
-}
-
 function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 	return (
 		<header className="fui:sticky fui:top-0 fui:z-10 fui:flex fui:h-16 fui:shrink-0 fui:items-center fui:gap-2 fui:border-b fui:bg-background/80 fui:px-4 fui:backdrop-blur">
@@ -682,7 +440,7 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 			<Breadcrumb className="fui:hidden fui:md:block">
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="#">Foomo Inc.</BreadcrumbLink>
+						<BreadcrumbLink href="#">bestbytes toolbox</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
@@ -698,7 +456,7 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 					className="fui:hidden fui:w-64 fui:justify-start fui:font-normal fui:text-muted-foreground fui:lg:inline-flex"
 				>
 					<MagnifyingGlassIcon data-icon="inline-start" />
-					<span>MagnifyingGlassIcon everything…</span>
+					<span>Search everything…</span>
 					<KbdGroup className="fui:ml-auto">
 						<Kbd>⌘</Kbd>
 						<Kbd>K</Kbd>
@@ -734,14 +492,14 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 						render={
 							<Button variant="ghost" size="icon" className="fui:rounded-full">
 								<Avatar className="fui:size-7">
-									<AvatarFallback>LB</AvatarFallback>
+									<AvatarFallback>MM</AvatarFallback>
 								</Avatar>
 							</Button>
 						}
 					/>
 					<DropdownMenuContent align="end" className="fui:w-56">
 						<DropdownMenuGroup>
-							<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
+							<DropdownMenuLabel>Maxi Muster</DropdownMenuLabel>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
@@ -974,7 +732,7 @@ function ActivityCard() {
 		<Card className="fui:xl:col-span-3">
 			<CardHeader>
 				<CardTitle>Recent activity</CardTitle>
-				<CardDescription>Last 24 hours across all workspaces</CardDescription>
+				<CardDescription>Last 24 hours in the toolbox</CardDescription>
 			</CardHeader>
 			<CardContent className="fui:px-0">
 				<ScrollArea className="fui:h-[260px]">
@@ -1157,7 +915,7 @@ function OrdersTableCard() {
 					columns={orderColumns}
 					data={orders}
 					getRowId={(order) => order.id}
-					searchable="MagnifyingGlassIcon invoices…"
+					searchable="Search invoices…"
 					hideableColumns
 					enableRowSelection
 					onRowSelectionChange={setSelected}
@@ -1438,7 +1196,7 @@ function CommandPalette({
 			open={open}
 			onOpenChange={onOpenChange}
 			title="Command palette"
-			description="MagnifyingGlassIcon for a command to run"
+			description="Search for a command to run"
 		>
 			{/*
 			 * CommandDialog only renders <Dialog><DialogContent>{children}</…>.
@@ -1514,7 +1272,7 @@ function InviteDialog() {
 				<DialogFooter>
 					<Button variant="outline">Cancel</Button>
 					<Button onClick={() => toast.success("Invitations sent")}>
-						PaperPlaneTiltIcon invites
+						Send invites
 					</Button>
 				</DialogFooter>
 			</DialogContent>
@@ -1582,6 +1340,8 @@ type DashboardProps = {
 
 function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 	const [commandOpen, setCommandOpen] = React.useState(false);
+	// The toolbox navigation, with the dashboard itself as the active page.
+	const [path, setPath] = React.useState("/");
 
 	React.useEffect(() => {
 		const onKeyDown = (event: KeyboardEvent) => {
@@ -1598,7 +1358,7 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 	return (
 		<TooltipProvider>
 			<SidebarProvider defaultOpen={sidebarOpen}>
-				<AppSidebar />
+				<ToolboxSidebar path={path} onNavigate={setPath} loading={false} />
 				<SidebarInset>
 					<DashboardHeader onOpenCommand={() => setCommandOpen(true)} />
 
@@ -1606,10 +1366,10 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 						<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
 							<div className="fui:flex fui:flex-col fui:gap-1">
 								<h1 className="fui:font-heading fui:text-xl fui:font-medium">
-									Good afternoon, Lena
+									Good afternoon, Maxi
 								</h1>
 								<p className="fui:text-sm fui:text-muted-foreground">
-									Here is what happened across Foomo Inc. today.
+									Here is what happened in the manor toolbox today.
 								</p>
 							</div>
 							<div className="fui:flex fui:items-center fui:gap-2">

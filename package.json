@@ -46,6 +46,7 @@
 	},
 	"scripts": {
 		"dev": "vite",
+		"watch": "node scripts/watch.mjs",
 		"build": "rm -rf ./dist && tsc -p tsconfig.build.json && node scripts/rewrite-dts-aliases.mjs && vite build",
 		"lint": "biome lint --write ./src",
 		"format": "biome format --write ./src && biome check --fix --unsafe ./src",
