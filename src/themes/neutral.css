@@ -53,6 +53,9 @@
 	--link: oklch(0.488 0.243 264.376);
 	--secondary: oklch(0.96 0.002 17.2);
 	--secondary-foreground: oklch(0.214 0.009 43.1);
+	/* Light blue (EBF3FF), a third surface beside secondary and muted. */
+	--tertiary: oklch(0.962 0.018 258.353);
+	--tertiary-foreground: oklch(0.214 0.009 43.1);
 	--muted: oklch(0.96 0.002 17.2);
 	--muted-foreground: oklch(0.547 0.021 43.1);
 	--accent: oklch(0.214 0.009 43.1);
@@ -63,9 +66,15 @@
 	 */
 	--accent-highlight: var(--chart-3);
 	--accent-highlight-foreground: oklch(0.986 0.002 67.8);
-	--destructive: oklch(0.577 0.245 27.325);
-
-	--success: oklch(0.596 0.145 163.225);
+	/* Brand status colours, the 500 step of each scale: Red A12424,
+	   Green 578740, Yellow D4A733. Yellow is `alert`; blue stays
+	   the colour for info. */
+	--destructive: oklch(0.467 0.161 26.114);
+	--success: oklch(0.572 0.114 136.451);
+	--alert: oklch(0.75 0.137 86.362);
+	/* Yellow 800 (625125): the yellow is too light to read as text on white,
+	   and to carry dark text on a solid yellow fill. */
+	--alert-foreground: oklch(0.442 0.066 88.413);
 	--border: oklch(0.922 0.005 34.3);
 	--input: oklch(0.922 0.005 34.3);
 	--ring: oklch(0.714 0.014 41.2);
@@ -86,12 +95,14 @@
 	--label-color-4: oklch(0.398 0.195 277.366);
 	--label-color-5: oklch(0.588 0.158 241.966);
 	--label-color-6: oklch(0.432 0.232 292.759);
-	--sidebar: oklch(0.986 0.002 67.8);
+	/* The page's own background, so the sidebar reads as part of the page. */
+	--sidebar: var(--background);
 	--sidebar-foreground: oklch(0.147 0.004 49.3);
 	--sidebar-primary: oklch(0.214 0.009 43.1);
 	--sidebar-primary-foreground: oklch(0.986 0.002 67.8);
-	--sidebar-accent: oklch(0.96 0.002 17.2);
-	--sidebar-accent-foreground: oklch(0.214 0.009 43.1);
+	/* Active and hovered entries, like the other hover states. */
+	--sidebar-accent: var(--tertiary);
+	--sidebar-accent-foreground: var(--tertiary-foreground);
 	--sidebar-border: oklch(0.922 0.005 34.3);
 	--sidebar-ring: oklch(0.714 0.014 41.2);
 }
@@ -114,6 +125,9 @@
 	--link: oklch(0.68 0.21 264.376);
 	--secondary: oklch(0.268 0.011 36.5);
 	--secondary-foreground: oklch(0.986 0.002 67.8);
+	/* Slate (313945). */
+	--tertiary: oklch(0.342 0.024 258.365);
+	--tertiary-foreground: oklch(0.986 0.002 67.8);
 	--muted: oklch(0.268 0.011 36.5);
 	--muted-foreground: oklch(0.714 0.014 41.2);
 	--accent: oklch(0.922 0.005 34.3);
@@ -121,7 +135,10 @@
 	--accent-highlight: var(--chart-3);
 	--accent-highlight-foreground: oklch(0.986 0.002 67.8);
 	--destructive: oklch(0.704 0.191 22.216);
-	--success: oklch(0.696 0.17 162.48);
+	/* Green 6FB64D, Yellow E1BB5C: lifted for the dark background. */
+	--success: oklch(0.706 0.157 136.725);
+	--alert: oklch(0.807 0.122 87.641);
+	--alert-foreground: oklch(0.442 0.066 88.413);
 	--border: oklch(1 0 0 / 10%);
 	--input: oklch(1 0 0 / 15%);
 	--ring: oklch(0.547 0.021 43.1);
@@ -136,12 +153,13 @@
 	--label-color-4: oklch(0.398 0.195 277.366);
 	--label-color-5: oklch(0.588 0.158 241.966);
 	--label-color-6: oklch(0.432 0.232 292.759);
-	--sidebar: oklch(0.214 0.009 43.1);
+	/* The page's own background, so the sidebar reads as part of the page. */
+	--sidebar: var(--background);
 	--sidebar-foreground: oklch(0.986 0.002 67.8);
 	--sidebar-primary: oklch(0.488 0.243 264.376);
 	--sidebar-primary-foreground: oklch(0.986 0.002 67.8);
-	--sidebar-accent: oklch(0.268 0.011 36.5);
-	--sidebar-accent-foreground: oklch(0.986 0.002 67.8);
+	--sidebar-accent: var(--tertiary);
+	--sidebar-accent-foreground: var(--tertiary-foreground);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.547 0.021 43.1);
 }

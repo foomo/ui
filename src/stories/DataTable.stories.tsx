@@ -163,7 +163,7 @@ function ProjectDataTable(props: DataTableProps<Project>) {
 }
 
 const meta = {
-	title: "Data Table",
+	title: "Data Display/Data Table",
 	component: ProjectDataTable,
 	parameters: {
 		layout: "padded",

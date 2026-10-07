@@ -80,13 +80,13 @@ const tagColor: Record<string, TagColor> = {
 };
 
 const meta = {
-	title: "Table Cells",
+	title: "Data Display/Table Cells",
 	parameters: {
 		layout: "padded",
 		docs: {
 			description: {
 				component:
-					"Cell renderers for `DataTable` and `Table`: `BooleanCell`, `TagCell`, `TagListCell`, `IdCell` and `EmptyCell`, plus `cellLinkClassName` for a cell that navigates. `StatusTagCell` renders the default status set (success, destructive, info) with an icon. Tags take a `color` from the tag palette (`label-1` … `label-6`, `success`) for categories that should stay apart at a glance. Values that repeat down a column read as a glyph or a tag rather than a word, and anything shown by shape or color alone also carries text for screen readers.",
+					"Cell renderers for `DataTable` and `Table`: `BooleanCell`, `TagCell`, `TagListCell`, `IdCell` and `EmptyCell`, plus `cellLinkClassName` for a cell that navigates. `StatusTagCell` renders the default status set (success, destructive, alert, info) with an icon. Tags take a `color` from the tag palette (`label-1` … `label-6`, `success`) for categories that should stay apart at a glance. Values that repeat down a column read as a glyph or a tag rather than a word, and anything shown by shape or color alone also carries text for screen readers.",
 			},
 		},
 	},
@@ -277,6 +277,7 @@ export const TagColors: Story = {
 const statuses: { status: StatusTone; label: string }[] = [
 	{ status: "success", label: "Imported" },
 	{ status: "destructive", label: "Failed" },
+	{ status: "alert", label: "Needs review" },
 	{ status: "info", label: "Resolved" },
 ];
 

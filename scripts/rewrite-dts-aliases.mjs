@@ -16,8 +16,9 @@
  */
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join, relative, dirname, sep } from "node:path";
+import { pathToFileURL } from "node:url";
 
-const DIST = new URL("../dist/", import.meta.url).pathname;
+export const DIST = new URL("../dist/", import.meta.url).pathname;
 const ALIAS = /(from\s*")@\/([^"]+)(")/g;
 
 async function* declarations(dir) {
@@ -31,10 +32,13 @@ async function* declarations(dir) {
 	}
 }
 
-let rewritten = 0;
-let files = 0;
-
-for await (const file of declarations(DIST)) {
+/**
+ * Rewrite the alias imports in one declaration file. Returns the number of
+ * imports rewritten; the file is only written when that is non-zero, so
+ * running it on an already-rewritten file is a no-op (the watcher relies on
+ * that to avoid reacting to its own writes).
+ */
+export async function rewriteDeclaration(file) {
 	const source = await readFile(file, "utf8");
 	let count = 0;
 
@@ -51,11 +55,23 @@ for await (const file of declarations(DIST)) {
 
 	if (count > 0) {
 		await writeFile(file, output);
-		rewritten += count;
-		files += 1;
 	}
+	return count;
 }
 
-console.log(
-	`rewrite-dts-aliases: ${rewritten} import(s) across ${files} declaration file(s)`,
-);
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+	let rewritten = 0;
+	let files = 0;
+
+	for await (const file of declarations(DIST)) {
+		const count = await rewriteDeclaration(file);
+		if (count > 0) {
+			rewritten += count;
+			files += 1;
+		}
+	}
+
+	console.log(
+		`rewrite-dts-aliases: ${rewritten} import(s) across ${files} declaration file(s)`,
+	);
+}

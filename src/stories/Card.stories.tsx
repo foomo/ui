@@ -48,6 +48,12 @@ import {
 	ChartTooltipContent,
 } from "../components/chart";
 import {
+	DescriptionList,
+	DescriptionListDetails,
+	DescriptionListItem,
+	DescriptionListTerm,
+} from "../components/description-list";
+import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuGroup,
@@ -334,7 +340,7 @@ function PieChartCard({
 }
 
 const meta = {
-	title: "Card",
+	title: "Data Display/Card",
 	component: Card,
 	parameters: {
 		layout: "padded",
@@ -948,14 +954,11 @@ export const DetailsList: Story = {
 				<CardTitle>Product details</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<dl className="fui:divide-y">
+				<DescriptionList>
 					{productDetails.map((detail) => (
-						<div
-							key={detail.label}
-							className="fui:grid fui:items-center fui:gap-1 fui:px-3 fui:py-3 fui:sm:grid-cols-[minmax(8rem,1fr)_2fr] fui:sm:gap-4"
-						>
-							<dt className="fui:font-medium">{detail.label}</dt>
-							<dd className="fui:break-words">
+						<DescriptionListItem key={detail.label}>
+							<DescriptionListTerm>{detail.label}</DescriptionListTerm>
+							<DescriptionListDetails>
 								{detail.value === "languages" ? (
 									<span className="fui:flex fui:gap-1.5">
 										{languages.map((language) =>
@@ -982,10 +985,10 @@ export const DetailsList: Story = {
 								) : (
 									detail.value
 								)}
-							</dd>
-						</div>
+							</DescriptionListDetails>
+						</DescriptionListItem>
 					))}
-				</dl>
+				</DescriptionList>
 			</CardContent>
 		</Card>
 	),
