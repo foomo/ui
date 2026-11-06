@@ -57,7 +57,9 @@ repository.
   `@foomo/ui/themes/neutral.css` or provide the complete token set themselves.
 - Dark mode is selected by a `.dark` ancestor.
 - Internal utility classes use `fui:`. Consumer `className` values use the host
-  application's normal unprefixed Tailwind utilities.
+  application's normal unprefixed Tailwind utilities, and they win over a
+  component's own classes: the library's utilities ship in the `components`
+  cascade layer, below the host's `utilities`.
 - Prefer component variants and explicit component props over selectors aimed
   at compiled classes or `data-slot` internals.
 - Use semantic tokens such as `text-destructive`, `text-success`, and
@@ -76,6 +78,19 @@ repository.
   handling unless the corresponding `manual*` prop is explicitly `false`.
 - Reuse `BooleanCell`, `TagCell`, `TagListCell`, `IdCell`, `EmptyCell`, and
   `cellLinkClassName` from `@foomo/ui/components/table-cells`.
+- Keep a list's page and sort order in the URL with `toPaginationState`,
+  `fromPaginationState`, `toSortingState` and `fromSortingState` from
+  `@foomo/ui/lib/table-state` rather than converting `pageIndex` by hand.
+- Colour chart marks by category with `tagColorAt` or `assignTagColors`.
+
+## Detail Pages
+
+- Lay a record's aspects out as `SectionCard`s in a `SectionCardGrid`
+  (`@foomo/ui/components/section-card`).
+- Wrap fetched content in `AsyncContent` (`@foomo/ui/components/async-content`)
+  for its loading, error and not-found states.
+- Format text values with `@foomo/ui/lib/format` (`formatDateTime`,
+  `formatDate`, `formatBytes`, `formatYesNo`).
 
 ## Verification
 

@@ -78,6 +78,22 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
 	);
 }
 
+/**
+ * The drawer's content between header and footer. `DrawerContent` is a flex
+ * column with no scroll region of its own, so the body takes the free space
+ * and scrolls: long content stays inside it instead of pushing the footer off
+ * screen. Its side padding lines up with the header and footer.
+ */
+function DrawerBody({ className, ...props }: React.ComponentProps<"div">) {
+	return (
+		<div
+			data-slot="drawer-body"
+			className={cn("fui:flex-1 fui:overflow-y-auto fui:px-4", className)}
+			{...props}
+		/>
+	);
+}
+
 function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
@@ -128,6 +144,7 @@ export {
 	DrawerClose,
 	DrawerContent,
 	DrawerHeader,
+	DrawerBody,
 	DrawerFooter,
 	DrawerTitle,
 	DrawerDescription,

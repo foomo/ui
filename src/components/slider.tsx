@@ -32,7 +32,7 @@ function Slider({
 			<SliderPrimitive.Control className="fui:relative fui:flex fui:w-full fui:touch-none fui:items-center fui:select-none fui:data-disabled:opacity-50 fui:data-vertical:h-full fui:data-vertical:min-h-40 fui:data-vertical:w-auto fui:data-vertical:flex-col">
 				<SliderPrimitive.Track
 					data-slot="slider-track"
-					className="fui:relative fui:grow fui:overflow-hidden fui:rounded-4xl fui:bg-muted fui:select-none fui:data-horizontal:h-3 fui:data-horizontal:w-full fui:data-vertical:h-full fui:data-vertical:w-3"
+					className="fui:relative fui:grow fui:overflow-hidden fui:rounded-4xl fui:bg-tertiary fui:select-none fui:data-horizontal:h-3 fui:data-horizontal:w-full fui:data-vertical:h-full fui:data-vertical:w-3"
 				>
 					<SliderPrimitive.Indicator
 						data-slot="slider-range"

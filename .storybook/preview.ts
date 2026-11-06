@@ -44,22 +44,39 @@ const preview: Preview = {
 		},
 	},
 	parameters: {
-        backgrounds: { disable: true },
+		// Stories are grouped by what they are for, not by component size, so
+		// the sidebar answers "what do I need?" rather than "what is it?".
+		options: {
+			storySort: {
+				order: [
+					"foomo ui",
+					"Foundations",
+					"Actions",
+					"Forms",
+					"Data Display",
+					"Navigation",
+					"Overlays and Feedback",
+					"Showcase",
+				],
+			},
+		},
 
-        controls: {
+		backgrounds: { disable: true },
+
+		controls: {
 			matchers: {
 				color: /(background|color)$/i,
 				date: /Date$/i,
 			},
 		},
 
-        a11y: {
-            // 'todo' - show a11y violations in the test UI only
-            // 'error' - fail CI on a11y violations
-            // 'off' - skip a11y checks entirely
-            test: "todo"
-        }
-    },
+		a11y: {
+			// 'todo' - show a11y violations in the test UI only
+			// 'error' - fail CI on a11y violations
+			// 'off' - skip a11y checks entirely
+			test: "todo",
+		},
+	},
 };
 
 export default preview;

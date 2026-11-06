@@ -50,7 +50,7 @@ function ContextMenuContent({
 				<ContextMenuPrimitive.Popup
 					data-slot="context-menu-content"
 					className={cn(
-						"fui: fui: fui:z-50 fui:max-h-(--available-height) fui:min-w-48 fui:origin-(--transform-origin) fui:overflow-x-hidden fui:overflow-y-auto fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:outline-none fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95 animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!",
+						"fui:z-50 fui:max-h-(--available-height) fui:min-w-48 fui:origin-(--transform-origin) fui:overflow-x-hidden fui:overflow-y-auto fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:outline-none fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95",
 						className,
 					)}
 					{...props}
@@ -128,7 +128,7 @@ function ContextMenuSubTrigger({
 			data-slot="context-menu-sub-trigger"
 			data-inset={inset}
 			className={cn(
-				"fui:flex fui:cursor-default fui:items-center fui:rounded-xl fui:px-3 fui:py-2 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:data-inset:pl-9.5 fui:data-open:bg-accent fui:data-open:text-accent-foreground fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
+				"fui:flex fui:cursor-default fui:items-center fui:gap-2 fui:rounded-xl fui:px-3 fui:py-2 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:data-inset:pl-9.5 fui:data-open:bg-accent fui:data-open:text-accent-foreground fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
@@ -145,7 +145,7 @@ function ContextMenuSubContent({
 	return (
 		<ContextMenuContent
 			data-slot="context-menu-sub-content"
-			className="fui: fui: fui:shadow-lg animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!"
+			className="fui:shadow-lg"
 			side="right"
 			{...props}
 		/>

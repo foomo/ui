@@ -13,7 +13,7 @@ import {
 	UsersIcon,
 } from "@phosphor-icons/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import * as React from "react";
+import type * as React from "react";
 import {
 	Area,
 	AreaChart,
@@ -48,6 +48,12 @@ import {
 	ChartTooltipContent,
 } from "../components/chart";
 import {
+	DescriptionList,
+	DescriptionListDetails,
+	DescriptionListItem,
+	DescriptionListTerm,
+} from "../components/description-list";
+import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuGroup,
@@ -57,17 +63,13 @@ import {
 } from "../components/dropdown-menu";
 import { Field, FieldGroup, FieldLabel } from "../components/field";
 import { Input } from "../components/input";
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemGroup,
-	ItemMedia,
-	ItemSeparator,
-	ItemTitle,
-} from "../components/item";
+import { ItemList, ItemListEntry } from "../components/item-list";
 import { Progress } from "../components/progress";
+// Aliased: the story of the same name is exported from this file.
+import {
+	ProgressListItem,
+	ProgressList as ProgressListRoot,
+} from "../components/progress-list";
 import { ScrollArea } from "../components/scroll-area";
 import {
 	Select,
@@ -78,6 +80,7 @@ import {
 	SelectValue,
 } from "../components/select";
 import { Skeleton } from "../components/skeleton";
+import { StatCard } from "../components/stat-card";
 import { Switch } from "../components/switch";
 import {
 	Table,
@@ -180,63 +183,58 @@ const totalVisitors = trafficShare.reduce((sum, row) => sum + row.visitors, 0);
 
 const recentActivity = [
 	{
-		name: "Amelie Roth",
-		initials: "AR",
-		action: "upgraded to Enterprise",
-		amount: "+$2,400.00",
+		name: "Maxi Muster",
+		initials: "MM",
+		action: "Changed the redirect /sale",
 		time: "2m ago",
 	},
 	{
 		name: "Jonas Weber",
 		initials: "JW",
-		action: "started a Pro trial",
-		amount: "—",
+		action: "Overrode campaign CQ061681",
 		time: "18m ago",
 	},
 	{
 		name: "Priya Nair",
 		initials: "PN",
-		action: "renewed Pro",
-		amount: "+$149.00",
+		action: "Recalculated price 10003907457",
 		time: "1h ago",
 	},
 	{
 		name: "Marco Bianchi",
 		initials: "MB",
-		action: "requested a refund",
-		amount: "-$29.00",
+		action: "Deleted product BASE-100477054",
 		time: "3h ago",
 	},
 	{
 		name: "Sara Lindqvist",
 		initials: "SL",
-		action: "payment failed",
-		amount: "$2,400.00",
+		action: "Simulated customer 4471-2210",
 		time: "5h ago",
 	},
 ];
 
-const goals = [
-	{ label: "Activation", value: 82 },
-	{ label: "Retention (30d)", value: 68 },
-	{ label: "Expansion revenue", value: 47 },
-	{ label: "Support SLA", value: 94 },
+const projections = [
+	{ label: "Listing", value: 100 },
+	{ label: "PDP", value: 98 },
+	{ label: "Index", value: 96 },
+	{ label: "JSON-LD", value: 91 },
 ];
 
-const reports = [
+const exports = [
 	{
-		title: "Weekly revenue digest",
-		description: "Every Monday at 07:00 CET · 12 recipients",
+		title: "Content export to the shop",
+		description: "Every night at 02:00 · all languages",
 		enabled: true,
 	},
 	{
-		title: "Churn cohort breakdown",
-		description: "First of the month · 4 recipients",
+		title: "Price feed for DFO",
+		description: "Every hour · 41,207 variants",
 		enabled: true,
 	},
 	{
-		title: "Infrastructure cost report",
-		description: "Paused since Aug 14",
+		title: "Redirects backup",
+		description: "Paused since 14.10.2026",
 		enabled: false,
 	},
 ];
@@ -320,7 +318,9 @@ function PieChartCard({
 				</CardAction>
 			</CardHeader>
 			<CardContent className="fui:flex-1">{children}</CardContent>
-			<CardFooter className="fui:flex-col fui:gap-1 fui:text-sm">
+			{/* Left-aligned like the header above it: CardFooter centres its
+			    items by default, which centres the lines once they stack. */}
+			<CardFooter className="fui:flex-col fui:items-start fui:gap-1 fui:text-sm">
 				<div className="fui:flex fui:items-center fui:gap-2 fui:font-medium">
 					Trending up by 5.2% this month
 					<TrendUpIcon className="fui:size-4" />
@@ -334,7 +334,7 @@ function PieChartCard({
 }
 
 const meta = {
-	title: "Card",
+	title: "Data Display/Card",
 	component: Card,
 	parameters: {
 		layout: "padded",
@@ -445,23 +445,19 @@ export const WithHeaderCTA: Story = {
 				</CardAction>
 			</CardHeader>
 			<CardContent>
-				<ItemGroup>
-					{recentActivity.slice(0, 3).map((entry, index) => (
-						<React.Fragment key={entry.name}>
-							{index > 0 && <ItemSeparator />}
-							<Item size="sm" className="fui:px-0">
-								<ItemMedia>
-									<Avatar className="fui:size-8">
-										<AvatarFallback>{entry.initials}</AvatarFallback>
-									</Avatar>
-								</ItemMedia>
-								<ItemContent>
-									<ItemTitle>{entry.name}</ItemTitle>
-								</ItemContent>
-							</Item>
-						</React.Fragment>
+				<ItemList>
+					{recentActivity.slice(0, 3).map((entry) => (
+						<ItemListEntry
+							key={entry.name}
+							media={
+								<Avatar className="fui:size-8">
+									<AvatarFallback>{entry.initials}</AvatarFallback>
+								</Avatar>
+							}
+							title={entry.name}
+						/>
 					))}
-				</ItemGroup>
+				</ItemList>
 			</CardContent>
 		</Card>
 	),
@@ -527,22 +523,23 @@ export const Stat: Story = {
 };
 
 export const NumberStat: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"The `StatCard` component (Data Display / Stat Card) at its default size, with an icon.",
+			},
+		},
+	},
 	render: () => (
 		<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
 			{stats.map((stat) => (
-				<Card key={stat.label}>
-					<CardHeader>
-						<CardTitle className="fui:text-4xl fui:font-bold fui:tabular-nums fui:text-accent-highlight">
-							{stat.value}
-						</CardTitle>
-						<CardDescription className="fui:text-base fui:text-foreground">
-							{stat.label}
-						</CardDescription>
-						<CardAction>
-							<stat.icon className="fui:size-4 fui:text-muted-foreground" />
-						</CardAction>
-					</CardHeader>
-				</Card>
+				<StatCard
+					key={stat.label}
+					label={stat.label}
+					value={stat.value}
+					icon={stat.icon}
+				/>
 			))}
 		</div>
 	),
@@ -556,7 +553,14 @@ export const AreaChartCard: Story = {
 				<CardTitle>Revenue vs. expenses</CardTitle>
 				<CardDescription>Rolling nine months, EUR</CardDescription>
 				<CardAction>
-					<Select defaultValue="9m">
+					<Select
+						defaultValue="9m"
+						items={{
+							"3m": "Last 3 months",
+							"6m": "Last 6 months",
+							"9m": "Last 9 months",
+						}}
+					>
 						<SelectTrigger className="fui:w-36" size="sm">
 							<SelectValue />
 						</SelectTrigger>
@@ -573,7 +577,8 @@ export const AreaChartCard: Story = {
 			<CardContent>
 				<ChartContainer
 					config={revenueChartConfig}
-					className="fui:aspect-auto fui:h-[260px] fui:w-full"
+					aspect="auto"
+					className="fui:h-[260px] fui:w-full"
 				>
 					<AreaChart data={revenueByMonth} margin={{ left: 4, right: 4 }}>
 						<defs>
@@ -652,7 +657,8 @@ export const BarChartCard: Story = {
 			<CardContent>
 				<ChartContainer
 					config={trafficChartConfig}
-					className="fui:aspect-auto fui:h-[240px] fui:w-full"
+					aspect="auto"
+					className="fui:h-[240px] fui:w-full"
 				>
 					<BarChart data={trafficBySource} margin={{ left: 4, right: 4 }}>
 						<CartesianGrid vertical={false} />
@@ -681,7 +687,8 @@ function PieChartBasic() {
 		<PieChartCard title="Pie Chart">
 			<ChartContainer
 				config={trafficShareConfig}
-				className="fui:mx-auto fui:aspect-square fui:max-h-[250px]"
+				aspect="square"
+				className="fui:mx-auto fui:max-h-[250px]"
 			>
 				<PieChart>
 					<ChartTooltip
@@ -705,7 +712,8 @@ function PieChartDonut() {
 		<PieChartCard title="Pie Chart - Donut">
 			<ChartContainer
 				config={trafficShareConfig}
-				className="fui:mx-auto fui:aspect-square fui:max-h-[250px]"
+				aspect="square"
+				className="fui:mx-auto fui:max-h-[250px]"
 			>
 				<PieChart>
 					<ChartTooltip
@@ -730,7 +738,8 @@ function PieChartDonutWithText() {
 		<PieChartCard title="Pie Chart - Donut with Text">
 			<ChartContainer
 				config={trafficShareConfig}
-				className="fui:mx-auto fui:aspect-square fui:max-h-[250px]"
+				aspect="square"
+				className="fui:mx-auto fui:max-h-[250px]"
 			>
 				<PieChart>
 					<ChartTooltip
@@ -786,7 +795,8 @@ function PieChartCustomLabel() {
 		<PieChartCard title="Pie Chart - Custom Label">
 			<ChartContainer
 				config={trafficShareConfig}
-				className="fui:mx-auto fui:aspect-square fui:max-h-[250px] fui:px-0"
+				aspect="square"
+				className="fui:mx-auto fui:max-h-[250px] fui:px-0"
 			>
 				<PieChart>
 					<ChartTooltip
@@ -835,27 +845,22 @@ export const ProgressList: Story = {
 	render: (args) => (
 		<Card {...args} className="fui:max-w-md">
 			<CardHeader>
-				<CardTitle>Quarterly goals</CardTitle>
-				<CardDescription>Progress toward Q3 targets</CardDescription>
+				<CardTitle>Catalogue projections</CardTitle>
+				<CardDescription>
+					Share of variants each projection covers
+				</CardDescription>
 			</CardHeader>
-			<CardContent className="fui:flex fui:flex-col fui:gap-5">
-				{goals.map((goal, index) => (
-					<div
-						key={goal.label}
-						className="fui:flex fui:flex-col fui:gap-2 fui:text-sm"
-					>
-						<div className="fui:flex fui:items-center fui:justify-between">
-							<span>{goal.label}</span>
-							<span className="fui:tabular-nums fui:text-muted-foreground">
-								{goal.value}%
-							</span>
-						</div>
-						<Progress
-							value={goal.value}
-							className={progressColors[index % progressColors.length]}
+			<CardContent>
+				<ProgressListRoot>
+					{projections.map((projection, index) => (
+						<ProgressListItem
+							key={projection.label}
+							label={projection.label}
+							value={projection.value}
+							color={`var(--chart-${(index % 4) + 2})`}
 						/>
-					</div>
-				))}
+					))}
+				</ProgressListRoot>
 			</CardContent>
 		</Card>
 	),
@@ -865,42 +870,35 @@ export const ActivityFeed: Story = {
 	render: (args) => (
 		<Card {...args} className="fui:max-w-md">
 			<CardHeader>
-				<CardTitle>Recent activity</CardTitle>
-				<CardDescription>Last 24 hours across all workspaces</CardDescription>
+				<CardTitle>Recent changes</CardTitle>
+				<CardDescription>Last 24 hours, from the audit log</CardDescription>
 			</CardHeader>
 			<CardContent className="fui:px-0">
 				<ScrollArea className="fui:h-[260px]">
-					<ItemGroup className="fui:px-4">
-						{recentActivity.map((entry, index) => (
-							<React.Fragment key={entry.name}>
-								{index > 0 && <ItemSeparator />}
-								<Item size="sm" className="fui:px-0">
-									<ItemMedia>
-										<Avatar className="fui:size-8">
-											<AvatarFallback>{entry.initials}</AvatarFallback>
-										</Avatar>
-									</ItemMedia>
-									<ItemContent>
-										<ItemTitle>{entry.name}</ItemTitle>
-										<ItemDescription>{entry.action}</ItemDescription>
-									</ItemContent>
-									<ItemActions className="fui:flex-col fui:items-end fui:gap-0.5">
-										<span className="fui:text-sm fui:font-medium fui:tabular-nums">
-											{entry.amount}
-										</span>
-										<span className="fui:text-xs fui:text-muted-foreground">
-											{entry.time}
-										</span>
-									</ItemActions>
-								</Item>
-							</React.Fragment>
+					<ItemList className="fui:px-4">
+						{recentActivity.map((entry) => (
+							<ItemListEntry
+								key={entry.name}
+								media={
+									<Avatar className="fui:size-8">
+										<AvatarFallback>{entry.initials}</AvatarFallback>
+									</Avatar>
+								}
+								title={entry.name}
+								description={entry.action}
+								end={
+									<span className="fui:text-xs fui:text-muted-foreground">
+										{entry.time}
+									</span>
+								}
+							/>
 						))}
-					</ItemGroup>
+					</ItemList>
 				</ScrollArea>
 			</CardContent>
 			<CardFooter>
 				<Button variant="outline" size="sm" className="fui:w-full">
-					View all activity
+					Open the audit log
 				</Button>
 			</CardFooter>
 		</Card>
@@ -911,31 +909,29 @@ export const SettingsList: Story = {
 	render: (args) => (
 		<Card {...args} className="fui:max-w-xl">
 			<CardHeader>
-				<CardTitle>Scheduled reports</CardTitle>
+				<CardTitle>Scheduled exports</CardTitle>
 				<CardDescription>
-					Reports are generated nightly and emailed to your team.
+					Exports run on the server and land in the shop's storage.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ItemGroup className="fui:gap-2">
-					{reports.map((report) => (
-						<Item key={report.title} variant="outline">
-							<ItemMedia variant="icon">
-								<FileTextIcon />
-							</ItemMedia>
-							<ItemContent>
-								<ItemTitle>{report.title}</ItemTitle>
-								<ItemDescription>{report.description}</ItemDescription>
-							</ItemContent>
-							<ItemActions>
+				<ItemList variant="outline">
+					{exports.map((entry) => (
+						<ItemListEntry
+							key={entry.title}
+							media={<FileTextIcon />}
+							mediaVariant="icon"
+							title={entry.title}
+							description={entry.description}
+							end={
 								<Switch
-									defaultChecked={report.enabled}
-									aria-label={`Toggle ${report.title}`}
+									defaultChecked={entry.enabled}
+									aria-label={`Run ${entry.title}`}
 								/>
-							</ItemActions>
-						</Item>
+							}
+						/>
 					))}
-				</ItemGroup>
+				</ItemList>
 			</CardContent>
 		</Card>
 	),
@@ -948,14 +944,11 @@ export const DetailsList: Story = {
 				<CardTitle>Product details</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<dl className="fui:divide-y">
+				<DescriptionList>
 					{productDetails.map((detail) => (
-						<div
-							key={detail.label}
-							className="fui:grid fui:items-center fui:gap-1 fui:px-3 fui:py-3 fui:sm:grid-cols-[minmax(8rem,1fr)_2fr] fui:sm:gap-4"
-						>
-							<dt className="fui:font-medium">{detail.label}</dt>
-							<dd className="fui:break-words">
+						<DescriptionListItem key={detail.label}>
+							<DescriptionListTerm>{detail.label}</DescriptionListTerm>
+							<DescriptionListDetails>
 								{detail.value === "languages" ? (
 									<span className="fui:flex fui:gap-1.5">
 										{languages.map((language) =>
@@ -982,10 +975,10 @@ export const DetailsList: Story = {
 								) : (
 									detail.value
 								)}
-							</dd>
-						</div>
+							</DescriptionListDetails>
+						</DescriptionListItem>
 					))}
-				</dl>
+				</DescriptionList>
 			</CardContent>
 		</Card>
 	),

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type * as React from "react";
 
 import {
 	Table,
@@ -11,14 +12,20 @@ import {
 import {
 	BooleanCell,
 	cellLinkClassName,
+	DateTimeCell,
 	EmptyCell,
+	ExternalLinkCell,
 	IdCell,
+	NumberCell,
 	StatusTagCell,
 	type StatusTone,
 	TagCell,
 	type TagColor,
 	TagListCell,
+	ThumbnailCell,
+	TruncateCell,
 } from "../components/table-cells";
+import ImageFoomo from "./assets/foomo.png";
 
 type Product = {
 	id: string;
@@ -80,13 +87,13 @@ const tagColor: Record<string, TagColor> = {
 };
 
 const meta = {
-	title: "Table Cells",
+	title: "Data Display/Table Cells",
 	parameters: {
 		layout: "padded",
 		docs: {
 			description: {
 				component:
-					"Cell renderers for `DataTable` and `Table`: `BooleanCell`, `TagCell`, `TagListCell`, `IdCell` and `EmptyCell`, plus `cellLinkClassName` for a cell that navigates. `StatusTagCell` renders the default status set (success, destructive, info) with an icon. Tags take a `color` from the tag palette (`label-1` … `label-6`, `success`) for categories that should stay apart at a glance. Values that repeat down a column read as a glyph or a tag rather than a word, and anything shown by shape or color alone also carries text for screen readers.",
+					"Cell renderers for `DataTable` and `Table`: `BooleanCell`, `TagCell`, `TagListCell`, `IdCell`, `DateTimeCell`, `NumberCell`, `TruncateCell`, `ExternalLinkCell`, `ThumbnailCell` and `EmptyCell`, plus `cellLinkClassName` for a cell that navigates. `StatusTagCell` renders the default status set (success, destructive, alert, info) with an icon. Tags take a `color` from the tag palette (`label-1` … `label-6`, `success`) for categories that should stay apart at a glance, and a `hint` that explains them in a tooltip on hover. Values that repeat down a column read as a glyph or a tag rather than a word, and anything shown by shape or color alone also carries text for screen readers.",
 			},
 		},
 	},
@@ -225,6 +232,18 @@ export const Tags: Story = {
 					</TableRow>
 				))}
 				<TableRow>
+					<TableCell className="fui:text-muted-foreground">with hint</TableCell>
+					<TableCell>
+						<TagCell
+							variant="success"
+							hint="Held in the price service's memory and applied to carts now."
+						>
+							Effective now
+						</TagCell>
+					</TableCell>
+					<TableCell />
+				</TableRow>
+				<TableRow>
 					<TableCell className="fui:text-muted-foreground">empty</TableCell>
 					<TableCell>
 						<TagCell>{""}</TagCell>
@@ -277,6 +296,7 @@ export const TagColors: Story = {
 const statuses: { status: StatusTone; label: string }[] = [
 	{ status: "success", label: "Imported" },
 	{ status: "destructive", label: "Failed" },
+	{ status: "alert", label: "Needs review" },
 	{ status: "info", label: "Resolved" },
 ];
 
@@ -339,5 +359,164 @@ export const Identifiers: Story = {
 				</TableRow>
 			</TableBody>
 		</Table>
+	),
+};
+
+/** A "Usage | Cell" table, one row per example. */
+function Examples({
+	rows,
+}: {
+	rows: ReadonlyArray<{ usage: string; cell: React.ReactNode }>;
+}) {
+	return (
+		<Table className="fui:w-auto">
+			<TableHeader>
+				<TableRow>
+					<TableHead>Usage</TableHead>
+					<TableHead>Cell</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				{rows.map((row) => (
+					<TableRow key={row.usage}>
+						<TableCell className="fui:text-muted-foreground">
+							{row.usage}
+						</TableCell>
+						<TableCell>{row.cell}</TableCell>
+					</TableRow>
+				))}
+			</TableBody>
+		</Table>
+	);
+}
+
+export const DatesAndNumbers: Story = {
+	name: "Dates and numbers",
+	render: () => (
+		<Examples
+			rows={[
+				{
+					usage: "DateTimeCell, the reader's locale",
+					cell: <DateTimeCell value="2026-05-19T20:00:00Z" />,
+				},
+				{
+					usage: "DateTimeCell, de-CH medium",
+					cell: (
+						<DateTimeCell
+							value={1779220800000}
+							locale="de-CH"
+							dateFormat={{ dateStyle: "medium" }}
+							timeFormat={{ timeStyle: "medium" }}
+						/>
+					),
+				},
+				{
+					usage: "DateTimeCell, unset (Go zero time)",
+					cell: <DateTimeCell value="0001-01-01T00:00:00Z" />,
+				},
+				{ usage: "NumberCell", cell: <NumberCell value={41207} /> },
+				{
+					usage: "NumberCell, as a percentage",
+					cell: <NumberCell value={0.957} format={{ style: "percent" }} />,
+				},
+				{
+					usage: "NumberCell, a preformatted string",
+					cell: <NumberCell value="16:9" />,
+				},
+				{
+					usage: "NumberCell, missing",
+					cell: <NumberCell value={undefined} />,
+				},
+			]}
+		/>
+	),
+};
+
+export const TextAndLinks: Story = {
+	name: "Text and links",
+	render: () => (
+		<Examples
+			rows={[
+				{
+					usage: "TruncateCell",
+					cell: (
+						<TruncateCell>
+							variant defining attributes are not unique across the variants of
+							this product
+						</TruncateCell>
+					),
+				},
+				{
+					usage: "ExternalLinkCell",
+					cell: <ExternalLinkCell href="https://example.com/assets/logo.png" />,
+				},
+				{
+					usage: "ExternalLinkCell, with a label",
+					cell: (
+						<ExternalLinkCell href="https://example.com/image/a1b2c3">
+							a1b2c3
+						</ExternalLinkCell>
+					),
+				},
+				{
+					usage: "ExternalLinkCell, truncated",
+					cell: (
+						<ExternalLinkCell
+							href="https://cdn.example.com/media/products/2026/05/a/long/path/to/the/original-asset.jpg"
+							truncate
+						/>
+					),
+				},
+				{
+					usage: "ExternalLinkCell, missing",
+					cell: <ExternalLinkCell href={undefined} />,
+				},
+				{
+					usage: "Under data-underline-links",
+					cell: (
+						// An app turns this on once, on the document root.
+						<div data-underline-links>
+							<ExternalLinkCell href="https://example.com/image/a1b2c3">
+								a1b2c3
+							</ExternalLinkCell>
+						</div>
+					),
+				},
+			]}
+		/>
+	),
+};
+
+export const Thumbnails: Story = {
+	render: () => (
+		<Examples
+			rows={[
+				{
+					usage: "sm, a logo",
+					cell: <ThumbnailCell src={ImageFoomo} alt="foomo logo" size="sm" />,
+				},
+				{
+					usage: "md, bordered, a table row",
+					cell: <ThumbnailCell src={ImageFoomo} alt="foomo logo" bordered />,
+				},
+				{
+					usage: "lg, bordered, a gallery",
+					cell: (
+						<ThumbnailCell
+							src={ImageFoomo}
+							alt="foomo logo"
+							size="lg"
+							bordered
+						/>
+					),
+				},
+				{
+					usage: "No image",
+					cell: (
+						<ThumbnailCell src={undefined} alt="foomo has no logo" size="sm" />
+					),
+				},
+			]}
+		/>
 	),
 };

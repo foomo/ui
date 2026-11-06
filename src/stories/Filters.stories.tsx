@@ -326,14 +326,14 @@ function FilteredProductTable({ size = "default" }: { size?: FilterSize }) {
 }
 
 const meta = {
-	title: "Filters",
+	title: "Forms/Filters",
 	component: ProductFilters,
 	parameters: {
 		layout: "padded",
 		docs: {
 			description: {
 				component:
-					"Labelled filter controls for a listing: `FilterSearch`, `FilterSelect`, `FilterMultiSelect`, `FilterDateRange`, `FilterToggle` and `FilterReset`, laid out by `FilterBar`. The bar's `size` sets every control's height so they share a bottom edge. `FilterReset` only appears once something is filtered.",
+					"Labelled filter controls for a listing: `FilterSearch`, `FilterSelect`, `FilterMultiSelect`, `FilterDateRange`, `FilterToggle` and `FilterReset`, laid out by `FilterBar`. The bar's `size` sets every control's height so they share a bottom edge. `FilterReset` only appears once something is filtered. `FilterDateRange` takes `withTime` for a period that does not follow whole days, adding a start and an end time under the calendar.",
 			},
 		},
 	},
@@ -383,4 +383,28 @@ export const Active: Story = {
 export const InDataTable: Story = {
 	name: "In Data Table",
 	render: (args) => <FilteredProductTable size={args.size} />,
+};
+
+/** A promotion's validity: a period with a time of day at each end. */
+function ValidityFilter() {
+	const [period, setPeriod] = React.useState<FilterPeriod | undefined>({
+		from: new Date(2026, 9, 1, 8, 0),
+		to: new Date(2026, 9, 31, 23, 59, 59, 999),
+	});
+
+	return (
+		<FilterBar>
+			<FilterDateRange
+				label="Valid during"
+				withTime
+				value={period}
+				onValueChange={setPeriod}
+			/>
+		</FilterBar>
+	);
+}
+
+export const WithTimeOfDay: Story = {
+	name: "With time of day",
+	render: () => <ValidityFilter />,
 };

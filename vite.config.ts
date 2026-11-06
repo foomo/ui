@@ -24,6 +24,10 @@ export default defineConfig({
 					src: "src/themes/*.css",
 					dest: "themes",
 				},
+				{
+					src: "src/theme.css",
+					dest: ".",
+				},
 			],
 		}),
 	],
@@ -68,6 +72,8 @@ export default defineConfig({
 						ignore: [
 							"**/*.d.ts",
 							"**/*.stories.*",
+							// Stories and the helpers they share are Storybook-only.
+							"src/stories/**",
 							"**/*.test.*",
 							// Vite playground entry (index.html). Not part of the package,
 							// and it drags react-dom/client into the published bundle.

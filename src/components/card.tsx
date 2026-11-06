@@ -1,22 +1,36 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cn } from "cn";
 import type * as React from "react";
 
+/**
+ * A surface for one piece of content. `render` swaps the `<div>` for another
+ * element, e.g. a `<button>` for a card that is itself a control, keeping the
+ * card's styling.
+ */
 function Card({
 	className,
 	size = "default",
+	render,
 	...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
-	return (
-		<div
-			data-slot="card"
-			data-size={size}
-			className={cn(
-				"fui:group/card fui:flex fui:flex-col fui:gap-(--card-spacing) fui:overflow-hidden fui:rounded-2xl fui:bg-card fui:py-(--card-spacing) fui:text-sm fui:text-card-foreground fui:ring-1 fui:ring-foreground/10 fui:[--card-spacing:--spacing(6)] fui:has-[>img:first-child]:pt-0 fui:data-[size=sm]:[--card-spacing:--spacing(4)] fui:*:[img:first-child]:rounded-t-xl fui:*:[img:last-child]:rounded-b-xl",
-				className,
-			)}
-			{...props}
-		/>
-	);
+}: useRender.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+	return useRender({
+		defaultTagName: "div",
+		props: mergeProps<"div">(
+			{
+				className: cn(
+					"fui:group/card fui:flex fui:flex-col fui:gap-(--card-spacing) fui:overflow-hidden fui:rounded-2xl fui:bg-card fui:py-(--card-spacing) fui:text-sm fui:text-card-foreground fui:ring-1 fui:ring-foreground/10 fui:[--card-spacing:--spacing(6)] fui:has-[>img:first-child]:pt-0 fui:data-[size=sm]:[--card-spacing:--spacing(4)] fui:*:[img:first-child]:rounded-t-xl fui:*:[img:last-child]:rounded-b-xl",
+					className,
+				),
+			},
+			props,
+		),
+		render,
+		state: {
+			slot: "card",
+			size,
+		},
+	});
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {

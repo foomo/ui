@@ -33,6 +33,34 @@ Dark mode is class-based. Add `dark` to an ancestor, usually the document root:
 document.documentElement.classList.toggle("dark", isDarkMode);
 ```
 
+### Tailwind in the host application
+
+An application that writes Tailwind classes of its own imports the theme's
+Tailwind mapping after Tailwind, so `bg-card`, `text-muted-foreground` or
+`rounded-lg` resolve to the same tokens as the components' classes:
+
+```css
+@import "tailwindcss";
+@import "@foomo/ui/theme.css";
+@import "@foomo/ui/themes/neutral.css";
+@import "@foomo/ui/ui.css";
+```
+
+`theme.css` holds no token values, only the mapping and the variants (`dark`,
+`underline-links`), so it pairs with any theme.
+
+### Underlined links
+
+Table-cell links (`cellLinkClassName`, `ExternalLinkCell`) and the `link`
+badge underline on hover. To keep them underlined, set `data-underline-links`
+on the document root:
+
+```html
+<html data-underline-links>
+```
+
+The `link` button keeps its hover-only underline.
+
 ## Usage
 
 Import components from their individual package paths. There is intentionally
@@ -93,10 +121,16 @@ To provide a custom theme, import `@foomo/ui/ui.css` but omit
 `@foomo/ui/themes/neutral.css`. Define the same CSS variables in the host
 application for both light and dark modes. The required token set can be copied
 from [`src/themes/neutral.css`](https://github.com/foomo/ui/blob/main/src/themes/neutral.css).
+To adjust only a few tokens, import the neutral theme and declare just those
+variables after it. A token of the application's own, such as an extra chart
+colour, can sit beside the theme's.
 
 Component utilities use the `fui:` prefix internally to avoid collisions with
 host applications. Application classes passed through `className` should use
-the application's normal, unprefixed Tailwind syntax.
+the application's normal, unprefixed Tailwind syntax, and they override the
+component's own classes: `ui.css` puts the library's utilities in the
+`components` cascade layer, below the application's `utilities`, so
+`<Input className="w-48" />` is 12rem wide whatever the input's default width.
 
 See the [shadcn theming guide](https://ui.shadcn.com/docs/theming) for the token
 model.
@@ -125,6 +159,7 @@ for the complete API changes.
 - `@foomo/ui/extra/typography` - the `Prose` component
 - `@foomo/ui/icons` - package icon exports
 - `@foomo/ui/ui.css` - component styles
+- `@foomo/ui/theme.css` - the theme's Tailwind mapping, for host Tailwind builds
 - `@foomo/ui/themes/neutral.css` - default theme tokens
 
 ## Development
@@ -133,6 +168,15 @@ for the complete API changes.
 bun install
 bun run storybook
 bun run build
+```
+
+To work on the package from an app that consumes it, link it and run the
+watch mode, which rebuilds `dist/` incrementally on every change under `src/`:
+
+```bash
+bun link            # in this repo
+bun link @foomo/ui  # in the app
+bun run watch       # in this repo
 ```
 
 The project-local `foomo-ui` agent skill documents component selection and the
