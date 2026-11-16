@@ -78,7 +78,7 @@ function MenubarContent({
 			alignOffset={alignOffset}
 			sideOffset={sideOffset}
 			className={cn(
-				"fui: fui: fui:min-w-48 fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!",
+				"fui:min-w-48 fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=inline-end]:slide-in-from-left-2 fui:data-[side=inline-start]:slide-in-from-right-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95",
 				className,
 			)}
 			{...props}
@@ -120,13 +120,13 @@ function MenubarCheckboxItem({
 			data-slot="menubar-checkbox-item"
 			data-inset={inset}
 			className={cn(
-				"fui:relative fui:flex fui:cursor-default fui:items-center fui:gap-2.5 fui:rounded-xl fui:py-2 fui:pr-3 fui:pl-9.5 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:focus:**:text-accent-foreground fui:data-inset:pl-9.5 fui:data-disabled:pointer-events-none fui:data-disabled:opacity-50 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0",
+				"fui:relative fui:flex fui:cursor-default fui:items-center fui:gap-2.5 fui:rounded-xl fui:py-2 fui:pr-8 fui:pl-3 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:focus:**:text-accent-foreground fui:data-inset:pl-9.5 fui:data-disabled:pointer-events-none fui:data-disabled:opacity-50 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			checked={checked}
 			{...props}
 		>
-			<span className="fui:pointer-events-none fui:absolute fui:left-3 fui:flex fui:size-4 fui:items-center fui:justify-center fui:[&_svg:not([class*=size-])]:size-4">
+			<span className="fui:pointer-events-none fui:absolute fui:right-2 fui:flex fui:items-center fui:justify-center">
 				<MenuPrimitive.CheckboxItemIndicator>
 					<CheckIcon />
 				</MenuPrimitive.CheckboxItemIndicator>
@@ -155,12 +155,12 @@ function MenubarRadioItem({
 			data-slot="menubar-radio-item"
 			data-inset={inset}
 			className={cn(
-				"fui:relative fui:flex fui:cursor-default fui:items-center fui:gap-2.5 fui:rounded-xl fui:py-2 fui:pr-3 fui:pl-9.5 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:focus:**:text-accent-foreground fui:data-inset:pl-9.5 fui:data-disabled:pointer-events-none fui:data-disabled:opacity-50 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
+				"fui:relative fui:flex fui:cursor-default fui:items-center fui:gap-2.5 fui:rounded-xl fui:py-2 fui:pr-8 fui:pl-3 fui:text-sm fui:outline-hidden fui:select-none fui:focus:bg-accent fui:focus:text-accent-foreground fui:focus:**:text-accent-foreground fui:data-inset:pl-9.5 fui:data-disabled:pointer-events-none fui:data-disabled:opacity-50 fui:[&_svg]:pointer-events-none fui:[&_svg]:shrink-0 fui:[&_svg:not([class*=size-])]:size-4",
 				className,
 			)}
 			{...props}
 		>
-			<span className="fui:pointer-events-none fui:absolute fui:left-3 fui:flex fui:size-4 fui:items-center fui:justify-center fui:[&_svg:not([class*=size-])]:size-4">
+			<span className="fui:pointer-events-none fui:absolute fui:right-2 fui:flex fui:items-center fui:justify-center">
 				<MenuPrimitive.RadioItemIndicator>
 					<CheckIcon />
 				</MenuPrimitive.RadioItemIndicator>
@@ -253,7 +253,7 @@ function MenubarSubContent({
 		<DropdownMenuSubContent
 			data-slot="menubar-sub-content"
 			className={cn(
-				"fui: fui: fui:min-w-32 fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95 animate-none! relative bg-popover/70 before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 **:data-[slot$=-item]:focus:bg-foreground/10 **:data-[slot$=-item]:data-highlighted:bg-foreground/10 **:data-[slot$=-separator]:bg-foreground/5 **:data-[slot$=-trigger]:focus:bg-foreground/10 **:data-[slot$=-trigger]:aria-expanded:bg-foreground/10! **:data-[variant=destructive]:focus:bg-foreground/10! **:data-[variant=destructive]:text-accent-foreground! **:data-[variant=destructive]:**:text-accent-foreground!",
+				"fui:min-w-32 fui:rounded-2xl fui:bg-popover fui:p-1 fui:text-popover-foreground fui:shadow-2xl fui:ring-1 fui:ring-foreground/5 fui:duration-100 fui:data-[side=bottom]:slide-in-from-top-2 fui:data-[side=left]:slide-in-from-right-2 fui:data-[side=right]:slide-in-from-left-2 fui:data-[side=top]:slide-in-from-bottom-2 fui:data-open:animate-in fui:data-open:fade-in-0 fui:data-open:zoom-in-95 fui:data-closed:animate-out fui:data-closed:fade-out-0 fui:data-closed:zoom-out-95",
 				className,
 			)}
 			{...props}

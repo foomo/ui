@@ -5,8 +5,20 @@ import {
 	WarningIcon,
 	WarningOctagonIcon,
 } from "@phosphor-icons/react";
+import { cn } from "cn";
 import { useTheme } from "next-themes";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
+
+// Tints are mixed into the popover colour so toasts stay opaque, in oklab because
+// oklch treats white as hue 0 and pulls every tint pink. `!` beats sonner's own
+// theme selector. Yellow is too light for text on white, so light mode uses
+// `--alert-foreground`. Literal strings: Tailwind only emits classes it finds verbatim.
+const toneVariables = [
+	"fui:[--success-bg:color-mix(in_oklab,var(--success)_10%,var(--popover))]! fui:dark:[--success-bg:color-mix(in_oklab,var(--success)_20%,var(--popover))]! fui:[--success-border:color-mix(in_oklab,var(--success)_25%,var(--popover))]! fui:[--success-text:var(--success)]!",
+	"fui:[--error-bg:color-mix(in_oklab,var(--destructive)_10%,var(--popover))]! fui:dark:[--error-bg:color-mix(in_oklab,var(--destructive)_20%,var(--popover))]! fui:[--error-border:color-mix(in_oklab,var(--destructive)_25%,var(--popover))]! fui:[--error-text:var(--destructive)]!",
+	"fui:[--warning-bg:color-mix(in_oklab,var(--alert)_15%,var(--popover))]! fui:dark:[--warning-bg:color-mix(in_oklab,var(--alert)_20%,var(--popover))]! fui:[--warning-border:color-mix(in_oklab,var(--alert)_40%,var(--popover))]! fui:[--warning-text:var(--alert-foreground)]! fui:dark:[--warning-text:var(--alert)]!",
+	"fui:[--info-bg:color-mix(in_oklab,var(--link)_10%,var(--popover))]! fui:dark:[--info-bg:color-mix(in_oklab,var(--link)_20%,var(--popover))]! fui:[--info-border:color-mix(in_oklab,var(--link)_25%,var(--popover))]! fui:[--info-text:var(--link)]!",
+];
 
 const Toaster = ({ ...props }: ToasterProps) => {
 	const { theme = "system" } = useTheme();
@@ -14,7 +26,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
 	return (
 		<Sonner
 			theme={theme as ToasterProps["theme"]}
-			className="fui:toaster fui:group"
+			richColors
+			className={cn("fui:toaster fui:group", toneVariables)}
 			icons={{
 				success: <CheckCircleIcon className="fui:size-4" />,
 				info: <InfoIcon className="fui:size-4" />,

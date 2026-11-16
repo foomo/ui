@@ -481,20 +481,23 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 	);
 }
 
+// The active line is a bottom border, not an underline, which the truncated
+// label's overflow would clip. `span:not([data-slot])` skips avatars; an active
+// section trigger (`aria-expanded`) holds the page but is not it, so it gets the hover line.
 const sidebarMenuButtonVariants = cva(
-	"fui:peer/menu-button fui:group/menu-button fui:flex fui:w-full fui:items-center fui:gap-2 fui:overflow-hidden fui:rounded-lg fui:px-3 fui:py-2 fui:text-left fui:text-sm fui:ring-sidebar-ring fui:outline-hidden fui:transition-[width,height,padding] fui:group-has-data-[sidebar=menu-action]/menu-item:pr-8 fui:group-data-[collapsible=icon]:size-8! fui:group-data-[collapsible=icon]:p-2! fui:hover:bg-sidebar-accent fui:hover:text-sidebar-accent-foreground fui:focus-visible:ring-2 fui:active:bg-sidebar-accent fui:active:text-sidebar-accent-foreground fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-disabled:pointer-events-none fui:aria-disabled:opacity-50 fui:data-open:hover:bg-sidebar-accent fui:data-open:hover:text-sidebar-accent-foreground fui:data-active:bg-sidebar-accent fui:data-active:font-medium fui:data-active:text-sidebar-accent-foreground fui:[&_svg]:size-4 fui:[&_svg]:shrink-0 fui:[&>span:last-child]:truncate",
+	"fui:peer/menu-button fui:group/menu-button fui:flex fui:w-full fui:items-center fui:gap-2 fui:overflow-hidden fui:rounded-lg fui:px-3 fui:py-2 fui:text-left fui:text-sm fui:ring-sidebar-ring fui:outline-hidden fui:transition-[width,height,padding] fui:group-has-data-[sidebar=menu-action]/menu-item:pr-8 fui:group-data-[collapsible=icon]:size-8! fui:group-data-[collapsible=icon]:p-2! fui:focus-visible:ring-2 fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-disabled:pointer-events-none fui:aria-disabled:opacity-50 fui:data-active:font-medium fui:[&>span:not([data-slot])]:border-y-2 fui:[&>span:not([data-slot])]:border-transparent fui:[&>span:not([data-slot])]:py-0.5 fui:not-data-active:hover:[&>span:not([data-slot])]:border-b-sidebar-border fui:data-active:[&>span:not([data-slot])]:border-b-foreground fui:data-active:[&[aria-expanded]>span:not([data-slot])]:border-b-sidebar-border fui:data-active:[&[aria-expanded]]:font-normal fui:group-data-[collapsible=icon]:hover:bg-sidebar-accent fui:group-data-[collapsible=icon]:data-active:bg-sidebar-accent fui:[&_svg]:size-4 fui:[&_svg]:shrink-0 fui:[&>span:last-child]:truncate",
 	{
 		variants: {
 			variant: {
-				default:
-					"fui:hover:bg-sidebar-accent fui:hover:text-sidebar-accent-foreground",
+				default: "",
 				outline:
 					"fui:bg-background fui:shadow-[0_0_0_1px_var(--sidebar-border)] fui:hover:bg-sidebar-accent fui:hover:text-sidebar-accent-foreground fui:hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
 			},
 			size: {
 				default: "fui:h-9 fui:text-sm",
 				sm: "fui:h-8 fui:text-xs",
-				lg: "fui:h-14 fui:px-3 fui:text-sm fui:group-data-[collapsible=icon]:p-0!",
+				// Brand and user entries have no label span to underline, so they keep a background.
+				lg: "fui:h-14 fui:px-3 fui:text-sm fui:group-data-[collapsible=icon]:p-0! fui:hover:bg-sidebar-accent fui:data-popup-open:bg-sidebar-accent",
 			},
 		},
 		defaultVariants: {
@@ -690,7 +693,7 @@ function SidebarMenuSubButton({
 		props: mergeProps<"a">(
 			{
 				className: cn(
-					"fui:flex fui:h-7 fui:min-w-0 fui:-translate-x-px fui:items-center fui:gap-2 fui:overflow-hidden fui:rounded-md fui:px-2 fui:text-sidebar-foreground fui:ring-sidebar-ring fui:outline-hidden fui:group-data-[collapsible=icon]:hidden fui:hover:bg-sidebar-accent fui:hover:text-sidebar-accent-foreground fui:focus-visible:ring-2 fui:active:bg-sidebar-accent fui:active:text-sidebar-accent-foreground fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-disabled:pointer-events-none fui:aria-disabled:opacity-50 fui:data-[size=md]:text-sm fui:data-[size=sm]:text-xs fui:data-active:bg-sidebar-accent fui:data-active:text-sidebar-accent-foreground fui:[&>span:last-child]:truncate fui:[&>svg]:size-4 fui:[&>svg]:shrink-0 fui:[&>svg]:text-sidebar-accent-foreground",
+					"fui:flex fui:h-7 fui:min-w-0 fui:-translate-x-px fui:items-center fui:gap-2 fui:overflow-hidden fui:rounded-md fui:px-2 fui:text-sidebar-foreground fui:ring-sidebar-ring fui:outline-hidden fui:group-data-[collapsible=icon]:hidden fui:focus-visible:ring-2 fui:disabled:pointer-events-none fui:disabled:opacity-50 fui:aria-disabled:pointer-events-none fui:aria-disabled:opacity-50 fui:data-[size=md]:text-sm fui:data-[size=sm]:text-xs fui:data-active:font-medium fui:[&>span:not([data-slot])]:border-y-2 fui:[&>span:not([data-slot])]:border-transparent fui:[&>span:not([data-slot])]:py-0.5 fui:not-data-active:hover:[&>span:not([data-slot])]:border-b-sidebar-border fui:data-active:[&>span:not([data-slot])]:border-b-foreground fui:[&>span:last-child]:truncate fui:[&>svg]:size-4 fui:[&>svg]:shrink-0 fui:[&>svg]:text-sidebar-accent-foreground",
 					className,
 				),
 			},
