@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import * as React from "react";
 
 import { Badge } from "../components/badge";
 import {
@@ -6,8 +7,10 @@ import {
 	DataTable,
 	DataTableColumnHeader,
 	type DataTableProps,
+	DataTableSubPanel,
 	dataTableSelectColumn,
 } from "../components/data-table";
+import { ExpandToggleCell, IdCell } from "../components/table-cells";
 
 type Project = {
 	id: string;
@@ -163,7 +166,7 @@ function ProjectDataTable(props: DataTableProps<Project>) {
 }
 
 const meta = {
-	title: "Data Table",
+	title: "Data Display/Data Table",
 	component: ProjectDataTable,
 	parameters: {
 		layout: "padded",
@@ -193,3 +196,136 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const Loading: Story = {
+	args: { loading: true, data: [] },
+};
+
+type Batch = {
+	id: string;
+	state: string;
+	fileCount: number;
+	files: { name: string; kind: string }[];
+	openedAt: string;
+};
+
+const batches: Batch[] = [
+	{
+		id: "BATCH-004",
+		state: "open",
+		fileCount: 3,
+		files: [
+			{ name: "discount/1b77.xml", kind: "discount" },
+			{ name: "discount/1b78.xml", kind: "discount" },
+			{ name: "discount-line/9f01.xml", kind: "discount-line" },
+		],
+		openedAt: "2026-05-20 01:50",
+	},
+	{
+		id: "BATCH-003",
+		state: "consumed",
+		fileCount: 1,
+		files: [{ name: "campaign/77aa.xml", kind: "campaign" }],
+		openedAt: "2026-05-19 22:10",
+	},
+	// Empty `files`: the count is not expandable.
+	{
+		id: "BATCH-002",
+		state: "consumed",
+		fileCount: 4,
+		files: [],
+		openedAt: "2026-05-18 08:00",
+	},
+];
+
+const batchColumn = createDataTableColumnHelper<Batch>();
+
+function BatchTable() {
+	const [open, setOpen] = React.useState<string | null>("BATCH-004");
+
+	const columns = [
+		batchColumn.accessor("id", {
+			header: "Batch",
+			cell: (info) => <IdCell>{info.getValue()}</IdCell>,
+		}),
+		batchColumn.accessor("state", {
+			enableSorting: false,
+			header: ({ column }) => (
+				<DataTableColumnHeader
+					column={column}
+					title="State"
+					hint="Open until a successful sync consumes the batch."
+				/>
+			),
+		}),
+		batchColumn.accessor("openedAt", {
+			header: ({ column }) => (
+				<DataTableColumnHeader
+					column={column}
+					title="Opened at"
+					hint="When the batch's first file arrived."
+				/>
+			),
+		}),
+		batchColumn.accessor("fileCount", {
+			enableSorting: false,
+			header: "Files",
+			cell: ({ row, getValue }) => (
+				<ExpandToggleCell
+					expandable={row.original.files.length > 0}
+					expanded={open === row.original.id}
+					onToggle={() =>
+						setOpen(open === row.original.id ? null : row.original.id)
+					}
+				>
+					{getValue()}
+				</ExpandToggleCell>
+			),
+		}),
+	];
+
+	return (
+		<DataTable
+			columns={columns}
+			data={batches}
+			getRowId={(batch) => batch.id}
+			pageSize={false}
+			renderSubComponent={(row) =>
+				open === row.original.id ? (
+					<DataTableSubPanel
+						title={`Uploaded files — ${row.original.files.length}`}
+					>
+						<DataTable
+							columns={fileColumns}
+							data={row.original.files}
+							getRowId={(file) => file.name}
+							pageSize={false}
+						/>
+					</DataTableSubPanel>
+				) : null
+			}
+		/>
+	);
+}
+
+const fileColumn = createDataTableColumnHelper<Batch["files"][number]>();
+const fileColumns = [
+	fileColumn.accessor("kind", { header: "Kind" }),
+	fileColumn.accessor("name", {
+		header: "File",
+		cell: (info) => <IdCell>{info.getValue()}</IdCell>,
+	}),
+];
+
+export const ExpandableRows: Story = {
+	name: "Expandable rows and header hints",
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Column headers with a `hint` tooltip, and a count that expands into a detail row via `ExpandToggleCell` and `DataTableSubPanel`.",
+			},
+		},
+	},
+	render: () => <BatchTable />,
+};

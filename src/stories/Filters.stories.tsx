@@ -41,7 +41,7 @@ type Product = {
 
 const products: Product[] = [
 	{
-		id: "BASE-101039267",
+		id: "SKU-101039267",
 		name: "Trail running shoe",
 		brand: "FancyBrand",
 		status: "active",
@@ -49,7 +49,7 @@ const products: Product[] = [
 		importedAt: new Date("2026-09-17T15:31:33Z"),
 	},
 	{
-		id: "BASE-101039268",
+		id: "SKU-101039268",
 		name: "Merino base layer",
 		brand: "Northwise",
 		status: "active",
@@ -57,7 +57,7 @@ const products: Product[] = [
 		importedAt: new Date("2026-09-12T09:04:10Z"),
 	},
 	{
-		id: "BASE-101039271",
+		id: "SKU-101039271",
 		name: "Packable rain jacket",
 		brand: "FancyBrand",
 		status: "draft",
@@ -65,7 +65,7 @@ const products: Product[] = [
 		importedAt: new Date("2026-09-03T11:48:52Z"),
 	},
 	{
-		id: "BASE-101039275",
+		id: "SKU-101039275",
 		name: "Insulated bottle",
 		brand: "Hydra",
 		status: "active",
@@ -73,7 +73,7 @@ const products: Product[] = [
 		importedAt: new Date("2026-08-28T07:15:00Z"),
 	},
 	{
-		id: "BASE-101039280",
+		id: "SKU-101039280",
 		name: "Hiking poles",
 		brand: "Northwise",
 		status: "archived",
@@ -81,7 +81,7 @@ const products: Product[] = [
 		importedAt: new Date("2026-08-14T13:22:41Z"),
 	},
 	{
-		id: "BASE-101039284",
+		id: "SKU-101039284",
 		name: "Daypack 22L",
 		brand: "Hydra",
 		status: "draft",
@@ -198,7 +198,6 @@ function ProductFilterBar({
 	);
 }
 
-/** Holds the filter state so each story can be clicked through. */
 function ProductFilters({
 	size = "default",
 	withActions = false,
@@ -326,14 +325,14 @@ function FilteredProductTable({ size = "default" }: { size?: FilterSize }) {
 }
 
 const meta = {
-	title: "Filters",
+	title: "Forms/Filters",
 	component: ProductFilters,
 	parameters: {
 		layout: "padded",
 		docs: {
 			description: {
 				component:
-					"Labelled filter controls for a listing: `FilterSearch`, `FilterSelect`, `FilterMultiSelect`, `FilterDateRange`, `FilterToggle` and `FilterReset`, laid out by `FilterBar`. The bar's `size` sets every control's height so they share a bottom edge. `FilterReset` only appears once something is filtered.",
+					"Labelled filter controls laid out by `FilterBar`, whose `size` gives every control the same height.",
 			},
 		},
 	},
@@ -383,4 +382,27 @@ export const Active: Story = {
 export const InDataTable: Story = {
 	name: "In Data Table",
 	render: (args) => <FilteredProductTable size={args.size} />,
+};
+
+function ValidityFilter() {
+	const [period, setPeriod] = React.useState<FilterPeriod | undefined>({
+		from: new Date(2026, 9, 1, 8, 0),
+		to: new Date(2026, 9, 31, 23, 59, 59, 999),
+	});
+
+	return (
+		<FilterBar>
+			<FilterDateRange
+				label="Valid during"
+				withTime
+				value={period}
+				onValueChange={setPeriod}
+			/>
+		</FilterBar>
+	);
+}
+
+export const WithTimeOfDay: Story = {
+	name: "With time of day",
+	render: () => <ValidityFilter />,
 };

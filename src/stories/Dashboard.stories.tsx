@@ -1,63 +1,36 @@
 import {
-	ActivityIcon,
-	ArrowDownRightIcon,
-	ArrowUpRightIcon,
 	BellIcon,
-	BuildingsIcon,
-	CaretRightIcon,
-	CaretUpDownIcon,
-	ChartBarIcon,
 	CircleWavyCheckIcon,
+	CloudArrowUpIcon,
 	CommandIcon,
-	CreditCardIcon,
-	CurrencyDollarIcon,
+	CopyIcon,
 	DotsThreeIcon,
 	DownloadIcon,
 	EyeIcon,
+	FileSearchIcon,
 	FileTextIcon,
+	GaugeIcon,
 	GearIcon,
-	LifebuoyIcon,
+	LinkIcon,
 	MagnifyingGlassIcon,
-	PackageIcon,
-	PaperPlaneTiltIcon,
-	PencilIcon,
+	MegaphoneIcon,
+	PlayIcon,
 	PlusIcon,
-	RocketIcon,
-	ShoppingCartIcon,
+	SealPercentIcon,
 	SignOutIcon,
-	SparkleIcon,
-	SquaresFourIcon,
+	StackIcon,
 	TrashIcon,
 	TrayIcon,
-	TrendUpIcon,
-	UsersIcon,
 	WarningCircleIcon,
+	WarningIcon,
 } from "@phosphor-icons/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import {
-	Area,
-	AreaChart,
-	Bar,
-	BarChart,
-	CartesianGrid,
-	XAxis,
-	YAxis,
-} from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { toast } from "sonner";
 
 import { Alert, AlertDescription, AlertTitle } from "../components/alert";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "../components/alert-dialog";
+import { AppHeader } from "../components/app-shell";
 import { Avatar, AvatarFallback } from "../components/avatar";
 import { Badge } from "../components/badge";
 import {
@@ -81,16 +54,9 @@ import {
 import {
 	type ChartConfig,
 	ChartContainer,
-	ChartLegend,
-	ChartLegendContent,
 	ChartTooltip,
 	ChartTooltipContent,
 } from "../components/chart";
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "../components/collapsible";
 import {
 	Command,
 	CommandDialog,
@@ -102,6 +68,12 @@ import {
 	CommandSeparator,
 	CommandShortcut,
 } from "../components/command";
+import { ConfirmDialog } from "../components/confirm-dialog";
+import {
+	type DashboardResource,
+	DashboardSection,
+	DashboardTile,
+} from "../components/dashboard";
 import {
 	createDataTableColumnHelper,
 	DataTable,
@@ -109,7 +81,14 @@ import {
 	dataTableSelectColumn,
 } from "../components/data-table";
 import {
+	DescriptionList,
+	DescriptionListDetails,
+	DescriptionListItem,
+	DescriptionListTerm,
+} from "../components/description-list";
+import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
@@ -141,18 +120,11 @@ import {
 	InputGroupAddon,
 	InputGroupInput,
 } from "../components/input-group";
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemGroup,
-	ItemMedia,
-	ItemSeparator,
-	ItemTitle,
-} from "../components/item";
+import { ItemList, ItemListEntry } from "../components/item-list";
 import { Kbd, KbdGroup } from "../components/kbd";
-import { Progress } from "../components/progress";
+import { PageHeader } from "../components/page-header";
+import { ProgressList, ProgressListItem } from "../components/progress-list";
+import { RefreshButton } from "../components/refresh-button";
 import { ScrollArea } from "../components/scroll-area";
 import {
 	Select,
@@ -163,29 +135,17 @@ import {
 	SelectValue,
 } from "../components/select";
 import { Separator } from "../components/separator";
-import {
-	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarGroup,
-	SidebarGroupLabel,
-	SidebarHeader,
-	SidebarInset,
-	SidebarMenu,
-	SidebarMenuBadge,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
-	SidebarProvider,
-	SidebarRail,
-	SidebarSeparator,
-	SidebarTrigger,
-} from "../components/sidebar";
+import { SidebarInset, SidebarProvider } from "../components/sidebar";
 import { Skeleton } from "../components/skeleton";
 import { Toaster } from "../components/sonner";
+import { StatCard, StatCardRow } from "../components/stat-card";
 import { Switch } from "../components/switch";
+import {
+	DateTimeCell,
+	IdCell,
+	NumberCell,
+	TagCell,
+} from "../components/table-cells";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/tabs";
 import { Textarea } from "../components/textarea";
 import {
@@ -194,495 +154,226 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "../components/tooltip";
+import { AdminSidebar } from "./admin-sidebar";
+import {
+	ErrorCategoriesTile,
+	OnlineShareTile,
+	PriceRulesTile,
+	ProjectionsTile,
+	ready,
+	type Summary,
+	summary,
+	TileLink,
+} from "./admin-tiles";
 
-const revenueByMonth = [
-	{ month: "Jan", revenue: 18600, expenses: 11400 },
-	{ month: "Feb", revenue: 30500, expenses: 14200 },
-	{ month: "Mar", revenue: 23700, expenses: 12900 },
-	{ month: "Apr", revenue: 27300, expenses: 16100 },
-	{ month: "May", revenue: 41200, expenses: 18700 },
-	{ month: "Jun", revenue: 38900, expenses: 17400 },
-	{ month: "Jul", revenue: 52400, expenses: 21300 },
-	{ month: "Aug", revenue: 47800, expenses: 20100 },
-	{ month: "Sep", revenue: 61500, expenses: 24800 },
-];
-
-const revenueChartConfig = {
-	revenue: { label: "Revenue", color: "var(--chart-2)" },
-	expenses: { label: "Expenses", color: "var(--chart-4)" },
-} satisfies ChartConfig;
-
-const trafficBySource = [
-	{ source: "Organic", visitors: 4820 },
-	{ source: "Referral", visitors: 2140 },
-	{ source: "Social", visitors: 1780 },
-	{ source: "Email", visitors: 1290 },
-	{ source: "Paid", visitors: 940 },
-];
-
-const trafficChartConfig = {
-	visitors: { label: "Visitors", color: "var(--chart-3)" },
-} satisfies ChartConfig;
-
-type OrderStatus = "paid" | "pending" | "refunded" | "failed";
-
-type Order = {
-	id: string;
-	customer: string;
-	email: string;
-	plan: "Starter" | "Pro" | "Enterprise";
-	status: OrderStatus;
-	/** ISO date so the column can sort chronologically, not alphabetically. */
-	date: string;
-	amount: number;
+type ImportError = {
+	sku: string;
+	product: string;
+	brand: string;
+	category: "validation" | "parse";
+	type: string;
+	occurrences: number;
+	lastSeen: string;
 };
 
-const orders: Order[] = [
+// The occurrences add up to the error categories tile: 51 validation, 6 parse.
+const importErrors: ImportError[] = [
 	{
-		id: "INV-2401",
-		customer: "Amelie Roth",
-		email: "amelie@northwind.dev",
-		plan: "Enterprise",
-		status: "paid",
-		date: "2025-09-12",
-		amount: 2400,
+		sku: "SKU-100477054",
+		product: "Merino crew neck jumper",
+		brand: "Fancy Brand",
+		category: "validation",
+		type: "missing_required_field",
+		occurrences: 12,
+		lastSeen: "2026-11-06T08:14:00",
 	},
 	{
-		id: "INV-2402",
-		customer: "Jonas Weber",
-		email: "j.weber@lumenlabs.io",
-		plan: "Pro",
-		status: "pending",
-		date: "2025-09-12",
-		amount: 149,
+		sku: "SKU-100477061",
+		product: "Linen shirt, regular fit",
+		brand: "Fancy Brand",
+		category: "validation",
+		type: "invalid_price",
+		occurrences: 9,
+		lastSeen: "2026-11-06T08:14:00",
 	},
 	{
-		id: "INV-2403",
-		customer: "Priya Nair",
-		email: "priya@ferrofoundry.com",
-		plan: "Pro",
-		status: "paid",
-		date: "2025-09-11",
-		amount: 149,
+		sku: "SKU-101039267",
+		product: "Ceramic table lamp",
+		brand: "Lumen",
+		category: "validation",
+		type: "variant_sku_unique",
+		occurrences: 8,
+		lastSeen: "2026-11-06T07:52:00",
 	},
 	{
-		id: "INV-2404",
-		customer: "Marco Bianchi",
-		email: "marco@atlasgrid.eu",
-		plan: "Starter",
-		status: "refunded",
-		date: "2025-09-10",
-		amount: 29,
+		sku: "SKU-101039270",
+		product: "Oak side table",
+		brand: "Lumen",
+		category: "parse",
+		type: "malformed_json",
+		occurrences: 3,
+		lastSeen: "2026-11-06T07:52:00",
 	},
 	{
-		id: "INV-2405",
-		customer: "Sara Lindqvist",
-		email: "sara@kolmarden.se",
-		plan: "Enterprise",
-		status: "failed",
-		date: "2025-09-09",
-		amount: 2400,
+		sku: "SKU-100988140",
+		product: "Wool scarf, herringbone",
+		brand: "Northwind",
+		category: "validation",
+		type: "missing_image",
+		occurrences: 7,
+		lastSeen: "2026-11-05T22:40:00",
 	},
 	{
-		id: "INV-2406",
-		customer: "Tobias Krause",
-		email: "tobias@helioworks.de",
-		plan: "Pro",
-		status: "paid",
-		date: "2025-09-09",
-		amount: 149,
+		sku: "SKU-100988152",
+		product: "Leather belt, 35 mm",
+		brand: "Northwind",
+		category: "validation",
+		type: "missing_required_field",
+		occurrences: 6,
+		lastSeen: "2026-11-05T22:40:00",
 	},
 	{
-		id: "INV-2407",
-		customer: "Yuki Tanaka",
-		email: "yuki@sorabyte.jp",
-		plan: "Enterprise",
-		status: "paid",
-		date: "2025-09-08",
-		amount: 2400,
+		sku: "SKU-100731005",
+		product: "Espresso cup set",
+		brand: "Casa",
+		category: "parse",
+		type: "unknown_attribute",
+		occurrences: 3,
+		lastSeen: "2026-11-05T18:03:00",
 	},
 	{
-		id: "INV-2408",
-		customer: "Nadia Haddad",
-		email: "nadia@cedarpoint.ma",
-		plan: "Starter",
-		status: "pending",
-		date: "2025-09-08",
-		amount: 29,
+		sku: "SKU-100731019",
+		product: "Linen tea towel, 2 pcs",
+		brand: "Casa",
+		category: "validation",
+		type: "invalid_price",
+		occurrences: 5,
+		lastSeen: "2026-11-05T18:03:00",
 	},
 	{
-		id: "INV-2409",
-		customer: "Oliver Grant",
-		email: "oliver@brightmoor.uk",
-		plan: "Pro",
-		status: "paid",
-		date: "2025-09-07",
-		amount: 149,
-	},
-	{
-		id: "INV-2410",
-		customer: "Elif Demir",
-		email: "elif@marmaralabs.tr",
-		plan: "Enterprise",
-		status: "refunded",
-		date: "2025-09-06",
-		amount: 2400,
-	},
-	{
-		id: "INV-2411",
-		customer: "Lucas Moreau",
-		email: "lucas@verrerie.fr",
-		plan: "Starter",
-		status: "paid",
-		date: "2025-09-05",
-		amount: 29,
-	},
-	{
-		id: "INV-2412",
-		customer: "Hanna Vogel",
-		email: "hanna@nordlicht.at",
-		plan: "Pro",
-		status: "failed",
-		date: "2025-09-04",
-		amount: 149,
+		sku: "SKU-100512330",
+		product: "Running sock, 3 pairs",
+		brand: "Stride",
+		category: "validation",
+		type: "missing_image",
+		occurrences: 4,
+		lastSeen: "2026-11-04T09:21:00",
 	},
 ];
 
-const currency = new Intl.NumberFormat("en-US", {
-	style: "currency",
-	currency: "USD",
-});
+const languageCoverage = [
+	{ label: "English", value: 100 },
+	{ label: "German", value: 97 },
+	{ label: "French", value: 94 },
+	{ label: "Spanish", value: 71 },
+];
 
-const shortDate = new Intl.DateTimeFormat("en-US", {
-	day: "2-digit",
-	month: "short",
-	year: "numeric",
-	timeZone: "UTC",
-});
+const campaignLoad = [
+	{ day: "6 Nov", campaigns: 9 },
+	{ day: "7 Nov", campaigns: 9 },
+	{ day: "8 Nov", campaigns: 11 },
+	{ day: "9 Nov", campaigns: 11 },
+	{ day: "10 Nov", campaigns: 14 },
+	{ day: "11 Nov", campaigns: 18 },
+	{ day: "12 Nov", campaigns: 18 },
+	{ day: "13 Nov", campaigns: 16 },
+	{ day: "14 Nov", campaigns: 22 },
+	{ day: "15 Nov", campaigns: 22 },
+	{ day: "16 Nov", campaigns: 19 },
+	{ day: "17 Nov", campaigns: 15 },
+	{ day: "18 Nov", campaigns: 12 },
+	{ day: "19 Nov", campaigns: 12 },
+];
 
-const initials = (name: string) =>
-	name
-		.split(" ")
-		.map((part) => part[0])
-		.join("");
+const campaignLoadConfig = {
+	campaigns: { label: "Campaigns live", color: "var(--chart-2)" },
+} satisfies ChartConfig;
 
-const statusVariant: Record<
-	OrderStatus,
-	"default" | "secondary" | "destructive" | "outline"
-> = {
-	paid: "default",
-	pending: "secondary",
-	refunded: "outline",
-	failed: "destructive",
-};
-
-const recentActivity = [
+const recentChanges = [
 	{
-		name: "Amelie Roth",
-		initials: "AR",
-		action: "upgraded to Enterprise",
-		amount: "+$2,400.00",
+		name: "Alex Doe",
+		initials: "AD",
+		action: "Changed the redirect /sale",
 		time: "2m ago",
 	},
 	{
 		name: "Jonas Weber",
 		initials: "JW",
-		action: "started a Pro trial",
-		amount: "—",
+		action: "Overrode campaign CMP-1042",
 		time: "18m ago",
 	},
 	{
 		name: "Priya Nair",
 		initials: "PN",
-		action: "renewed Pro",
-		amount: "+$149.00",
+		action: "Recalculated price PR-20931",
 		time: "1h ago",
 	},
 	{
 		name: "Marco Bianchi",
 		initials: "MB",
-		action: "requested a refund",
-		amount: "-$29.00",
+		action: "Deleted product SKU-100477054",
 		time: "3h ago",
 	},
 	{
 		name: "Sara Lindqvist",
 		initials: "SL",
-		action: "payment failed",
-		amount: "$2,400.00",
+		action: "Simulated customer C-4471",
 		time: "5h ago",
 	},
-];
-
-const stats = [
 	{
-		label: "Total revenue",
-		value: "$342,190",
-		delta: "+18.2%",
-		trending: "up" as const,
-		hint: "vs. previous 30 days",
-		icon: CurrencyDollarIcon,
-		progress: 78,
-	},
-	{
-		label: "Subscriptions",
-		value: "4,812",
-		delta: "+9.4%",
-		trending: "up" as const,
-		hint: "412 new this month",
-		icon: UsersIcon,
-		progress: 64,
-	},
-	{
-		label: "Active now",
-		value: "1,204",
-		delta: "+2.1%",
-		trending: "up" as const,
-		hint: "peak 1,540 at 14:00",
-		icon: ActivityIcon,
-		progress: 41,
-	},
-	{
-		label: "Churn rate",
-		value: "2.8%",
-		delta: "-0.6%",
-		trending: "down" as const,
-		hint: "lowest in 6 months",
-		icon: TrendUpIcon,
-		progress: 22,
+		name: "Alex Doe",
+		initials: "AD",
+		action: "Ran the campaign mapping",
+		time: "6h ago",
 	},
 ];
 
-function AppSidebar() {
-	return (
-		<Sidebar collapsible="icon" variant="inset">
-			<SidebarHeader>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<SidebarMenuButton size="lg" tooltip="Switch workspace">
-										<div className="fui:flex fui:aspect-square fui:size-8 fui:items-center fui:justify-center fui:rounded-lg fui:bg-sidebar-primary fui:text-sidebar-primary-foreground">
-											<BuildingsIcon className="fui:size-4" />
-										</div>
-										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
-											<span className="fui:truncate fui:font-medium">
-												Foomo Inc.
-											</span>
-											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
-												Enterprise
-											</span>
-										</div>
-										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
-									</SidebarMenuButton>
-								}
-							/>
-							<DropdownMenuContent align="start" className="fui:w-56">
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Workspaces</DropdownMenuLabel>
-									<DropdownMenuItem>
-										<BuildingsIcon />
-										Foomo Inc.
-										<DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<RocketIcon />
-										Skunkworks
-										<DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem>
-										<PlusIcon />
-										New workspace
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarHeader>
+const scheduledExports = [
+	{
+		title: "Content export to the shop",
+		description: "Every night at 02:00 · all languages",
+		enabled: true,
+	},
+	{
+		title: "Price feed for the marketplace",
+		description: "Every hour · 41,207 variants",
+		enabled: true,
+	},
+	{
+		title: "Redirects backup",
+		description: "Paused since 14 Oct 2026",
+		enabled: false,
+	},
+];
 
-			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupLabel>Platform</SidebarGroupLabel>
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton isActive tooltip="Dashboard">
-								<SquaresFourIcon />
-								<span>Dashboard</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Analytics">
-								<ChartBarIcon />
-								<span>Analytics</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-
-						<Collapsible defaultOpen className="fui:group/collapsible">
-							<SidebarMenuItem>
-								<CollapsibleTrigger
-									render={
-										<SidebarMenuButton tooltip="Projects">
-											<PackageIcon />
-											<span>Projects</span>
-											<CaretRightIcon className="fui:ml-auto fui:size-4 fui:transition-transform fui:duration-200 fui:group-data-open/collapsible:rotate-90" />
-										</SidebarMenuButton>
-									}
-								/>
-								<CollapsibleContent>
-									<SidebarMenuSub>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Storefront
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Checkout API
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-										<SidebarMenuSubItem>
-											<SidebarMenuSubButton href="#">
-												Design system
-											</SidebarMenuSubButton>
-										</SidebarMenuSubItem>
-									</SidebarMenuSub>
-								</CollapsibleContent>
-							</SidebarMenuItem>
-						</Collapsible>
-
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Customers">
-								<UsersIcon />
-								<span>Customers</span>
-							</SidebarMenuButton>
-							<SidebarMenuBadge>128</SidebarMenuBadge>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Orders">
-								<ShoppingCartIcon />
-								<span>Orders</span>
-							</SidebarMenuButton>
-							<SidebarMenuBadge>12</SidebarMenuBadge>
-						</SidebarMenuItem>
-					</SidebarMenu>
-				</SidebarGroup>
-
-				<SidebarSeparator />
-
-				<SidebarGroup>
-					<SidebarGroupLabel>Workspace</SidebarGroupLabel>
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Invoices">
-								<FileTextIcon />
-								<span>Invoices</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="Billing">
-								<CreditCardIcon />
-								<span>Billing</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-						<SidebarMenuItem>
-							<SidebarMenuButton tooltip="GearIcon">
-								<GearIcon />
-								<span>GearIcon</span>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					</SidebarMenu>
-				</SidebarGroup>
-			</SidebarContent>
-
-			<SidebarFooter>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<SidebarMenuButton size="sm" tooltip="Support">
-							<LifebuoyIcon />
-							<span>Support</span>
-						</SidebarMenuButton>
-					</SidebarMenuItem>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<SidebarMenuButton size="lg" tooltip="Account">
-										<Avatar className="fui:size-8 fui:rounded-lg">
-											<AvatarFallback className="fui:rounded-lg">
-												LB
-											</AvatarFallback>
-										</Avatar>
-										<div className="fui:grid fui:flex-1 fui:text-left fui:text-sm fui:leading-tight">
-											<span className="fui:truncate fui:font-medium">
-												Lena Brandt
-											</span>
-											<span className="fui:truncate fui:text-xs fui:text-sidebar-foreground/70">
-												lena@foomo.org
-											</span>
-										</div>
-										<CaretUpDownIcon className="fui:ml-auto fui:size-4" />
-									</SidebarMenuButton>
-								}
-							/>
-							<DropdownMenuContent
-								side="top"
-								align="start"
-								className="fui:w-56"
-							>
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>My account</DropdownMenuLabel>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem>
-										<SparkleIcon />
-										Upgrade to Pro
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<CircleWavyCheckIcon />
-										Account
-									</DropdownMenuItem>
-									<DropdownMenuItem>
-										<CreditCardIcon />
-										Billing
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuItem variant="destructive">
-										<SignOutIcon />
-										Log out
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarFooter>
-
-			<SidebarRail />
-		</Sidebar>
-	);
-}
+const notifications = [
+	{
+		title: "Import failed for 12 products",
+		body: "missing_required_field in the last import.",
+		time: "5m ago",
+		icon: WarningCircleIcon,
+	},
+	{
+		title: "Supplier upload staged",
+		body: "BATCH-004: 4 files, 6.0 MB.",
+		time: "1h ago",
+		icon: CloudArrowUpIcon,
+	},
+	{
+		title: "Mapping run finished",
+		body: "53 price rules published.",
+		time: "3h ago",
+		icon: CircleWavyCheckIcon,
+	},
+];
 
 function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 	return (
-		<header className="fui:sticky fui:top-0 fui:z-10 fui:flex fui:h-16 fui:shrink-0 fui:items-center fui:gap-2 fui:border-b fui:bg-background/80 fui:px-4 fui:backdrop-blur">
-			<SidebarTrigger className="fui:-ml-1" />
-			<Separator
-				orientation="vertical"
-				className="fui:mr-2 fui:h-4 fui:self-center!"
-			/>
-
+		<AppHeader>
 			<Breadcrumb className="fui:hidden fui:md:block">
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="#">Foomo Inc.</BreadcrumbLink>
+						<BreadcrumbLink href="#">Acme Admin</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
@@ -698,7 +389,7 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 					className="fui:hidden fui:w-64 fui:justify-start fui:font-normal fui:text-muted-foreground fui:lg:inline-flex"
 				>
 					<MagnifyingGlassIcon data-icon="inline-start" />
-					<span>MagnifyingGlassIcon everything…</span>
+					<span>Search…</span>
 					<KbdGroup className="fui:ml-auto">
 						<Kbd>⌘</Kbd>
 						<Kbd>K</Kbd>
@@ -734,24 +425,21 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 						render={
 							<Button variant="ghost" size="icon" className="fui:rounded-full">
 								<Avatar className="fui:size-7">
-									<AvatarFallback>LB</AvatarFallback>
+									<AvatarFallback>AD</AvatarFallback>
 								</Avatar>
+								<span className="fui:sr-only">Account</span>
 							</Button>
 						}
 					/>
 					<DropdownMenuContent align="end" className="fui:w-56">
 						<DropdownMenuGroup>
-							<DropdownMenuLabel>lena@foomo.org</DropdownMenuLabel>
+							<DropdownMenuLabel>Alex Doe</DropdownMenuLabel>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>
-								<CircleWavyCheckIcon />
-								Profile
-							</DropdownMenuItem>
-							<DropdownMenuItem>
 								<GearIcon />
-								Preferences
+								Settings
 								<DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
@@ -765,30 +453,9 @@ function DashboardHeader({ onOpenCommand }: { onOpenCommand: () => void }) {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
-		</header>
+		</AppHeader>
 	);
 }
-
-const notifications = [
-	{
-		title: "Payment failed",
-		body: "Sara Lindqvist's card was declined.",
-		time: "5h ago",
-		icon: WarningCircleIcon,
-	},
-	{
-		title: "New enterprise lead",
-		body: "Northwind requested a demo.",
-		time: "1d ago",
-		icon: RocketIcon,
-	},
-	{
-		title: "Deploy succeeded",
-		body: "storefront@v2.14.0 is live.",
-		time: "2d ago",
-		icon: CircleWavyCheckIcon,
-	},
-];
 
 function NotificationsMenu() {
 	return (
@@ -808,289 +475,154 @@ function NotificationsMenu() {
 					<Badge variant="secondary">3 new</Badge>
 				</div>
 				<Separator />
-				<ItemGroup>
+				<ItemList className="fui:px-3">
 					{notifications.map((notification) => (
-						<Item key={notification.title} size="sm">
-							<ItemMedia variant="icon">
-								<notification.icon />
-							</ItemMedia>
-							<ItemContent>
-								<ItemTitle>{notification.title}</ItemTitle>
-								<ItemDescription>{notification.body}</ItemDescription>
-							</ItemContent>
-							<ItemActions>
+						<ItemListEntry
+							key={notification.title}
+							media={<notification.icon />}
+							mediaVariant="icon"
+							title={notification.title}
+							description={notification.body}
+							end={
 								<span className="fui:text-xs fui:text-muted-foreground">
 									{notification.time}
 								</span>
-							</ItemActions>
-						</Item>
+							}
+						/>
 					))}
-				</ItemGroup>
+				</ItemList>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
 }
 
-// One chart color per bar, so progress bars read as part of the chart palette
-// rather than the near-black primary.
-const progressColors = [
-	"fui:[&_[data-slot=progress-indicator]]:bg-chart-2",
-	"fui:[&_[data-slot=progress-indicator]]:bg-chart-3",
-	"fui:[&_[data-slot=progress-indicator]]:bg-chart-4",
-	"fui:[&_[data-slot=progress-indicator]]:bg-chart-5",
-];
-
-function StatCards() {
+function LanguageCoverageTile({
+	resource,
+}: {
+	resource: DashboardResource<typeof languageCoverage>;
+}) {
 	return (
-		<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
-			{stats.map((stat, index) => (
-				<Card key={stat.label} size="sm">
-					<CardHeader>
-						<CardDescription>{stat.label}</CardDescription>
-						<CardAction>
-							<stat.icon className="fui:size-4 fui:text-muted-foreground" />
-						</CardAction>
-					</CardHeader>
-					<CardContent className="fui:flex fui:flex-col fui:gap-3">
-						<div className="fui:flex fui:items-center fui:gap-2">
-							<span className="fui:font-heading fui:text-2xl fui:font-medium fui:tabular-nums">
-								{stat.value}
-							</span>
-							<Badge variant="secondary">
-								{stat.trending === "up" ? (
-									<ArrowUpRightIcon data-icon="inline-start" />
-								) : (
-									<ArrowDownRightIcon data-icon="inline-start" />
-								)}
-								{stat.delta}
-							</Badge>
+		<DashboardTile
+			title="Texts per language"
+			description="Share of products with texts in each language"
+			action={<TileLink>Products</TileLink>}
+			resource={resource}
+		>
+			{(data) => (
+				<ProgressList className="fui:justify-center fui:h-full fui:gap-4">
+					{data.map((entry, index) => (
+						<ProgressListItem
+							key={entry.label}
+							label={entry.label}
+							value={entry.value}
+							color={`var(--chart-${index + 2})`}
+						/>
+					))}
+				</ProgressList>
+			)}
+		</DashboardTile>
+	);
+}
+
+function ImportHealthTile({
+	resource,
+}: {
+	resource: DashboardResource<Summary>;
+}) {
+	const failures = importErrors.reduce((sum, row) => sum + row.occurrences, 0);
+
+	return (
+		<DashboardTile
+			title="Import health"
+			description="Freshness of the last catalogue import"
+			action={<TileLink>Import errors</TileLink>}
+			resource={resource}
+		>
+			{() => (
+				<div className="fui:flex fui:h-full fui:flex-col fui:justify-center fui:gap-4">
+					<div>
+						<div className="fui:font-heading fui:text-3xl fui:font-medium fui:text-destructive fui:tabular-nums">
+							{failures}
 						</div>
-						<Progress
-							value={stat.progress}
-							className={`fui:h-1.5 ${progressColors[index % progressColors.length]}`}
-						/>
-						<p className="fui:text-xs fui:text-muted-foreground">{stat.hint}</p>
-					</CardContent>
-				</Card>
-			))}
-		</div>
-	);
-}
-
-function RevenueChartCard() {
-	return (
-		<Card className="fui:xl:col-span-4">
-			<CardHeader>
-				<CardTitle>Revenue vs. expenses</CardTitle>
-				<CardDescription>Rolling nine months, EUR</CardDescription>
-				<CardAction>
-					<Select defaultValue="9m">
-						<SelectTrigger className="fui:w-36" size="sm">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectItem value="3m">Last 3 months</SelectItem>
-								<SelectItem value="6m">Last 6 months</SelectItem>
-								<SelectItem value="9m">Last 9 months</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</CardAction>
-			</CardHeader>
-			<CardContent>
-				<ChartContainer
-					config={revenueChartConfig}
-					className="fui:aspect-auto fui:h-[260px] fui:w-full"
-				>
-					<AreaChart data={revenueByMonth} margin={{ left: 4, right: 4 }}>
-						<defs>
-							<linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
-								<stop
-									offset="5%"
-									stopColor="var(--color-revenue)"
-									stopOpacity={0.8}
-								/>
-								<stop
-									offset="95%"
-									stopColor="var(--color-revenue)"
-									stopOpacity={0.05}
-								/>
-							</linearGradient>
-							<linearGradient id="fillExpenses" x1="0" y1="0" x2="0" y2="1">
-								<stop
-									offset="5%"
-									stopColor="var(--color-expenses)"
-									stopOpacity={0.6}
-								/>
-								<stop
-									offset="95%"
-									stopColor="var(--color-expenses)"
-									stopOpacity={0.05}
-								/>
-							</linearGradient>
-						</defs>
-						<CartesianGrid vertical={false} />
-						<XAxis
-							dataKey="month"
-							tickLine={false}
-							axisLine={false}
-							tickMargin={8}
-						/>
-						<YAxis
-							tickLine={false}
-							axisLine={false}
-							tickMargin={8}
-							width={48}
-							tickFormatter={(value: number) => `${value / 1000}k`}
-						/>
-						<ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
-						<ChartLegend content={<ChartLegendContent />} />
-						<Area
-							dataKey="expenses"
-							type="natural"
-							fill="url(#fillExpenses)"
-							stroke="var(--color-expenses)"
-							stackId="a"
-							isAnimationActive={false}
-						/>
-						<Area
-							dataKey="revenue"
-							type="natural"
-							fill="url(#fillRevenue)"
-							stroke="var(--color-revenue)"
-							stackId="a"
-							isAnimationActive={false}
-						/>
-					</AreaChart>
-				</ChartContainer>
-			</CardContent>
-		</Card>
-	);
-}
-
-function ActivityCard() {
-	return (
-		<Card className="fui:xl:col-span-3">
-			<CardHeader>
-				<CardTitle>Recent activity</CardTitle>
-				<CardDescription>Last 24 hours across all workspaces</CardDescription>
-			</CardHeader>
-			<CardContent className="fui:px-0">
-				<ScrollArea className="fui:h-[260px]">
-					<ItemGroup className="fui:px-4">
-						{recentActivity.map((entry, index) => (
-							<React.Fragment key={entry.name}>
-								{index > 0 && <ItemSeparator />}
-								<Item size="sm" className="fui:px-0">
-									<ItemMedia>
-										<Avatar className="fui:size-8">
-											<AvatarFallback>{entry.initials}</AvatarFallback>
-										</Avatar>
-									</ItemMedia>
-									<ItemContent>
-										<ItemTitle>{entry.name}</ItemTitle>
-										<ItemDescription>{entry.action}</ItemDescription>
-									</ItemContent>
-									<ItemActions className="fui:flex-col fui:items-end fui:gap-0.5">
-										<span className="fui:text-sm fui:font-medium fui:tabular-nums">
-											{entry.amount}
-										</span>
-										<span className="fui:text-xs fui:text-muted-foreground">
-											{entry.time}
-										</span>
-									</ItemActions>
-								</Item>
-							</React.Fragment>
-						))}
-					</ItemGroup>
-				</ScrollArea>
-			</CardContent>
-			<CardFooter>
-				<Button variant="outline" size="sm" className="fui:w-full">
-					View all activity
-				</Button>
-			</CardFooter>
-		</Card>
-	);
-}
-
-const column = createDataTableColumnHelper<Order>();
-
-const orderColumns = [
-	dataTableSelectColumn<Order>(),
-	column.accessor("id", {
-		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Invoice" />
-		),
-		cell: (info) => <span className="fui:font-medium">{info.getValue()}</span>,
-		sortFn: "text",
-	}),
-	column.accessor("customer", {
-		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Customer" />
-		),
-		cell: ({ row }) => (
-			<div className="fui:flex fui:items-center fui:gap-2">
-				<Avatar className="fui:size-6">
-					<AvatarFallback className="fui:text-[10px]">
-						{initials(row.original.customer)}
-					</AvatarFallback>
-				</Avatar>
-				<div className="fui:leading-tight">
-					<div>{row.original.customer}</div>
-					<div className="fui:text-xs fui:text-muted-foreground">
-						{row.original.email}
+						<div className="fui:text-xs fui:text-muted-foreground">
+							failures in the last 24 hours
+						</div>
 					</div>
+					<DescriptionList layout="grid" className="fui:text-xs">
+						<DescriptionListItem>
+							<DescriptionListTerm>Last import</DescriptionListTerm>
+							<DescriptionListDetails>
+								<DateTimeCell value="2026-11-06T08:14:00" />
+							</DescriptionListDetails>
+						</DescriptionListItem>
+						<DescriptionListItem>
+							<DescriptionListTerm>Last failure</DescriptionListTerm>
+							<DescriptionListDetails>
+								<DateTimeCell value="2026-11-06T08:14:00" />
+							</DescriptionListDetails>
+						</DescriptionListItem>
+					</DescriptionList>
 				</div>
-			</div>
+			)}
+		</DashboardTile>
+	);
+}
+
+const column = createDataTableColumnHelper<ImportError>();
+
+const importErrorColumns = [
+	dataTableSelectColumn<ImportError>(),
+	column.accessor("sku", {
+		header: ({ column: col }) => (
+			<DataTableColumnHeader column={col} title="SKU" />
+		),
+		cell: (info) => <IdCell>{info.getValue()}</IdCell>,
+		sortFn: "text",
+	}),
+	column.accessor("product", {
+		header: ({ column: col }) => (
+			<DataTableColumnHeader column={col} title="Product" />
 		),
 		sortFn: "text",
 	}),
-	column.accessor("plan", {
+	column.accessor("brand", {
 		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Plan" />
+			<DataTableColumnHeader column={col} title="Brand" />
 		),
-		cell: (info) => <Badge variant="outline">{info.getValue()}</Badge>,
 		sortFn: "text",
 	}),
-	column.accessor("status", {
+	column.accessor("category", {
 		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Status" />
+			<DataTableColumnHeader column={col} title="Category" />
 		),
 		cell: (info) => (
-			<Badge
-				variant={statusVariant[info.getValue()]}
-				className="fui:capitalize"
-			>
+			<TagCell color={info.getValue() === "validation" ? "label-1" : "label-2"}>
 				{info.getValue()}
-			</Badge>
+			</TagCell>
 		),
 		sortFn: "text",
 	}),
-	// Accessor returns a Date so the column sorts chronologically rather than
-	// alphabetically on the rendered label.
-	column.accessor((order) => new Date(order.date), {
-		id: "date",
+	column.accessor("type", {
 		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Date" />
+			<DataTableColumnHeader column={col} title="Error type" />
 		),
-		cell: (info) => (
-			<span className="fui:whitespace-nowrap fui:text-muted-foreground">
-				{shortDate.format(info.getValue())}
-			</span>
-		),
-		sortFn: "datetime",
+		cell: (info) => <TagCell>{info.getValue()}</TagCell>,
+		sortFn: "text",
 	}),
-	column.accessor("amount", {
+	column.accessor("occurrences", {
 		header: ({ column: col }) => (
-			<DataTableColumnHeader column={col} title="Amount" align="end" />
+			<DataTableColumnHeader column={col} title="Occurrences" align="end" />
 		),
-		cell: (info) => (
-			<div className="fui:text-right fui:tabular-nums">
-				{currency.format(info.getValue())}
-			</div>
+		cell: (info) => <NumberCell value={info.getValue()} />,
+	}),
+	// A Date accessor sorts chronologically rather than on the rendered text.
+	column.accessor((row) => new Date(row.lastSeen), {
+		id: "lastSeen",
+		header: ({ column: col }) => (
+			<DataTableColumnHeader column={col} title="Last seen" />
 		),
+		cell: (info) => <DateTimeCell value={info.getValue()} />,
+		sortFn: "datetime",
 	}),
 	column.display({
 		id: "actions",
@@ -1101,7 +633,9 @@ const orderColumns = [
 					render={
 						<Button variant="ghost" size="icon-sm">
 							<DotsThreeIcon />
-							<span className="fui:sr-only">Actions for {row.original.id}</span>
+							<span className="fui:sr-only">
+								Actions for {row.original.sku}
+							</span>
 						</Button>
 					}
 				/>
@@ -1109,20 +643,31 @@ const orderColumns = [
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
 							<EyeIcon />
-							View invoice
+							View product
 						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<PencilIcon />
-							Edit
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<PaperPlaneTiltIcon />
-							Resend email
+						<DropdownMenuItem
+							onClick={() => toast(`${row.original.sku} copied`)}
+						>
+							<CopyIcon />
+							Copy SKU
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
 					<DropdownMenuGroup>
-						<DeleteOrderDialog invoice={row.original.id} />
+						<ConfirmDialog
+							nativeButton={false}
+							trigger={
+								<DropdownMenuItem variant="destructive" closeOnClick={false}>
+									<TrashIcon />
+									Delete product
+								</DropdownMenuItem>
+							}
+							title={`Delete ${row.original.sku}?`}
+							description="This removes the product and all of its variants from the catalogue. The next import brings it back if the supplier still delivers it."
+							confirmLabel="Delete product"
+							destructive
+							onConfirm={() => toast.success(`${row.original.sku} deleted`)}
+						/>
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
@@ -1130,277 +675,210 @@ const orderColumns = [
 	}),
 ];
 
-function OrdersTableCard() {
-	const [selected, setSelected] = React.useState<Order[]>([]);
+function ImportErrorsCard({ loading }: { loading: boolean }) {
+	const [selected, setSelected] = React.useState<ImportError[]>([]);
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Recent orders</CardTitle>
+				<CardTitle>Import errors</CardTitle>
 				<CardDescription>
 					{selected.length > 0
-						? `${selected.length} of ${orders.length} selected`
-						: "Sortable, filterable and paginated with TanStack Table"}
+						? `${selected.length} of ${importErrors.length} selected`
+						: "Products the last imports rejected, newest first"}
 				</CardDescription>
 				<CardAction>
-					<div className="fui:flex fui:items-center fui:gap-2">
-						<Button variant="outline" size="sm">
-							<DownloadIcon data-icon="inline-start" />
-							Export
-						</Button>
-						<NewProjectDialog />
-					</div>
+					<Button variant="outline" size="sm">
+						<DownloadIcon data-icon="inline-start" />
+						Export
+					</Button>
 				</CardAction>
 			</CardHeader>
 			<CardContent>
 				<DataTable
-					columns={orderColumns}
-					data={orders}
-					getRowId={(order) => order.id}
-					searchable="MagnifyingGlassIcon invoices…"
+					columns={importErrorColumns}
+					data={importErrors}
+					getRowId={(row) => row.sku}
+					searchable="Search SKUs, products or brands…"
 					hideableColumns
 					enableRowSelection
 					onRowSelectionChange={setSelected}
+					loading={loading}
 					pageSize={5}
 					pageSizeOptions={[5, 10, 20]}
-					empty="No invoices match your filters."
+					empty="No import errors match your search."
 				/>
 			</CardContent>
 		</Card>
 	);
 }
 
-function DeleteOrderDialog({ invoice }: { invoice: string }) {
+function CampaignLoadCard({ loading }: { loading: boolean }) {
+	const [days, setDays] = React.useState("14");
+	const data = campaignLoad.slice(0, Number(days));
+
 	return (
-		<AlertDialog>
-			<AlertDialogTrigger
-				render={
-					<DropdownMenuItem
-						variant="destructive"
-						onSelect={(event) => event.preventDefault()}
+		<Card>
+			<CardHeader>
+				<CardTitle>Campaign load ahead</CardTitle>
+				<CardDescription>Campaigns live per day</CardDescription>
+				<CardAction>
+					<Select
+						items={{ "7": "Next 7 days", "14": "Next 14 days" }}
+						value={days}
+						onValueChange={(value) => setDays(value ?? "14")}
 					>
-						<TrashIcon />
-						Delete
-					</DropdownMenuItem>
-				}
-			/>
-			<AlertDialogContent>
-				<AlertDialogHeader>
-					<AlertDialogTitle>Delete {invoice}?</AlertDialogTitle>
-					<AlertDialogDescription>
-						This permanently removes the invoice and its payment history. This
-						action cannot be undone.
-					</AlertDialogDescription>
-				</AlertDialogHeader>
-				<AlertDialogFooter>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction
-						onClick={() => toast.success(`${invoice} deleted`)}
-					>
-						Delete invoice
-					</AlertDialogAction>
-				</AlertDialogFooter>
-			</AlertDialogContent>
-		</AlertDialog>
-	);
-}
-
-function NewProjectDialog() {
-	return (
-		<Dialog>
-			<DialogTrigger
-				render={
-					<Button size="sm">
-						<PlusIcon data-icon="inline-start" />
-						New project
-					</Button>
-				}
-			/>
-			<DialogContent className="fui:sm:max-w-lg">
-				<DialogHeader>
-					<DialogTitle>Create project</DialogTitle>
-					<DialogDescription>
-						Projects group deployments, environments and billing.
-					</DialogDescription>
-				</DialogHeader>
-				<FieldGroup>
-					<Field>
-						<FieldLabel htmlFor="project-name">Name</FieldLabel>
-						<InputGroup>
-							<InputGroupAddon>
-								<PackageIcon />
-							</InputGroupAddon>
-							<InputGroupInput id="project-name" placeholder="storefront-eu" />
-						</InputGroup>
-					</Field>
-					<Field>
-						<FieldLabel htmlFor="project-region">Region</FieldLabel>
-						<Select defaultValue="eu-central">
-							<SelectTrigger id="project-region">
-								<SelectValue />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem value="eu-central">Europe (Frankfurt)</SelectItem>
-									<SelectItem value="us-east">US East (Virginia)</SelectItem>
-									<SelectItem value="ap-south">Asia (Singapore)</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</Field>
-					<Field>
-						<FieldLabel htmlFor="project-notes">Notes</FieldLabel>
-						<Textarea
-							id="project-notes"
-							placeholder="What is this project for?"
-							rows={3}
-						/>
-					</Field>
-					<Field orientation="horizontal">
-						<FieldLabel htmlFor="project-preview">
-							Preview deployments
-						</FieldLabel>
-						<Switch id="project-preview" defaultChecked />
-					</Field>
-				</FieldGroup>
-				<DialogFooter>
-					<Button variant="outline">Cancel</Button>
-					<Button onClick={() => toast.success("Project created")}>
-						Create project
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
-	);
-}
-
-const goals = [
-	{ label: "Activation", value: 82 },
-	{ label: "Retention (30d)", value: 68 },
-	{ label: "Expansion revenue", value: 47 },
-	{ label: "Support SLA", value: 94 },
-];
-
-function AnalyticsTab() {
-	return (
-		<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
-			<Card className="fui:xl:col-span-4">
-				<CardHeader>
-					<CardTitle>Traffic by source</CardTitle>
-					<CardDescription>Unique visitors, last 30 days</CardDescription>
-				</CardHeader>
-				<CardContent>
+						<SelectTrigger className="fui:w-36" size="sm">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectItem value="7">Next 7 days</SelectItem>
+								<SelectItem value="14">Next 14 days</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</CardAction>
+			</CardHeader>
+			<CardContent>
+				{loading ? (
+					<Skeleton className="fui:h-[220px] fui:w-full" />
+				) : (
 					<ChartContainer
-						config={trafficChartConfig}
-						className="fui:aspect-auto fui:h-[240px] fui:w-full"
+						config={campaignLoadConfig}
+						aspect="auto"
+						className="fui:h-[220px] fui:w-full"
 					>
-						<BarChart data={trafficBySource} margin={{ left: 4, right: 4 }}>
+						<AreaChart data={data} margin={{ left: 4, right: 4 }}>
+							<defs>
+								<linearGradient id="fillCampaigns" x1="0" y1="0" x2="0" y2="1">
+									<stop
+										offset="5%"
+										stopColor="var(--color-campaigns)"
+										stopOpacity={0.6}
+									/>
+									<stop
+										offset="95%"
+										stopColor="var(--color-campaigns)"
+										stopOpacity={0.05}
+									/>
+								</linearGradient>
+							</defs>
 							<CartesianGrid vertical={false} />
 							<XAxis
-								dataKey="source"
+								dataKey="day"
 								tickLine={false}
 								axisLine={false}
 								tickMargin={8}
 							/>
-							<ChartTooltip content={<ChartTooltipContent />} />
-							<Bar
-								dataKey="visitors"
-								fill="var(--color-visitors)"
-								radius={6}
+							<YAxis
+								tickLine={false}
+								axisLine={false}
+								tickMargin={8}
+								width={32}
+								allowDecimals={false}
+							/>
+							<ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
+							<Area
+								dataKey="campaigns"
+								type="monotone"
+								fill="url(#fillCampaigns)"
+								stroke="var(--color-campaigns)"
 								isAnimationActive={false}
 							/>
-						</BarChart>
+						</AreaChart>
 					</ChartContainer>
-				</CardContent>
-			</Card>
-
-			<Card className="fui:xl:col-span-3">
-				<CardHeader>
-					<CardTitle>Quarterly goals</CardTitle>
-					<CardDescription>Progress toward Q3 targets</CardDescription>
-				</CardHeader>
-				<CardContent className="fui:flex fui:flex-col fui:gap-5">
-					{goals.map((goal, index) => (
-						<div
-							key={goal.label}
-							className="fui:flex fui:flex-col fui:gap-2 fui:text-sm"
-						>
-							<div className="fui:flex fui:items-center fui:justify-between">
-								<span>{goal.label}</span>
-								<span className="fui:tabular-nums fui:text-muted-foreground">
-									{goal.value}%
-								</span>
-							</div>
-							<Progress
-								value={goal.value}
-								className={progressColors[index % progressColors.length]}
-							/>
-						</div>
-					))}
-				</CardContent>
-			</Card>
-		</div>
-	);
-}
-
-const reports = [
-	{
-		title: "Weekly revenue digest",
-		description: "Every Monday at 07:00 CET · 12 recipients",
-		enabled: true,
-	},
-	{
-		title: "Churn cohort breakdown",
-		description: "First of the month · 4 recipients",
-		enabled: true,
-	},
-	{
-		title: "Infrastructure cost report",
-		description: "Paused since Aug 14",
-		enabled: false,
-	},
-];
-
-function ReportsTab() {
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Scheduled reports</CardTitle>
-				<CardDescription>
-					Reports are generated nightly and emailed to your team.
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<ItemGroup className="fui:gap-2">
-					{reports.map((report) => (
-						<Item key={report.title} variant="outline">
-							<ItemMedia variant="icon">
-								<FileTextIcon />
-							</ItemMedia>
-							<ItemContent>
-								<ItemTitle>{report.title}</ItemTitle>
-								<ItemDescription>{report.description}</ItemDescription>
-							</ItemContent>
-							<ItemActions>
-								<Switch
-									defaultChecked={report.enabled}
-									aria-label={`Toggle ${report.title}`}
-								/>
-							</ItemActions>
-						</Item>
-					))}
-				</ItemGroup>
+				)}
 			</CardContent>
 		</Card>
 	);
 }
 
-function AuditTab() {
+function RecentChangesCard() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Audit log</CardTitle>
-				<CardDescription>No events recorded in this range.</CardDescription>
+				<CardTitle>Recent changes</CardTitle>
+				<CardDescription>Last 24 hours, from the audit log</CardDescription>
+			</CardHeader>
+			<CardContent className="fui:px-0">
+				<ScrollArea className="fui:h-[280px]">
+					<ItemList className="fui:px-6">
+						{recentChanges.map((entry) => (
+							<ItemListEntry
+								key={`${entry.name}-${entry.time}`}
+								media={
+									<Avatar className="fui:size-8">
+										<AvatarFallback>{entry.initials}</AvatarFallback>
+									</Avatar>
+								}
+								title={entry.name}
+								description={entry.action}
+								end={
+									<span className="fui:text-xs fui:text-muted-foreground">
+										{entry.time}
+									</span>
+								}
+							/>
+						))}
+					</ItemList>
+				</ScrollArea>
+			</CardContent>
+			<CardFooter>
+				<Button variant="outline" size="sm" className="fui:w-full">
+					<FileSearchIcon data-icon="inline-start" />
+					Open the audit log
+				</Button>
+			</CardFooter>
+		</Card>
+	);
+}
+
+function ScheduledExportsCard() {
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>Scheduled exports</CardTitle>
+				<CardDescription>
+					Exports run on the server and land in the shop's storage.
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<ItemList variant="outline">
+					{scheduledExports.map((entry) => (
+						<ItemListEntry
+							key={entry.title}
+							media={<FileTextIcon />}
+							mediaVariant="icon"
+							title={entry.title}
+							description={entry.description}
+							end={
+								<Switch
+									defaultChecked={entry.enabled}
+									aria-label={`Run ${entry.title}`}
+									onCheckedChange={(checked) =>
+										toast(
+											checked
+												? `${entry.title} resumed`
+												: `${entry.title} paused`,
+										)
+									}
+								/>
+							}
+						/>
+					))}
+				</ItemList>
+			</CardContent>
+		</Card>
+	);
+}
+
+function FailedExportsCard() {
+	return (
+		<Card className="fui:xl:col-span-2">
+			<CardHeader>
+				<CardTitle>Failed exports</CardTitle>
+				<CardDescription>Last 7 days</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Empty className="fui:border">
@@ -1408,21 +886,111 @@ function AuditTab() {
 						<EmptyMedia variant="icon">
 							<TrayIcon />
 						</EmptyMedia>
-						<EmptyTitle>Nothing to audit yet</EmptyTitle>
+						<EmptyTitle>No failed exports</EmptyTitle>
 						<EmptyDescription>
-							Once teammates start changing settings, every action shows up here
-							with a full diff.
+							Every export in the last 7 days went through. A failed one shows
+							up here with the reason the shop gave.
 						</EmptyDescription>
 					</EmptyHeader>
 					<EmptyContent>
 						<Button variant="outline" size="sm">
 							<GearIcon data-icon="inline-start" />
-							Configure audit retention
+							Open the content export
 						</Button>
 					</EmptyContent>
 				</Empty>
 			</CardContent>
 		</Card>
+	);
+}
+
+const statusCodes = {
+	"301": "301 Moved permanently",
+	"302": "302 Found",
+	"307": "307 Temporary redirect",
+	"308": "308 Permanent redirect",
+};
+
+function NewRedirectDialog() {
+	return (
+		<Dialog>
+			<DialogTrigger
+				render={
+					<Button size="sm">
+						<PlusIcon data-icon="inline-start" />
+						New redirect
+					</Button>
+				}
+			/>
+			<DialogContent className="fui:sm:max-w-lg">
+				<DialogHeader>
+					<DialogTitle>New redirect</DialogTitle>
+					<DialogDescription>
+						Sends visitors from an old path to a new one. It takes effect within
+						a minute.
+					</DialogDescription>
+				</DialogHeader>
+				<FieldGroup>
+					<Field>
+						<FieldLabel htmlFor="redirect-source">Source path</FieldLabel>
+						<InputGroup>
+							<InputGroupAddon>
+								<LinkIcon />
+							</InputGroupAddon>
+							<InputGroupInput id="redirect-source" placeholder="/sale" />
+						</InputGroup>
+					</Field>
+					<Field>
+						<FieldLabel htmlFor="redirect-target">Target path</FieldLabel>
+						<InputGroup>
+							<InputGroupAddon>
+								<LinkIcon />
+							</InputGroupAddon>
+							<InputGroupInput id="redirect-target" placeholder="/offers" />
+						</InputGroup>
+					</Field>
+					<Field>
+						<FieldLabel htmlFor="redirect-code">Status code</FieldLabel>
+						<Select defaultValue="301" items={statusCodes}>
+							<SelectTrigger id="redirect-code">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectItem value="301">301 Moved permanently</SelectItem>
+									<SelectItem value="302">302 Found</SelectItem>
+									<SelectItem value="307">307 Temporary redirect</SelectItem>
+									<SelectItem value="308">308 Permanent redirect</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</Field>
+					<Field>
+						<FieldLabel htmlFor="redirect-notes">Notes</FieldLabel>
+						<Textarea
+							id="redirect-notes"
+							placeholder="Why this redirect exists"
+							rows={3}
+						/>
+					</Field>
+					<Field orientation="horizontal">
+						<FieldLabel htmlFor="redirect-active">Active</FieldLabel>
+						<Switch id="redirect-active" defaultChecked />
+					</Field>
+				</FieldGroup>
+				<DialogFooter>
+					<DialogClose render={<Button variant="outline" />}>
+						Cancel
+					</DialogClose>
+					<DialogClose
+						render={<Button />}
+						onClick={() => toast.success("Redirect created")}
+					>
+						Create redirect
+					</DialogClose>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 }
 
@@ -1438,43 +1006,53 @@ function CommandPalette({
 			open={open}
 			onOpenChange={onOpenChange}
 			title="Command palette"
-			description="MagnifyingGlassIcon for a command to run"
+			description="Search for a page or an action"
 		>
-			{/*
-			 * CommandDialog only renders <Dialog><DialogContent>{children}</…>.
-			 * The <Command> root (which owns the cmdk store) is NOT included, so
-			 * it has to be supplied here — otherwise CommandInput/CommandList throw
-			 * "Cannot read properties of undefined (reading 'subscribe')".
-			 */}
+			{/* CommandDialog does not render the cmdk <Command> root; without it the input and list throw. */}
 			<Command>
-				<CommandInput placeholder="Type a command or search…" />
+				<CommandInput placeholder="Type a page or an action…" />
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading="Navigation">
+					<CommandGroup heading="Pages">
 						<CommandItem>
-							<SquaresFourIcon />
+							<GaugeIcon />
 							Dashboard
 							<CommandShortcut>⌘D</CommandShortcut>
 						</CommandItem>
 						<CommandItem>
-							<ChartBarIcon />
-							Analytics
-							<CommandShortcut>⌘A</CommandShortcut>
+							<StackIcon />
+							Products
 						</CommandItem>
 						<CommandItem>
-							<UsersIcon />
-							Customers
+							<WarningIcon />
+							Import errors
+						</CommandItem>
+						<CommandItem>
+							<MegaphoneIcon />
+							Campaigns
+						</CommandItem>
+						<CommandItem>
+							<SealPercentIcon />
+							Price rules
+						</CommandItem>
+						<CommandItem>
+							<LinkIcon />
+							Redirects
+						</CommandItem>
+						<CommandItem>
+							<FileSearchIcon />
+							Audit log
 						</CommandItem>
 					</CommandGroup>
 					<CommandSeparator />
 					<CommandGroup heading="Actions">
-						<CommandItem onSelect={() => toast.info("Invite sent")}>
-							<PlusIcon />
-							Invite teammate
+						<CommandItem onSelect={() => toast.info("Mapping run started")}>
+							<PlayIcon />
+							Run the campaign mapping
 						</CommandItem>
 						<CommandItem onSelect={() => toast.info("Export queued")}>
 							<DownloadIcon />
-							Export invoices
+							Export import errors
 						</CommandItem>
 					</CommandGroup>
 				</CommandList>
@@ -1483,105 +1061,17 @@ function CommandPalette({
 	);
 }
 
-function InviteDialog() {
-	return (
-		<Dialog>
-			<DialogTrigger
-				render={
-					<Button size="sm">
-						<PlusIcon data-icon="inline-start" />
-						Invite
-					</Button>
-				}
-			/>
-			<DialogContent>
-				<DialogHeader>
-					<DialogTitle>Invite teammates</DialogTitle>
-					<DialogDescription>
-						They will receive an email with a join link valid for 7 days.
-					</DialogDescription>
-				</DialogHeader>
-				<FieldGroup>
-					<Field>
-						<FieldLabel htmlFor="invite-emails">Email addresses</FieldLabel>
-						<Textarea
-							id="invite-emails"
-							rows={3}
-							placeholder="ada@example.com, grace@example.com"
-						/>
-					</Field>
-				</FieldGroup>
-				<DialogFooter>
-					<Button variant="outline">Cancel</Button>
-					<Button onClick={() => toast.success("Invitations sent")}>
-						PaperPlaneTiltIcon invites
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
-	);
-}
-
-function LoadingSkeleton() {
-	return (
-		<div className="fui:flex fui:flex-col fui:gap-4">
-			<div className="fui:grid fui:gap-4 fui:sm:grid-cols-2 fui:xl:grid-cols-4">
-				{stats.map((stat) => (
-					<Card key={stat.label} size="sm">
-						<CardHeader>
-							<Skeleton className="fui:h-4 fui:w-24" />
-						</CardHeader>
-						<CardContent className="fui:flex fui:flex-col fui:gap-3">
-							<Skeleton className="fui:h-7 fui:w-32" />
-							<Skeleton className="fui:h-1.5 fui:w-full" />
-							<Skeleton className="fui:h-3 fui:w-40" />
-						</CardContent>
-					</Card>
-				))}
-			</div>
-			<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
-				<Card className="fui:xl:col-span-4">
-					<CardHeader>
-						<Skeleton className="fui:h-5 fui:w-48" />
-					</CardHeader>
-					<CardContent>
-						<Skeleton className="fui:h-[260px] fui:w-full" />
-					</CardContent>
-				</Card>
-				<Card className="fui:xl:col-span-3">
-					<CardHeader>
-						<Skeleton className="fui:h-5 fui:w-36" />
-					</CardHeader>
-					<CardContent className="fui:flex fui:flex-col fui:gap-4">
-						{recentActivity.map((entry) => (
-							<div
-								key={entry.name}
-								className="fui:flex fui:items-center fui:gap-3"
-							>
-								<Skeleton className="fui:size-8 fui:rounded-full" />
-								<div className="fui:flex fui:flex-1 fui:flex-col fui:gap-1.5">
-									<Skeleton className="fui:h-3.5 fui:w-32" />
-									<Skeleton className="fui:h-3 fui:w-48" />
-								</div>
-								<Skeleton className="fui:h-3.5 fui:w-16" />
-							</div>
-						))}
-					</CardContent>
-				</Card>
-			</div>
-		</div>
-	);
-}
-
 type DashboardProps = {
-	/** Start with the sidebar collapsed to icons. */
+	/** Start with the sidebar expanded; false collapses it to icons. */
 	sidebarOpen?: boolean;
-	/** Render skeleton placeholders instead of data. */
+	/** Show every tile, chart and table while their data loads. */
 	loading?: boolean;
 };
 
 function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 	const [commandOpen, setCommandOpen] = React.useState(false);
+	const [refreshing, setRefreshing] = React.useState(false);
+	const [path, setPath] = React.useState("/");
 
 	React.useEffect(() => {
 		const onKeyDown = (event: KeyboardEvent) => {
@@ -1595,99 +1085,123 @@ function Dashboard({ sidebarOpen = true, loading = false }: DashboardProps) {
 		return () => document.removeEventListener("keydown", onKeyDown);
 	}, []);
 
+	const resource: DashboardResource<Summary> =
+		loading || refreshing ? { state: "loading" } : ready;
+	const coverage: DashboardResource<typeof languageCoverage> =
+		loading || refreshing
+			? { state: "loading" }
+			: { state: "ready", data: languageCoverage };
+	const figure = (value: number) =>
+		loading ? (
+			<Skeleton className="fui:h-6 fui:w-20" />
+		) : (
+			value.toLocaleString()
+		);
+
 	return (
 		<TooltipProvider>
 			<SidebarProvider defaultOpen={sidebarOpen}>
-				<AppSidebar />
+				<AdminSidebar path={path} onNavigate={setPath} loading={false} />
 				<SidebarInset>
 					<DashboardHeader onOpenCommand={() => setCommandOpen(true)} />
 
-					<div className="fui:flex fui:flex-1 fui:flex-col fui:gap-4 fui:p-4 fui:md:p-6">
-						<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
-							<div className="fui:flex fui:flex-col fui:gap-1">
-								<h1 className="fui:font-heading fui:text-xl fui:font-medium">
-									Good afternoon, Lena
-								</h1>
-								<p className="fui:text-sm fui:text-muted-foreground">
-									Here is what happened across Foomo Inc. today.
-								</p>
-							</div>
-							<div className="fui:flex fui:items-center fui:gap-2">
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() =>
-										toast("Report scheduled", {
-											description: "You will get it by email in a few minutes.",
-											action: { label: "Undo", onClick: () => undefined },
-										})
-									}
-								>
-									<PaperPlaneTiltIcon data-icon="inline-start" />
-									Email report
-								</Button>
-								<InviteDialog />
-							</div>
-						</div>
+					<div className="fui:flex fui:flex-1 fui:flex-col fui:gap-6 fui:p-4 fui:md:p-6">
+						<PageHeader
+							title="Dashboard"
+							description="The state of the catalogue, its promotions, and the prices the shop serves."
+							actions={
+								<>
+									<RefreshButton
+										pending={refreshing}
+										onClick={() => {
+											setRefreshing(true);
+											setTimeout(() => {
+												setRefreshing(false);
+												toast("Dashboard refreshed");
+											}, 1200);
+										}}
+									/>
+									<NewRedirectDialog />
+								</>
+							}
+						/>
 
-						<Alert>
-							<SparkleIcon />
-							<AlertTitle>Usage-based billing is now available</AlertTitle>
+						<Alert variant="info">
+							<CloudArrowUpIcon />
+							<AlertTitle>Supplier upload in progress</AlertTitle>
 							<AlertDescription>
-								Switch any project to metered pricing and only pay for what you
-								ship.
+								BATCH-004: 4 files staged (6.0 MB). The next import picks them
+								up at 02:00.
 							</AlertDescription>
 						</Alert>
 
-						{loading ? (
-							<LoadingSkeleton />
-						) : (
-							<>
-								<StatCards />
+						<StatCardRow>
+							<StatCard size="sm" label="Products" value={figure(12438)} />
+							<StatCard
+								size="sm"
+								label="Variants"
+								value={figure(summary.variants)}
+							/>
+							<StatCard size="sm" label="Import errors" value={figure(57)} />
+							<StatCard
+								size="sm"
+								label="Price rules"
+								value={figure(summary.rules.active + summary.rules.scheduled)}
+							/>
+						</StatCardRow>
 
-								<Tabs defaultValue="overview">
-									<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-2">
-										<TabsList>
-											<TabsTrigger value="overview">Overview</TabsTrigger>
-											<TabsTrigger value="analytics">Analytics</TabsTrigger>
-											<TabsTrigger value="reports">Reports</TabsTrigger>
-											<TabsTrigger value="audit">Audit</TabsTrigger>
-										</TabsList>
-										<span className="fui:hidden fui:items-center fui:gap-1.5 fui:text-xs fui:text-muted-foreground fui:sm:flex">
-											Press
-											<KbdGroup>
-												<Kbd>⌘</Kbd>
-												<Kbd>K</Kbd>
-											</KbdGroup>
-											to search
-										</span>
-									</div>
+						<Tabs defaultValue="catalogue" className="fui:gap-6">
+							<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-2">
+								<TabsList>
+									<TabsTrigger value="catalogue">Catalogue</TabsTrigger>
+									<TabsTrigger value="health">Catalogue health</TabsTrigger>
+									<TabsTrigger value="promotions">Promotions</TabsTrigger>
+									<TabsTrigger value="activity">Activity</TabsTrigger>
+								</TabsList>
+								<span className="fui:hidden fui:items-center fui:gap-1.5 fui:text-xs fui:text-muted-foreground fui:sm:flex">
+									Press
+									<KbdGroup>
+										<Kbd>⌘</Kbd>
+										<Kbd>K</Kbd>
+									</KbdGroup>
+									to search
+								</span>
+							</div>
 
-									<TabsContent
-										value="overview"
-										className="fui:flex fui:flex-col fui:gap-4"
-									>
-										<div className="fui:grid fui:gap-4 fui:xl:grid-cols-7">
-											<RevenueChartCard />
-											<ActivityCard />
-										</div>
-										<OrdersTableCard />
-									</TabsContent>
+							<TabsContent value="catalogue">
+								<DashboardSection>
+									<OnlineShareTile resource={resource} />
+									<ProjectionsTile resource={resource} />
+									<LanguageCoverageTile resource={coverage} />
+								</DashboardSection>
+							</TabsContent>
 
-									<TabsContent value="analytics">
-										<AnalyticsTab />
-									</TabsContent>
+							<TabsContent
+								value="health"
+								className="fui:flex fui:flex-col fui:gap-4"
+							>
+								<DashboardSection columns={2}>
+									<ImportHealthTile resource={resource} />
+									<ErrorCategoriesTile resource={resource} />
+								</DashboardSection>
+								<ImportErrorsCard loading={loading} />
+							</TabsContent>
 
-									<TabsContent value="reports">
-										<ReportsTab />
-									</TabsContent>
+							<TabsContent value="promotions">
+								<div className="fui:grid fui:gap-4 fui:md:grid-cols-2">
+									<PriceRulesTile resource={resource} />
+									<CampaignLoadCard loading={loading} />
+								</div>
+							</TabsContent>
 
-									<TabsContent value="audit">
-										<AuditTab />
-									</TabsContent>
-								</Tabs>
-							</>
-						)}
+							<TabsContent value="activity">
+								<div className="fui:grid fui:gap-4 fui:xl:grid-cols-2">
+									<RecentChangesCard />
+									<ScheduledExportsCard />
+									<FailedExportsCard />
+								</div>
+							</TabsContent>
+						</Tabs>
 					</div>
 				</SidebarInset>
 
@@ -1706,7 +1220,7 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					"A full admin surface composed from the library: sidebar navigation, breadcrumbs, command palette, charts, data table, dialogs, toasts and empty states.",
+					"A complete admin dashboard composed from the library: app frame, page header, stat cards, dashboard tiles, a data table with row actions, charts, dialogs, the command palette (⌘K) and toasts.",
 			},
 		},
 	},

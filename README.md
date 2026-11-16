@@ -33,6 +33,29 @@ Dark mode is class-based. Add `dark` to an ancestor, usually the document root:
 document.documentElement.classList.toggle("dark", isDarkMode);
 ```
 
+### Tailwind in the host application
+
+An application with its own Tailwind classes imports the theme mapping so
+utilities like `bg-card` resolve to the same tokens as the components:
+
+```css
+@import "tailwindcss";
+@import "@foomo/ui/theme.css";
+@import "@foomo/ui/themes/neutral.css";
+@import "@foomo/ui/ui.css";
+```
+
+`theme.css` holds only the mapping and variants, so it pairs with any theme.
+
+### Underlined links
+
+Table-cell links and the `link` badge underline on hover. Set
+`data-underline-links` on the document root to keep them underlined:
+
+```html
+<html data-underline-links>
+```
+
 ## Usage
 
 Import components from their individual package paths. There is intentionally
@@ -93,10 +116,13 @@ To provide a custom theme, import `@foomo/ui/ui.css` but omit
 `@foomo/ui/themes/neutral.css`. Define the same CSS variables in the host
 application for both light and dark modes. The required token set can be copied
 from [`src/themes/neutral.css`](https://github.com/foomo/ui/blob/main/src/themes/neutral.css).
+To adjust a few tokens, import the neutral theme and redeclare them after it.
 
 Component utilities use the `fui:` prefix internally to avoid collisions with
 host applications. Application classes passed through `className` should use
-the application's normal, unprefixed Tailwind syntax.
+the application's normal, unprefixed Tailwind syntax. They override the
+component's own classes, since `ui.css` puts the library's utilities in the
+`components` cascade layer.
 
 See the [shadcn theming guide](https://ui.shadcn.com/docs/theming) for the token
 model.
@@ -125,6 +151,7 @@ for the complete API changes.
 - `@foomo/ui/extra/typography` - the `Prose` component
 - `@foomo/ui/icons` - package icon exports
 - `@foomo/ui/ui.css` - component styles
+- `@foomo/ui/theme.css` - the theme's Tailwind mapping, for host Tailwind builds
 - `@foomo/ui/themes/neutral.css` - default theme tokens
 
 ## Development
@@ -133,6 +160,14 @@ for the complete API changes.
 bun install
 bun run storybook
 bun run build
+```
+
+To develop against a consuming app, link the package and run watch mode:
+
+```bash
+bun link            # in this repo
+bun link @foomo/ui  # in the app
+bun run watch       # in this repo
 ```
 
 The project-local `foomo-ui` agent skill documents component selection and the

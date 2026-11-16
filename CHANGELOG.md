@@ -6,6 +6,85 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+### Added
+
+- `AppShell`, `AppHeader`, `AppSidebar`, `SidebarBrand`, `SidebarNav`
+  (with `isNavItemActive`) and `SidebarUserMenu` in `components/app-shell`.
+- `ThemeMenuItems`, `ThemeMenuGroup` and `ThemeIcon` in `components/theme-menu`.
+- `PageHeader`, `BackButton`, `RefreshButton` and `ConfirmDialog` components.
+- `SectionCard` and `SectionCardGrid` in `components/section-card`.
+- `AsyncContent` for loading, error, not-found and ready states.
+- `StatCard` and `StatCardRow` in `components/stat-card`.
+- `DescriptionList` with `inline`, `grid` and `stacked` layouts.
+- `ItemList` / `ItemListEntry` and `ProgressList` / `ProgressListItem`.
+- Dashboard kit: `DashboardSection`, `DashboardTile`, `DashboardTileLink`,
+  `DonutChart` and `BarListChart`.
+- `JsonView`, `RawViewPanel`, `RawViewSwitch` and `JsonDetails`
+  (adds the `react-json-view-lite` dependency).
+- `useErrorToast(error, message)` hook.
+- `lib/format`: `formatDateTime`, `formatDate`, `formatBytes`, `formatYesNo`
+  and `parseDate`.
+- `lib/table-state`: `toPaginationState`, `fromPaginationState`,
+  `toSortingState` and `fromSortingState(sorting, fields)`, which takes the
+  allowed field names and returns `field: undefined` for any other column.
+- `DEFAULT_PAGE_SIZE` (50).
+- `PaginationPager` and `paginationItems(current, total)`.
+- Table cells: `DateTimeCell`, `NumberCell`, `TruncateCell`,
+  `ExternalLinkCell`, `ThumbnailCell` and `ExpandToggleCell`; `hint` on
+  `TagCell` and `StatusTagCell`; an `alert` status on `StatusTagCell`;
+  `tagColorAt` and `assignTagColors`.
+- `DataTable`: `loading` / `loadingRows` placeholder rows;
+  `DataTableColumnHeader` `hint`; `DataTableSubPanel` for expanded rows.
+- `withTime` on `FilterDateRange`.
+- `FilterLabelSpacer`.
+- `aspect` on `ChartContainer` (`video`, `square`, `auto`).
+- `nativeButton` on `ConfirmDialog`, for a non-button `trigger`.
+- `render` on `Card`.
+- `DrawerBody`, a scrolling body between drawer header and footer.
+- `alert` variant on `Badge`, `TagCell` and `TagListCell`; `success`,
+  `alert` and `info` variants on `Alert`.
+- Theme colours `--tertiary`, `--alert` and their foregrounds.
+- `@foomo/ui/theme.css`, the Tailwind token mapping for host apps.
+- `data-underline-links` on the document root keeps table-cell links and
+  the `link` badge underlined.
+- `bun run watch` keeps `dist/` in sync for `bun link` development.
+
+### Changed
+
+- `TabsList` default variant is now `line`; pass `variant="default"` for the
+  pill.
+- Sidebar active entry is an underline instead of a fill; the sidebar
+  background is the page background.
+- `DataTable` default page size is 50 (`DEFAULT_PAGE_SIZE`) and its pager is
+  `PaginationPager`; the row count is no longer shown.
+- `DataTableColumnHeader` marks the sorted column with an underline instead
+  of a fill.
+- `ui.css` builds utilities into the `components` cascade layer, so a
+  `className` passed by the app overrides component classes.
+- Toaster uses rich status colours for `toast.success`, `toast.error`,
+  `toast.warning` and `toast.info`.
+- `Alert` `destructive` is a light red tint with a red border.
+- Filters fill their grid cell in `FilterBar` (up to five columns); the
+  actions stay on the right.
+- Empty filter values ("Any", "Any time") use the foreground colour.
+- `--destructive` and `--success` follow the brand palette.
+- `secondary` buttons, `outline` / `ghost` hovers and former `--muted`
+  surfaces (tabs, toggles, calendar, badge, slider, progress) use
+  `--tertiary`.
+- Outline toggles and the button group label have a black border.
+- `Badge` uses regular font weight.
+- `DashboardSection` `title` is optional.
+- Chart grid lines use the full `--border` colour.
+- `Menubar` checkbox and radio items show their check on the right.
+- Pagination links are no longer underlined.
+
+### Fixed
+
+- Context Menu submenu trigger icon no longer touches its label.
+- Icon-sized ghost buttons no longer underline their content.
+- Removed unprefixed popup classes from Dropdown Menu, Context Menu, Menubar
+  and Select.
+
 ## 1.2.0 - 2026-10-02
 
 ### Added
@@ -16,12 +95,12 @@ All notable changes to `@foomo/ui` are documented here. The format follows
   `DateRangePicker` and `DatePickerTrigger`, composed from Popover and
   Calendar after the shadcn date picker example.
 - Tag palette: six categorical colours, `--label-color-1` … `--label-color-6`
-  in the neutral theme (mapped to `label-color-*` utilities), taken over from
-  the Manor toolbox. `TagCell` and `TagListCell` take a `color` prop
+  in the neutral theme (mapped to `label-color-*` utilities). `TagCell` and
+  `TagListCell` take a `color` prop
   (`"label-1"` … `"label-6"`) that renders a tinted tag with no variant styles
   underneath, so callers no longer need `variant="ghost"` plus a colour class.
   In dark mode the text is the foreground white on a 50% tint, rather than
-  the toolbox's muted grey. `TagListCell`'s `color` can also be a function, to
+  a muted grey. `TagListCell`'s `color` can also be a function, to
   colour each tag by its value. `tagColorValues` exposes the same colours as
   CSS values for chart fills.
 - Table cells: `TagCell` takes an `icon` that leads its label, and
