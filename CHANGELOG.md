@@ -6,6 +6,8 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+## 1.3.0-alpha.1 - 2026-11-16
+
 ### Fixed
 
 - `SidebarNav` loading rows render the same on the server and the client, so
