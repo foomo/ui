@@ -6,6 +6,8 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+## 1.3.0-alpha.0 - 2026-11-16
+
 ### Added
 
 - `AppShell`, `AppHeader`, `AppSidebar`, `SidebarBrand`, `SidebarNav`
