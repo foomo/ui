@@ -1,10 +1,6 @@
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
-	CaretDoubleLeftIcon,
-	CaretDoubleRightIcon,
-	CaretLeftIcon,
-	CaretRightIcon,
 	CaretUpDownIcon,
 	MagnifyingGlassIcon,
 	SlidersHorizontalIcon,
@@ -50,19 +46,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/dropdown-menu";
+import { FilterLabelSpacer } from "@/components/filters";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/input-group";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/select";
+import { DEFAULT_PAGE_SIZE, PaginationPager } from "@/components/pagination";
+import { Skeleton } from "@/components/skeleton";
 import {
 	Table,
 	TableBody,
@@ -71,6 +62,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/tooltip";
 
 const dataTableFeatures = tableFeatures({
 	columnFilteringFeature,
@@ -125,6 +117,8 @@ type DataTableColumnHeaderProps<
 	column: Column<DataTableFeatures, TData, TValue>;
 	title: string;
 	align?: "start" | "end";
+	/** Explains the column in a tooltip. */
+	hint?: string;
 };
 
 function DataTableColumnHeader<
@@ -135,6 +129,7 @@ function DataTableColumnHeader<
 	column,
 	title,
 	align = "start",
+	hint,
 	className,
 	...props
 }: DataTableColumnHeaderProps<TData, TValue>) {
@@ -147,7 +142,19 @@ function DataTableColumnHeader<
 				className={cn(align === "end" && "fui:text-right", className)}
 				{...props}
 			>
-				{title}
+				{hint ? (
+					<Tooltip>
+						<TooltipTrigger
+							type="button"
+							className="fui:cursor-help fui:underline fui:decoration-dotted fui:underline-offset-4"
+						>
+							{title}
+						</TooltipTrigger>
+						<TooltipContent>{hint}</TooltipContent>
+					</Tooltip>
+				) : (
+					title
+				)}
 			</div>
 		);
 	}
@@ -159,6 +166,31 @@ function DataTableColumnHeader<
 				? ArrowDownIcon
 				: CaretUpDownIcon;
 
+	const sortButton = (
+		<Button
+			variant="ghost"
+			size="sm"
+			onClick={column.getToggleSortingHandler()}
+			aria-label={
+				sorted === "asc"
+					? `${title}, sorted ascending`
+					: sorted === "desc"
+						? `${title}, sorted descending`
+						: `${title}, not sorted`
+			}
+			// The sort line is a bottom border on the title, so the icon stays
+			// outside it; a transparent top border keeps the title centred.
+			className="fui:-mx-2 fui:h-7 fui:gap-1 fui:font-medium fui:no-underline fui:hover:bg-transparent fui:dark:hover:bg-transparent fui:aria-expanded:bg-transparent fui:[&>span]:border-y-2 fui:[&>span]:border-transparent fui:[&>span]:py-0.5 fui:not-data-[sorted=true]:hover:[&>span]:border-b-border fui:data-[sorted=true]:[&>span]:border-b-foreground"
+			data-sorted={sorted !== false}
+		>
+			<span>{title}</span>
+			<Icon
+				data-icon="inline-end"
+				className={cn(sorted === false && "fui:opacity-50")}
+			/>
+		</Button>
+	);
+
 	return (
 		<div
 			data-slot="data-table-column-header"
@@ -169,26 +201,42 @@ function DataTableColumnHeader<
 			)}
 			{...props}
 		>
-			<Button
-				variant="ghost"
-				size="sm"
-				onClick={column.getToggleSortingHandler()}
-				aria-label={
-					sorted === "asc"
-						? `${title}, sorted ascending`
-						: sorted === "desc"
-							? `${title}, sorted descending`
-							: `${title}, not sorted`
-				}
-				className="fui:-mx-2 fui:h-7 fui:gap-1 fui:font-medium fui:data-[sorted=true]:bg-muted fui:data-[sorted=true]:text-foreground fui:dark:data-[sorted=true]:bg-muted/50"
-				data-sorted={sorted !== false}
-			>
-				{title}
-				<Icon
-					data-icon="inline-end"
-					className={cn(sorted === false && "fui:opacity-50")}
-				/>
-			</Button>
+			{hint ? (
+				<Tooltip>
+					<TooltipTrigger render={sortButton} />
+					<TooltipContent>{hint}</TooltipContent>
+				</Tooltip>
+			) : (
+				sortButton
+			)}
+		</div>
+	);
+}
+
+/** The padded content of an expanded row, for `renderSubComponent`. */
+function DataTableSubPanel({
+	title,
+	description,
+	className,
+	children,
+}: {
+	title?: React.ReactNode;
+	description?: React.ReactNode;
+	className?: string;
+	children: React.ReactNode;
+}) {
+	return (
+		<div
+			data-slot="data-table-sub-panel"
+			className={cn("fui:space-y-2 fui:px-4 fui:py-3", className)}
+		>
+			{title ? (
+				<p className="fui:text-xs fui:text-muted-foreground">{title}</p>
+			) : null}
+			{description ? (
+				<p className="fui:text-xs fui:text-muted-foreground">{description}</p>
+			) : null}
+			{children}
 		</div>
 	);
 }
@@ -251,6 +299,9 @@ type DataTableProps<TData extends Record<string, any>> = Omit<
 	onRowSelectionChange?: (rows: TData[]) => void;
 	/** Rendered in place of the table body when there are no matching rows. */
 	empty?: React.ReactNode;
+	/** Shows placeholder rows while there are no rows yet; rows already shown stay during a refetch. */
+	loading?: boolean;
+	loadingRows?: number;
 	/** Extra controls rendered in the toolbar, after the search field. */
 	toolbar?: React.ReactNode;
 	/** Optional detail row rendered directly below each data row. */
@@ -318,11 +369,13 @@ function DataTable<
 	searchable = false,
 	hideableColumns = false,
 	toolbarSize = "default",
-	pageSize = 10,
+	pageSize = DEFAULT_PAGE_SIZE,
 	pageSizeOptions = [5, 10, 20, 50],
 	enableRowSelection = false,
 	onRowSelectionChange,
 	empty = "No results.",
+	loading = false,
+	loadingRows = 5,
 	toolbar,
 	renderSubComponent,
 	className,
@@ -423,10 +476,6 @@ function DataTable<
 
 	const rows = table.getRowModel().rows;
 	const showToolbar = searchable !== false || hideableColumns || !!toolbar;
-	const totalRows =
-		manualPagination && rowCount !== undefined
-			? rowCount
-			: table.getFilteredRowModel().rows.length;
 
 	return (
 		<div
@@ -435,73 +484,76 @@ function DataTable<
 			{...props}
 		>
 			{showToolbar && (
-				<div className="fui:flex fui:flex-wrap fui:items-end fui:gap-2">
-					{searchable !== false && (
-						<InputGroup
-							className={cn(
-								"fui:w-full fui:sm:w-64",
-								toolbarSize === "sm" && "fui:h-8",
-							)}
-						>
-							<InputGroupAddon>
-								<MagnifyingGlassIcon />
-							</InputGroupAddon>
-							<InputGroupInput
-								value={globalFilter}
-								onChange={(event) => setGlobalFilter(event.target.value)}
-								placeholder={
-									typeof searchable === "string" ? searchable : "Search…"
-								}
-								aria-label="Search table"
-							/>
-						</InputGroup>
-					)}
-					{toolbar}
+				// The column menu sits outside the wrapping container so it stays put
+				// when the filters wrap.
+				<div className="fui:group/toolbar fui:flex fui:items-start fui:gap-6">
+					<div className="fui:flex fui:min-w-0 fui:flex-1 fui:flex-wrap fui:items-end fui:gap-2">
+						{searchable !== false && (
+							<InputGroup
+								className={cn(
+									"fui:w-full fui:sm:w-64",
+									toolbarSize === "sm" && "fui:h-8",
+								)}
+							>
+								<InputGroupAddon>
+									<MagnifyingGlassIcon />
+								</InputGroupAddon>
+								<InputGroupInput
+									value={globalFilter}
+									onChange={(event) => setGlobalFilter(event.target.value)}
+									placeholder={
+										typeof searchable === "string" ? searchable : "Search…"
+									}
+									aria-label="Search table"
+								/>
+							</InputGroup>
+						)}
+						{toolbar}
+					</div>
 					{hideableColumns && (
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<Button
-										variant="outline"
-										size={toolbarSize}
-										className="fui:ml-auto"
-									>
-										<SlidersHorizontalIcon data-icon="inline-start" />
-										Columns
-									</Button>
-								}
-							/>
-							<DropdownMenuContent align="end" className="fui:w-44">
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									{table
-										.getAllColumns()
-										.filter((column) => column.getCanHide())
-										.map((column) => (
-											<DropdownMenuCheckboxItem
-												key={column.id}
-												checked={column.getIsVisible()}
-												onCheckedChange={(value) =>
-													column.toggleVisibility(!!value)
-												}
-												onSelect={(event) => event.preventDefault()}
-												className="fui:capitalize"
-											>
-												{column.id}
-											</DropdownMenuCheckboxItem>
-										))}
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<div className="fui:flex fui:shrink-0 fui:flex-col fui:gap-1">
+							<FilterLabelSpacer className="fui:hidden fui:group-has-data-[slot=filter-field]/toolbar:block" />
+							<DropdownMenu>
+								<DropdownMenuTrigger
+									render={
+										<Button variant="outline" size={toolbarSize}>
+											<SlidersHorizontalIcon data-icon="inline-start" />
+											Columns
+										</Button>
+									}
+								/>
+								<DropdownMenuContent align="end" className="fui:w-44">
+									<DropdownMenuGroup>
+										<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+									</DropdownMenuGroup>
+									<DropdownMenuSeparator />
+									<DropdownMenuGroup>
+										{table
+											.getAllColumns()
+											.filter((column) => column.getCanHide())
+											.map((column) => (
+												<DropdownMenuCheckboxItem
+													key={column.id}
+													checked={column.getIsVisible()}
+													onCheckedChange={(value) =>
+														column.toggleVisibility(!!value)
+													}
+													onSelect={(event) => event.preventDefault()}
+													className="fui:capitalize"
+												>
+													{column.id}
+												</DropdownMenuCheckboxItem>
+											))}
+									</DropdownMenuGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
 					)}
 				</div>
 			)}
 
 			<div className="fui:overflow-hidden fui:rounded-lg fui:border fui:bg-card">
-				<Table>
+				<Table aria-busy={loading || undefined}>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
@@ -526,7 +578,21 @@ function DataTable<
 						))}
 					</TableHeader>
 					<TableBody>
-						{rows.length === 0 ? (
+						{loading && rows.length === 0 ? (
+							Array.from({ length: loadingRows }, (_, index) => (
+								// biome-ignore lint/suspicious/noArrayIndexKey: static list
+								<TableRow key={index} className="fui:hover:bg-transparent">
+									{table.getVisibleLeafColumns().map((column, columnIndex) => (
+										<TableCell key={column.id}>
+											<Skeleton className="fui:h-4 fui:w-full fui:max-w-32 fui:rounded" />
+											{index === 0 && columnIndex === 0 ? (
+												<span className="fui:sr-only">Loading…</span>
+											) : null}
+										</TableCell>
+									))}
+								</TableRow>
+							))
+						) : rows.length === 0 ? (
 							<TableRow className="fui:hover:bg-transparent">
 								<TableCell
 									colSpan={table.getAllLeafColumns().length}
@@ -569,84 +635,14 @@ function DataTable<
 			</div>
 
 			{pageSize !== false && (
-				<div className="fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3">
-					<p className="fui:text-sm fui:text-muted-foreground">
-						{/* Under `manualPagination` the row model holds only the page that
-						    was fetched, so the server's total is the honest figure. */}
-						{enableRowSelection
-							? `${selectedRows.length} of ${totalRows} row(s) selected`
-							: `${totalRows} row(s)`}
-					</p>
-
-					<div className="fui:flex fui:items-center fui:gap-4">
-						<div className="fui:flex fui:items-center fui:gap-2">
-							<span className="fui:text-sm fui:text-muted-foreground">
-								Rows per page
-							</span>
-							<Select
-								value={String(table.state.pagination.pageSize)}
-								onValueChange={(value) => table.setPageSize(Number(value))}
-							>
-								<SelectTrigger size="sm" className="fui:w-18">
-									<SelectValue />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										{pageSizeOptions.map((option) => (
-											<SelectItem key={option} value={String(option)}>
-												{option}
-											</SelectItem>
-										))}
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						</div>
-
-						<span className="fui:text-sm fui:tabular-nums fui:text-muted-foreground">
-							Page {table.state.pagination.pageIndex + 1} of{" "}
-							{Math.max(table.getPageCount(), 1)}
-						</span>
-
-						<div className="fui:flex fui:items-center fui:gap-1">
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.firstPage()}
-								disabled={!table.getCanPreviousPage()}
-							>
-								<CaretDoubleLeftIcon />
-								<span className="fui:sr-only">First page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.previousPage()}
-								disabled={!table.getCanPreviousPage()}
-							>
-								<CaretLeftIcon />
-								<span className="fui:sr-only">Previous page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.nextPage()}
-								disabled={!table.getCanNextPage()}
-							>
-								<CaretRightIcon />
-								<span className="fui:sr-only">Next page</span>
-							</Button>
-							<Button
-								variant="outline"
-								size="icon-sm"
-								onClick={() => table.lastPage()}
-								disabled={!table.getCanNextPage()}
-							>
-								<CaretDoubleRightIcon />
-								<span className="fui:sr-only">Last page</span>
-							</Button>
-						</div>
-					</div>
-				</div>
+				<PaginationPager
+					page={table.state.pagination.pageIndex + 1}
+					pageCount={table.getPageCount()}
+					onPageChange={(page) => table.setPageIndex(page - 1)}
+					pageSize={table.state.pagination.pageSize}
+					pageSizeOptions={pageSizeOptions}
+					onPageSizeChange={(size) => table.setPageSize(size)}
+				/>
 			)}
 		</div>
 	);
@@ -654,6 +650,7 @@ function DataTable<
 
 export {
 	createDataTableColumnHelper,
+	DataTableSubPanel,
 	DataTable,
 	type DataTableColumnDef,
 	DataTableColumnHeader,

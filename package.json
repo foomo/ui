@@ -41,11 +41,13 @@
 			"require": "./dist/icons.cjs"
 		},
 		"./ui.css": "./dist/ui.css",
+		"./theme.css": "./dist/theme.css",
 		"./themes/*.css": "./dist/themes/*.css",
 		"./themes/neutral.css": "./dist/themes/neutral.css"
 	},
 	"scripts": {
 		"dev": "vite",
+		"watch": "node scripts/watch.mjs",
 		"build": "rm -rf ./dist && tsc -p tsconfig.build.json && node scripts/rewrite-dts-aliases.mjs && vite build",
 		"lint": "biome lint --write ./src",
 		"format": "biome format --write ./src && biome check --fix --unsafe ./src",
@@ -70,6 +72,7 @@
 		"next-themes": "0.4.6",
 		"react-day-picker": "10.0.1",
 		"react-hook-form": "7.66.0",
+		"react-json-view-lite": "2.5.0",
 		"react-resizable-panels": "4.12.3",
 		"recharts": "3.8.0",
 		"shadcn": "^4.21.0",

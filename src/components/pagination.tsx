@@ -6,6 +6,34 @@ import {
 import { cn } from "cn";
 import type * as React from "react";
 import { Button } from "@/components/button";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/select";
+
+const DEFAULT_PAGE_SIZE = 50;
+
+/** First, last, the current page with a neighbour on each side, and a gap marker between. */
+function paginationItems(
+	current: number,
+	total: number,
+): (number | "gap-start" | "gap-end")[] {
+	if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+
+	const middle = [current - 1, current, current + 1].filter(
+		(page) => page > 1 && page < total,
+	);
+	const items: (number | "gap-start" | "gap-end")[] = [1];
+	if (middle[0] > 2) items.push("gap-start");
+	items.push(...middle);
+	if (middle[middle.length - 1] < total - 1) items.push("gap-end");
+	items.push(total);
+	return items;
+}
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 	return (
@@ -49,11 +77,12 @@ function PaginationLink({
 	size = "icon",
 	...props
 }: PaginationLinkProps) {
+	// Navigation, not a text action: opt out of the ghost button's underline.
 	return (
 		<Button
 			variant={isActive ? "outline" : "ghost"}
 			size={size}
-			className={cn(className)}
+			className={cn("fui:no-underline", className)}
 			render={
 				<a
 					aria-current={isActive ? "page" : undefined}
@@ -122,12 +151,136 @@ function PaginationEllipsis({
 	);
 }
 
+/**
+ * A button-based pager for state-driven lists (`page` counts from 1); compose
+ * `PaginationLink`s instead when each page needs its own URL.
+ */
+function PaginationPager({
+	page,
+	pageCount,
+	onPageChange,
+	pageSize,
+	pageSizeOptions = [5, 10, 20, 50],
+	onPageSizeChange,
+	pageSizeLabel = "Rows per page",
+	previousLabel = "Previous",
+	nextLabel = "Next",
+	className,
+}: {
+	page: number;
+	pageCount: number;
+	onPageChange: (page: number) => void;
+	pageSize?: number;
+	pageSizeOptions?: number[];
+	onPageSizeChange?: (pageSize: number) => void;
+	pageSizeLabel?: string;
+	previousLabel?: string;
+	nextLabel?: string;
+	className?: string;
+}) {
+	const lastPage = Math.max(pageCount, 1);
+	const current = Math.min(Math.max(page, 1), lastPage);
+	const atStart = current <= 1;
+	const atEnd = current >= lastPage;
+
+	return (
+		<div
+			data-slot="pagination-pager"
+			className={cn(
+				"fui:flex fui:flex-wrap fui:items-center fui:justify-between fui:gap-3",
+				className,
+			)}
+		>
+			{onPageSizeChange && pageSize !== undefined ? (
+				<div className="fui:flex fui:items-center fui:gap-2">
+					<span className="fui:text-sm fui:text-muted-foreground">
+						{pageSizeLabel}
+					</span>
+					<Select
+						value={String(pageSize)}
+						onValueChange={(value) => onPageSizeChange(Number(value))}
+					>
+						<SelectTrigger className="fui:w-18" aria-label={pageSizeLabel}>
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{pageSizeOptions.map((option) => (
+									<SelectItem key={option} value={String(option)}>
+										{option}
+									</SelectItem>
+								))}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</div>
+			) : null}
+
+			<nav
+				aria-label="pagination"
+				data-slot="pagination"
+				className="fui:ml-auto"
+			>
+				<PaginationContent>
+					<PaginationItem>
+						<Button
+							variant="ghost"
+							aria-label="Go to previous page"
+							onClick={() => onPageChange(current - 1)}
+							disabled={atStart}
+							className="fui:pl-2! fui:no-underline"
+						>
+							<CaretLeftIcon data-icon="inline-start" />
+							<span className="fui:hidden fui:sm:block">{previousLabel}</span>
+						</Button>
+					</PaginationItem>
+					{paginationItems(current, lastPage).map((item) =>
+						typeof item === "string" ? (
+							<PaginationItem key={item}>
+								<PaginationEllipsis />
+							</PaginationItem>
+						) : (
+							<PaginationItem key={item}>
+								<Button
+									variant={item === current ? "outline" : "ghost"}
+									size="icon"
+									aria-current={item === current ? "page" : undefined}
+									data-active={item === current}
+									onClick={() => onPageChange(item)}
+									className="fui:tabular-nums fui:no-underline"
+								>
+									{item}
+								</Button>
+							</PaginationItem>
+						),
+					)}
+					<PaginationItem>
+						<Button
+							variant="ghost"
+							aria-label="Go to next page"
+							onClick={() => onPageChange(current + 1)}
+							disabled={atEnd}
+							className="fui:pr-2! fui:no-underline"
+						>
+							<span className="fui:hidden fui:sm:block">{nextLabel}</span>
+							<CaretRightIcon data-icon="inline-end" />
+						</Button>
+					</PaginationItem>
+				</PaginationContent>
+			</nav>
+		</div>
+	);
+}
+
 export {
+	DEFAULT_PAGE_SIZE,
+	paginationItems,
 	Pagination,
 	PaginationContent,
 	PaginationEllipsis,
 	PaginationItem,
 	PaginationLink,
 	PaginationNext,
+	PaginationPager,
 	PaginationPrevious,
 };

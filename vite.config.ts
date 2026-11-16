@@ -24,6 +24,10 @@ export default defineConfig({
 					src: "src/themes/*.css",
 					dest: "themes",
 				},
+				{
+					src: "src/theme.css",
+					dest: ".",
+				},
 			],
 		}),
 	],
@@ -68,6 +72,7 @@ export default defineConfig({
 						ignore: [
 							"**/*.d.ts",
 							"**/*.stories.*",
+							"src/stories/**",
 							"**/*.test.*",
 							// Vite playground entry (index.html). Not part of the package,
 							// and it drags react-dom/client into the published bundle.

@@ -78,6 +78,17 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
 	);
 }
 
+/** Scrolls between header and footer, so long content cannot push the footer off screen. */
+function DrawerBody({ className, ...props }: React.ComponentProps<"div">) {
+	return (
+		<div
+			data-slot="drawer-body"
+			className={cn("fui:flex-1 fui:overflow-y-auto fui:px-4", className)}
+			{...props}
+		/>
+	);
+}
+
 function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
@@ -128,6 +139,7 @@ export {
 	DrawerClose,
 	DrawerContent,
 	DrawerHeader,
+	DrawerBody,
 	DrawerFooter,
 	DrawerTitle,
 	DrawerDescription,

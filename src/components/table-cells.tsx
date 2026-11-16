@@ -1,13 +1,19 @@
 import {
+	CaretDownIcon,
+	CaretUpIcon,
 	CheckCircleIcon,
 	CheckIcon,
 	type Icon,
 	MinusIcon,
+	WarningIcon,
 	XIcon,
 } from "@phosphor-icons/react";
 import { cn } from "cn";
 import type * as React from "react";
 import { Badge } from "@/components/badge";
+import { Button } from "@/components/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/tooltip";
+import { type DateValue, parseDate } from "@/lib/format";
 
 /**
  * Cell renderers for `DataTable` and `Table`.
@@ -106,7 +112,7 @@ function BooleanCell({
  * theme), for categories that have no good/bad meaning (a type, an area, a
  * source). Pick one per category and keep it stable, so a category keeps its
  * colour across every table. A state that really is good or bad ("Enabled",
- * "Failed") takes the `success` or `destructive` variant instead.
+ * "Failed") takes the `success`, `alert` or `destructive` variant instead.
  */
 type TagColor =
 	| "label-1"
@@ -154,6 +160,24 @@ const tagColorValues = [
 	"var(--label-color-6)",
 ] as const;
 
+/** The tag colour for the `index`-th category as a CSS value, cycling through the palette. */
+function tagColorAt(index: number): string {
+	const length = tagColorValues.length;
+	return tagColorValues[((index % length) + length) % length] as string;
+}
+
+/**
+ * A tag colour per distinct key, in order. Derive it once from sorted keys for
+ * every chart showing the same categories, so each keeps one colour.
+ */
+function assignTagColors(keys: Iterable<string>): Map<string, string> {
+	const colors = new Map<string, string>();
+	for (const key of keys) {
+		if (!colors.has(key)) colors.set(key, tagColorAt(colors.size));
+	}
+	return colors;
+}
+
 /**
  * A single tag.
  *
@@ -174,25 +198,27 @@ function TagCell({
 	variant = "outline",
 	color,
 	icon: LeadingIcon,
+	hint,
 	className,
 }: {
 	children: React.ReactNode;
 	variant?: BadgeVariant;
 	color?: TagColor;
 	icon?: Icon;
+	hint?: React.ReactNode;
 	className?: string;
 }) {
 	if (children === null || children === undefined || children === "") {
 		return <EmptyCell />;
 	}
 
-	return (
+	const tag = (
 		<Badge
 			variant={color ? null : variant}
 			data-color={color}
 			className={cn(
-				"fui:font-normal",
 				color && tagColorClassNames[color],
+				hint && "fui:cursor-help",
 				className,
 			)}
 		>
@@ -202,6 +228,17 @@ function TagCell({
 			{children}
 		</Badge>
 	);
+
+	if (!hint) {
+		return tag;
+	}
+
+	return (
+		<Tooltip>
+			<TooltipTrigger render={tag} />
+			<TooltipContent>{hint}</TooltipContent>
+		</Tooltip>
+	);
 }
 
 /**
@@ -210,10 +247,12 @@ function TagCell({
  *
  * - `success`: a tick on green, for a step that completed ("Imported").
  * - `destructive`: a cross on red, for one that failed ("Failed").
+ * - `alert`: a warning sign on yellow, for one that needs a look but has not
+ *   failed ("Needs review").
  * - `info`: a circled tick on blue, for one settled some other way, after
  *   the fact ("Resolved").
  */
-type StatusTone = "success" | "destructive" | "info";
+type StatusTone = "success" | "destructive" | "alert" | "info";
 
 const statusTones: Record<
 	StatusTone,
@@ -221,6 +260,7 @@ const statusTones: Record<
 > = {
 	success: { icon: CheckIcon, variant: "success" },
 	destructive: { icon: XIcon, variant: "destructive" },
+	alert: { icon: WarningIcon, variant: "alert" },
 	info: { icon: CheckCircleIcon, color: "label-1" },
 };
 
@@ -232,11 +272,13 @@ const statusTones: Record<
 function StatusTagCell({
 	status,
 	icon,
+	hint,
 	children,
 	className,
 }: {
 	status: StatusTone;
 	icon?: Icon;
+	hint?: React.ReactNode;
 	children: React.ReactNode;
 	className?: string;
 }) {
@@ -247,6 +289,7 @@ function StatusTagCell({
 			variant={tone.variant}
 			color={tone.color}
 			icon={icon ?? tone.icon}
+			hint={hint}
 			className={className}
 		>
 			{children}
@@ -325,22 +368,219 @@ function IdCell({
  * Affordance for a cell whose whole content navigates somewhere, to put on the
  * router link that wraps it.
  */
-const cellLinkClassName = "fui:text-link fui:hover:underline";
+const cellLinkClassName =
+	"fui:text-link fui:hover:underline fui:underline-links:underline";
 
 /** A value the row does not have, rendered so the column keeps its rhythm. */
 function EmptyCell() {
 	return <span className="fui:text-muted-foreground">—</span>;
 }
 
+/** The day, then the time muted; an unset value (see `parseDate`) renders `empty`. */
+function DateTimeCell({
+	value,
+	locale,
+	dateFormat,
+	timeFormat = { hour: "numeric", minute: "numeric", second: "numeric" },
+	empty = <EmptyCell />,
+}: {
+	value: DateValue;
+	locale?: string;
+	dateFormat?: Intl.DateTimeFormatOptions;
+	timeFormat?: Intl.DateTimeFormatOptions;
+	empty?: React.ReactNode;
+}) {
+	const date = parseDate(value);
+	if (!date) return empty;
+
+	return (
+		<span data-slot="date-time-cell" className="fui:whitespace-nowrap">
+			<span className="fui:text-foreground">
+				{new Intl.DateTimeFormat(locale, dateFormat).format(date)}
+			</span>{" "}
+			<span className="fui:text-muted-foreground">
+				{new Intl.DateTimeFormat(locale, timeFormat).format(date)}
+			</span>
+		</span>
+	);
+}
+
+/** A right-aligned, tabular number; a string renders as given. Pair with `align="end"` on the header. */
+function NumberCell({
+	value,
+	locale,
+	format,
+}: {
+	value: number | string | null | undefined;
+	locale?: string;
+	format?: Intl.NumberFormatOptions;
+}) {
+	if (value === null || value === undefined || value === "") {
+		return (
+			<div data-slot="number-cell" className="fui:text-right">
+				<EmptyCell />
+			</div>
+		);
+	}
+
+	return (
+		<div data-slot="number-cell" className="fui:text-right fui:tabular-nums">
+			{typeof value === "number" ? value.toLocaleString(locale, format) : value}
+		</div>
+	);
+}
+
+/** Free text cut to one line, with the whole text in its tooltip. */
+function TruncateCell({ children }: { children: string | null | undefined }) {
+	if (!children) return <EmptyCell />;
+
+	return (
+		<span
+			data-slot="truncate-cell"
+			className="fui:block fui:max-w-64 fui:truncate"
+			title={children}
+		>
+			{children}
+		</span>
+	);
+}
+
+/** A link opening in a new tab; long values wrap, or with `truncate` cut to one line. */
+function ExternalLinkCell({
+	href,
+	children,
+	truncate = false,
+}: {
+	href: string | null | undefined;
+	children?: React.ReactNode;
+	truncate?: boolean;
+}) {
+	if (!href) return <EmptyCell />;
+
+	return (
+		<a
+			data-slot="external-link-cell"
+			href={href}
+			target="_blank"
+			rel="noreferrer"
+			className={cellLinkClassName}
+		>
+			<IdCell
+				className={
+					truncate ? "fui:block fui:max-w-xs fui:truncate" : "fui:break-all"
+				}
+				title={truncate ? href : undefined}
+			>
+				{children ?? href}
+			</IdCell>
+		</a>
+	);
+}
+
+/**
+ * A value that toggles a detail row (`renderSubComponent`). With
+ * `expandable={false}` it renders as plain text rather than opening an empty panel.
+ */
+function ExpandToggleCell({
+	expanded,
+	onToggle,
+	expandable = true,
+	children,
+}: {
+	expanded: boolean;
+	onToggle: () => void;
+	expandable?: boolean;
+	children: React.ReactNode;
+}) {
+	if (!expandable) return children;
+
+	return (
+		<Button
+			variant="outline"
+			size="xs"
+			aria-expanded={expanded}
+			onClick={onToggle}
+		>
+			{children}
+			{expanded ? <CaretUpIcon /> : <CaretDownIcon />}
+		</Button>
+	);
+}
+
+const thumbnailSizes = {
+	sm: "fui:size-8",
+	md: "fui:size-12",
+	lg: "fui:size-32",
+} as const;
+
+/**
+ * An image contained on a white square, so transparent and off-white images
+ * keep their edges. Without `src`, a same-size placeholder.
+ */
+function ThumbnailCell({
+	src,
+	alt,
+	size = "md",
+	bordered = false,
+	className,
+	...props
+}: Omit<React.ComponentProps<"img">, "src" | "alt"> & {
+	src: string | null | undefined;
+	alt: string;
+	size?: keyof typeof thumbnailSizes;
+	bordered?: boolean;
+}) {
+	if (!src) {
+		return (
+			<div
+				data-slot="thumbnail-cell"
+				role="img"
+				aria-label={alt}
+				className={cn(
+					"fui:flex fui:items-center fui:justify-center fui:rounded fui:bg-muted fui:text-[10px] fui:font-medium fui:text-muted-foreground",
+					thumbnailSizes[size],
+					bordered && "fui:border",
+					className,
+				)}
+			>
+				—
+			</div>
+		);
+	}
+
+	return (
+		<img
+			data-slot="thumbnail-cell"
+			src={src}
+			alt={alt}
+			className={cn(
+				"fui:rounded fui:bg-white fui:object-contain",
+				thumbnailSizes[size],
+				bordered && "fui:border",
+				className,
+			)}
+			{...props}
+		/>
+	);
+}
+
 export {
+	assignTagColors,
 	BooleanCell,
 	cellLinkClassName,
+	DateTimeCell,
 	EmptyCell,
+	ExpandToggleCell,
+	ExternalLinkCell,
 	IdCell,
+	NumberCell,
 	StatusTagCell,
 	type StatusTone,
 	TagCell,
 	type TagColor,
 	TagListCell,
+	tagColorAt,
 	tagColorValues,
+	ThumbnailCell,
+	TruncateCell,
 };

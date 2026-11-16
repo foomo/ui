@@ -4,11 +4,12 @@ import {
 	XIcon,
 } from "@phosphor-icons/react";
 import { cn } from "cn";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, set } from "date-fns";
 import * as React from "react";
 import { Button } from "@/components/button";
 import { Calendar } from "@/components/calendar";
 import { Checkbox } from "@/components/checkbox";
+import { Input } from "@/components/input";
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -60,6 +61,22 @@ function useFilterSize(): FilterSize {
 	return React.useContext(FilterSizeContext);
 }
 
+const filterLabelClassName =
+	"fui:text-xs fui:font-medium fui:whitespace-nowrap fui:text-muted-foreground";
+
+/** An empty label-height line, so a control beside wrapping filters stays level with the first row. */
+function FilterLabelSpacer({ className }: { className?: string }) {
+	return (
+		<span
+			aria-hidden
+			data-slot="filter-label-spacer"
+			className={cn(filterLabelClassName, "fui:invisible", className)}
+		>
+			&nbsp;
+		</span>
+	);
+}
+
 /** Height utility for a control that is not a Button or a SelectTrigger. */
 const filterControlHeight: Record<FilterSize, string> = {
 	default: "fui:h-9",
@@ -95,14 +112,25 @@ function FilterBar({
 				data-slot="filter-bar"
 				data-size={size}
 				className={cn(
-					"fui:flex fui:flex-1 fui:flex-wrap fui:items-end fui:gap-3",
+					"fui:flex fui:flex-1 fui:items-start fui:gap-6",
 					className,
 				)}
 			>
-				{children}
+				{/* The column minimum of a fifth of the row (less four gaps) caps
+				    the grid at five columns; the max width caps each at 250px. */}
+				<div
+					data-slot="filter-bar-filters"
+					className="fui:grid fui:min-w-0 fui:max-w-[calc(5*250px+3rem)] fui:flex-1 fui:grid-cols-[repeat(auto-fill,minmax(max(150px,calc((100%_-_3rem)/5)),1fr))] fui:items-end fui:justify-items-start fui:gap-3"
+				>
+					{children}
+				</div>
 				{actions ? (
-					<div className="fui:ml-auto fui:flex fui:items-end fui:gap-2">
-						{actions}
+					<div
+						data-slot="filter-bar-actions"
+						className="fui:ml-auto fui:flex fui:shrink-0 fui:flex-col fui:gap-1"
+					>
+						<FilterLabelSpacer />
+						<div className="fui:flex fui:items-center fui:gap-2">{actions}</div>
 					</div>
 				) : null}
 			</div>
@@ -125,12 +153,12 @@ function FilterField({
 	return (
 		<div
 			data-slot="filter-field"
-			className={cn("fui:flex fui:flex-col fui:gap-1", className)}
+			className={cn(
+				"fui:flex fui:w-full fui:min-w-0 fui:flex-col fui:gap-1",
+				className,
+			)}
 		>
-			<Label
-				htmlFor={htmlFor}
-				className="fui:text-xs fui:font-medium fui:whitespace-nowrap fui:text-muted-foreground"
-			>
+			<Label htmlFor={htmlFor} className={filterLabelClassName}>
 				{label}
 			</Label>
 			{children}
@@ -156,11 +184,7 @@ function FilterSearch({
 	const size = useFilterSize();
 
 	return (
-		<FilterField
-			label={label}
-			htmlFor={id}
-			className={cn("fui:w-64", className)}
-		>
+		<FilterField label={label} htmlFor={id} className={className}>
 			{/* InputGroup is 36px by default; the height utility below is a no-op
 			    at that size and shrinks it for a compact bar. */}
 			<InputGroup className={filterControlHeight[size]}>
@@ -219,7 +243,11 @@ function FilterSelect<T extends string>({
 				<SelectTrigger
 					id={id}
 					size={size}
-					className={cn("fui:w-44", className)}
+					// "No restriction" is a real filter state, not a muted placeholder.
+					className={cn(
+						"fui:w-full fui:data-placeholder:text-foreground",
+						className,
+					)}
 				>
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
@@ -284,18 +312,15 @@ function FilterMultiSelect<T extends string>({
 				<SelectTrigger
 					id={id}
 					size={size}
-					className={cn("fui:w-44", className)}
+					// "No restriction" is a real filter state, not a muted placeholder.
+					className={cn(
+						"fui:w-full fui:data-placeholder:text-foreground",
+						className,
+					)}
 				>
 					<SelectValue>
 						{(selected: T[]) => (
-							<span
-								className={cn(
-									"fui:truncate",
-									selected.length === 0 && "fui:text-muted-foreground",
-								)}
-							>
-								{describe(selected)}
-							</span>
+							<span className="fui:truncate">{describe(selected)}</span>
 						)}
 					</SelectValue>
 				</SelectTrigger>
@@ -329,19 +354,90 @@ type FilterPeriod = {
 	to?: Date;
 };
 
-function formatBound(date: Date) {
-	return format(date, "d MMM yyyy");
-}
+function describePeriod(
+	period: FilterPeriod | undefined,
+	placeholder: string,
+	withTime: boolean,
+) {
+	const bound = (date: Date) =>
+		format(date, withTime ? "d MMM yyyy, HH:mm" : "d MMM yyyy");
 
-function describePeriod(period: FilterPeriod | undefined, placeholder: string) {
 	if (period?.from && period.to) {
 		// The first click of a range picks one day as both ends.
-		if (isSameDay(period.from, period.to)) return formatBound(period.from);
-		return `${formatBound(period.from)} – ${formatBound(period.to)}`;
+		if (isSameDay(period.from, period.to)) {
+			return withTime
+				? `${bound(period.from)} – ${format(period.to, "HH:mm")}`
+				: bound(period.from);
+		}
+		return `${bound(period.from)} – ${bound(period.to)}`;
 	}
-	if (period?.from) return `From ${formatBound(period.from)}`;
-	if (period?.to) return `Until ${formatBound(period.to)}`;
+	if (period?.from) return `From ${bound(period.from)}`;
+	if (period?.to) return `Until ${bound(period.to)}`;
 	return placeholder;
+}
+
+function atTimeOf(day: Date, time: Date) {
+	return set(day, {
+		hours: time.getHours(),
+		minutes: time.getMinutes(),
+		seconds: time.getSeconds(),
+		milliseconds: time.getMilliseconds(),
+	});
+}
+
+// A period "until 17:30" includes the whole of 17:30.
+const periodEdges = {
+	from: { seconds: 0, milliseconds: 0 },
+	to: { seconds: 59, milliseconds: 999 },
+} as const;
+
+const periodDefaultTimes = {
+	from: { hours: 0, minutes: 0, ...periodEdges.from },
+	to: { hours: 23, minutes: 59, ...periodEdges.to },
+} as const;
+
+/** When `moved` crosses the other end, the other end follows it. */
+function orderPeriod(period: FilterPeriod, moved: "from" | "to"): FilterPeriod {
+	const { from, to } = period;
+	if (!from || !to || from <= to) return period;
+	return moved === "from"
+		? { from, to: set(from, periodEdges.to) }
+		: { from: set(to, periodEdges.from), to };
+}
+
+function FilterPeriodTime({
+	label,
+	edge,
+	value,
+	onValueChange,
+}: {
+	label: string;
+	edge: "from" | "to";
+	value: Date | undefined;
+	onValueChange: (value: Date) => void;
+}) {
+	const id = React.useId();
+
+	return (
+		<div className="fui:flex fui:flex-col fui:gap-1">
+			<Label htmlFor={id} className={filterLabelClassName}>
+				{label}
+			</Label>
+			<Input
+				id={id}
+				type="time"
+				className="fui:h-8 fui:w-28"
+				disabled={!value}
+				value={value ? format(value, "HH:mm") : ""}
+				onChange={(event) => {
+					const [hours, minutes] = event.target.value.split(":").map(Number);
+					// A cleared or half-typed time keeps the previous one.
+					if (!value || Number.isNaN(hours) || Number.isNaN(minutes)) return;
+					onValueChange(set(value, { hours, minutes, ...periodEdges[edge] }));
+				}}
+			/>
+		</div>
+	);
 }
 
 /**
@@ -356,26 +452,45 @@ function describePeriod(period: FilterPeriod | undefined, placeholder: string) {
  * is midnight *opening* the last day: compare against `endOfDay(to)` to include
  * it. A caller storing the period in a URL or a query converts at its own
  * boundary, since the format that belongs there is the caller's concern.
+ *
+ * `withTime` makes each end an exact, included moment: a new start day begins
+ * at 00:00, a new end day runs until 23:59, and picking another day keeps the
+ * time already set.
  */
 function FilterDateRange({
 	label,
 	value,
 	onValueChange,
 	placeholder = "Any time",
+	withTime = false,
 	className,
 }: {
 	label: string;
 	value: FilterPeriod | undefined;
 	onValueChange: (period: FilterPeriod | undefined) => void;
 	placeholder?: string;
+	withTime?: boolean;
 	className?: string;
 }) {
 	const id = React.useId();
 	const size = useFilterSize();
 	const empty = !value?.from && !value?.to;
 
+	const pickedDay = (edge: "from" | "to", day: Date | undefined) => {
+		if (!day || !withTime) return day;
+		const current = value?.[edge];
+		return current
+			? atTimeOf(day, current)
+			: set(day, periodDefaultTimes[edge]);
+	};
+
 	return (
-		<FilterField label={label} htmlFor={id}>
+		<FilterField
+			label={label}
+			htmlFor={id}
+			// Times double the summary's length.
+			className={cn(withTime && "fui:sm:col-span-2")}
+		>
 			<Popover>
 				<PopoverTrigger
 					render={
@@ -384,10 +499,10 @@ function FilterDateRange({
 							type="button"
 							variant="outline"
 							size={size}
-							// `font-normal` and the muted empty state make it read as a
-							// field showing a value, not as an action. `border-input`
-							// overrides the outline button's `border-current`, which would
-							// otherwise follow the text colour and not match the inputs.
+							// `font-normal` makes it read as a field showing a value, not
+							// as an action. `border-input` overrides the outline button's
+							// `border-current`, which would otherwise follow the text
+							// colour and not match the inputs.
 							//
 							// Active like the search field beside it: a dark border while
 							// open or focused, no grey fill and no focus ring. The `!`
@@ -395,16 +510,16 @@ function FilterDateRange({
 							// button's focus border, which share these variants and would
 							// otherwise win on source order.
 							className={cn(
-								"fui:w-64 fui:justify-start fui:border-input fui:font-normal fui:dark:bg-input/30",
+								"fui:w-full fui:min-w-0 fui:justify-start fui:border-input fui:font-normal fui:dark:bg-input/30",
 								"fui:hover:bg-background! fui:aria-expanded:bg-background! fui:dark:hover:bg-input/30! fui:dark:aria-expanded:bg-input/30!",
 								"fui:aria-expanded:border-foreground! fui:focus-visible:border-foreground! fui:focus-visible:ring-0!",
-								empty && "fui:text-muted-foreground",
 								className,
 							)}
 						>
-							{/* Black even while the label is muted, like the other filter icons. */}
 							<CalendarDotsIcon className="fui:text-foreground" />
-							{describePeriod(value, placeholder)}
+							<span className="fui:truncate">
+								{describePeriod(value, placeholder, withTime)}
+							</span>
 						</Button>
 					}
 				/>
@@ -420,12 +535,49 @@ function FilterDateRange({
 						onSelect={(range) =>
 							onValueChange(
 								range?.from || range?.to
-									? { from: range.from, to: range.to }
+									? orderPeriod(
+											{
+												from: pickedDay("from", range.from),
+												to: pickedDay("to", range.to),
+											},
+											"from",
+										)
 									: undefined,
 							)
 						}
 					/>
-					{empty ? null : (
+					{withTime ? (
+						<div className="fui:flex fui:items-end fui:gap-3 fui:border-t fui:px-3 fui:py-2">
+							<FilterPeriodTime
+								label="Start time"
+								edge="from"
+								value={value?.from}
+								onValueChange={(from) =>
+									onValueChange(orderPeriod({ ...value, from }, "from"))
+								}
+							/>
+							<FilterPeriodTime
+								label="End time"
+								edge="to"
+								value={value?.to}
+								onValueChange={(to) =>
+									onValueChange(orderPeriod({ ...value, to }, "to"))
+								}
+							/>
+							{empty ? null : (
+								<Button
+									type="button"
+									variant="ghost"
+									size="xs"
+									className="fui:mb-1 fui:ml-auto"
+									onClick={() => onValueChange(undefined)}
+								>
+									<XIcon />
+									Clear
+								</Button>
+							)}
+						</div>
+					) : empty ? null : (
 						<div className="fui:flex fui:justify-end fui:border-t fui:px-3 fui:py-2">
 							<Button
 								type="button"
@@ -519,6 +671,7 @@ export {
 	FilterBar,
 	FilterDateRange,
 	FilterField,
+	FilterLabelSpacer,
 	FilterMultiSelect,
 	type FilterOption,
 	type FilterPeriod,
