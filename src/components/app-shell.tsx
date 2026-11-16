@@ -28,7 +28,6 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarMenuSkeleton,
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
@@ -36,6 +35,7 @@ import {
 	SidebarRail,
 	SidebarTrigger,
 } from "@/components/sidebar";
+import { Skeleton } from "@/components/skeleton";
 
 type IconComponent = React.ComponentType<{ className?: string }>;
 
@@ -203,7 +203,9 @@ function SidebarNav({
 					? Array.from({ length: skeletonCount }, (_, index) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: static list
 							<SidebarMenuItem key={index}>
-								<SidebarMenuSkeleton showIcon />
+								<SidebarNavSkeleton
+									width={skeletonWidths[index % skeletonWidths.length]}
+								/>
 							</SidebarMenuItem>
 						))
 					: items.map((item) => (
@@ -216,6 +218,22 @@ function SidebarNav({
 						))}
 			</SidebarMenu>
 		</SidebarGroup>
+	);
+}
+
+// Fixed widths: the server and the client must render the same markup.
+const skeletonWidths = ["72%", "58%", "84%", "64%", "76%", "52%"];
+
+function SidebarNavSkeleton({ width }: { width: string }) {
+	return (
+		<div
+			data-slot="sidebar-menu-skeleton"
+			data-sidebar="menu-skeleton"
+			className="fui:flex fui:h-8 fui:items-center fui:gap-2 fui:rounded-md fui:px-2"
+		>
+			<Skeleton className="fui:size-4 fui:rounded-md" />
+			<Skeleton className="fui:h-4 fui:flex-1" style={{ maxWidth: width }} />
+		</div>
 	);
 }
 

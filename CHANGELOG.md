@@ -6,6 +6,11 @@ All notable changes to `@foomo/ui` are documented here. The format follows
 
 ## Unreleased
 
+### Fixed
+
+- `SidebarNav` loading rows render the same on the server and the client, so
+  server-rendered pages no longer hit a hydration mismatch.
+
 ## 1.3.0-alpha.0 - 2026-11-16
 
 ### Added
